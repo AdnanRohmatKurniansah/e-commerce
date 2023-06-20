@@ -1,72 +1,20 @@
 <div class="sidebar-menu">
     <ul class="menu">
             <li class='sidebar-title'>Main Menu</li>
-            <li class="sidebar-item active ">
-                <a href="index.html" class='sidebar-link'>
+            <li class="sidebar-item {{ Request::is('dashboard') ? 'active' : '' }}">
+                <a href="/dashboard" class='sidebar-link'>
                     <i data-feather="home" width="20"></i> 
                     <span>Dashboard</span>
                 </a>
             </li>
-            <li class="sidebar-item  has-sub">
+            <li class="sidebar-item {{ Request::is('dashboard/products*') ? 'active' : '' }} has-sub">
                 <a href="#" class='sidebar-link'>
-                    <i data-feather="triangle" width="20"></i> 
-                    <span>Components</span>
+                    <i data-feather="package" width="20"></i> 
+                    <span>Products</span>
                 </a>
-                <ul class="submenu ">
-                    <li>
-                        <a href="component-alert.html">Alert</a>
-                    </li>
-                    <li>
-                        <a href="component-badge.html">Badge</a>
-                    </li>
-                    <li>
-                        <a href="component-breadcrumb.html">Breadcrumb</a>
-                    </li>
-                    
-                    <li>
-                        <a href="component-buttons.html">Buttons</a>
-                    </li>
-                    
-                    <li>
-                        <a href="component-card.html">Card</a>
-                    </li>
-                    
-                    <li>
-                        <a href="component-carousel.html">Carousel</a>
-                    </li>
-                    
-                    <li>
-                        <a href="component-dropdowns.html">Dropdowns</a>
-                    </li>
-                    
-                    <li>
-                        <a href="component-list-group.html">List Group</a>
-                    </li>
-                    
-                    <li>
-                        <a href="component-modal.html">Modal</a>
-                    </li>
-                    
-                    <li>
-                        <a href="component-navs.html">Navs</a>
-                    </li>
-                    
-                    <li>
-                        <a href="component-pagination.html">Pagination</a>
-                    </li>
-                    
-                    <li>
-                        <a href="component-progress.html">Progress</a>
-                    </li>
-                    
-                    <li>
-                        <a href="component-spinners.html">Spinners</a>
-                    </li>
-                    
-                    <li>
-                        <a href="component-tooltips.html">Tooltips</a>
-                    </li>
-                    
+                <ul class="submenu">
+                    <li><a href="/dashboard/products">Products</a></li>
+                    <li><a href="/dashboard/products/categories">Category</a></li>
                 </ul>
             </li>
             <li class="sidebar-item  has-sub">

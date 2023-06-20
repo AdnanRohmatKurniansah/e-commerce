@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,9 +23,28 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/sale', function () {
+Route::get('/products', function () {
     return view('products', [
-        'title' => 'Sale'
+        'title' => 'Products',
+        'products' => Product::orderBy('id', 'desc')->paginate(6)
+    ]);
+});
+
+Route::get('/product/{product:slug}', function (Product $product) {
+    return view('product', [
+        'title' => 'Product Detail',
+        'product' => $product
+    ]);
+});
+
+Route::get('/blog', function () {
+    return view('blog', [
+        'title' => 'Blog'
+    ]);
+});
+Route::get('/contact', function () {
+    return view('contact', [
+        'title' => 'Contact'
     ]);
 });
 Route::middleware(['guest'])->group(function() {
@@ -34,10 +56,12 @@ Route::middleware(['guest'])->group(function() {
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
-Route::middleware(['auth'])->group(function() {
-    Route::prefix('dashboard')->group(function() {
-        Route::get('/', function() {
-            return view('dashboard.index');
-        });
+Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
+    Route::get('/', function () {
+        return view('dashboard.index');
     });
+    Route::resource('/products/categories', CategoryController::class)->except('show');
+    Route::get('/products/categories/checkSlug', [CategoryController::class, 'checkSlug']);
+    Route::resource('/products', ProductController::class)->except('show');
+    Route::get('/products/checkSlug', [ProductController::class, 'checkSlug']);
 });
