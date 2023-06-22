@@ -35,21 +35,56 @@
                                 {{ $product->qty }} Out of stock 
                                 @endif</a>
                             </li>
-						</ul>
+						</ul>	
 						<p>{{ $product->short_desc }}</p>
-						<div class="product_count">
-							<label for="qty">Quantity:</label>
-							<input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-							 class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-							 class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-						</div>
-						<div class="card_area d-flex align-items-center">
-							<a class="primary-btn" href="#">Add to Cart</a>
-							<a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-							<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
-						</div>
+						<form action="/add_cart/{{ $product->slug }}" method="POST">
+							@csrf
+							<div class="input-group-icon my-3">
+								<div class="icon"></div>
+								<div class="form-select bg-light" id="default-select">
+									<select name="color">
+										@php
+											$colors = json_decode($product->color)
+										@endphp
+										@foreach ($colors as $color)
+											@if(old('color') == $color)
+												<option value="{{ $color }}" selected>{{ $color }}</option>
+											@else
+												<option value="{{ $color }}">{{ $color }}</option>
+											@endif
+										@endforeach
+									</select>
+								</div>
+							</div>
+							<div class="input-group-icon my-3">
+								<div class="icon"></div>
+								<div class="form-select bg-light" id="default-select">
+									<select name="size">
+										@php
+											$sizes = json_decode($product->size)
+										@endphp
+										@foreach ($sizes as $size)
+											@if(old('size') == $size)
+												<option value="{{ $size }}" selected>{{ $size }}</option>
+											@else
+												<option value="{{ $size }}">{{ $size }}</option>
+											@endif
+										@endforeach
+									</select>
+								</div>
+							</div>
+							<div class="product_count">
+								<label for="qty">Quantity:</label>
+								<input type="text" name="qty" id="sst"  maxlength="12" value="1" title="Quantity:" class="input-text qty">
+								<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+								 class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+								<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 1 ) result.value--;return false;"
+								 class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+							</div>
+							<div class="card_area d-flex align-items-center">
+								<button type="submit" class="primary-btn border-0">Add to Cart</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>

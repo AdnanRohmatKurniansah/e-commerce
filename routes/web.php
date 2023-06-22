@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
@@ -56,11 +58,18 @@ Route::middleware(['guest'])->group(function() {
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
+Route::post('/add_cart/{product:slug}', [CartController::class, 'add_cart']);
+Route::get('/show_cart', [CartController::class, 'show_cart']);
+Route::delete('/remove_cart/{cart:id}', [CartController::class, 'remove_cart']);
+Route::put('/update_cart/{id}', [CartController::class, 'update_cart']);
+Route::get('/checkout', [OrderController::class, 'show_checkout']);
+
+
 Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
     Route::get('/', function () {
         return view('dashboard.index');
     });
-    Route::resource('/products/categories', CategoryController::class)->except('show');
+    Route::resource('/CartControllers/categories', CategoryController::class)->except('show');
     Route::get('/products/categories/checkSlug', [CategoryController::class, 'checkSlug']);
     Route::resource('/products', ProductController::class)->except('show');
     Route::get('/products/checkSlug', [ProductController::class, 'checkSlug']);

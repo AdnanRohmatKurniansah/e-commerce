@@ -23,6 +23,7 @@
               <tr>
                 <th>Name</th>
                 <th>Price</th>
+                <th>Weight</th>
                 <th>Colors</th>
                 <th>Size</th>
                 <th>Quantity</th>
@@ -34,6 +35,7 @@
               <tr>
                   <td>{{ $product->name }}</td>
                   <td>Rp. {{ number_format($product->price, 0, ',', '.') }}</td>
+                  <td>{{ $product->weight }}</td>
                   <td>{{ implode(', ', json_decode($product->color)) }}</td>
                   <td>{{ implode(', ', json_decode($product->size)) }}</td>
                   <td>{{ $product->qty }}</td>

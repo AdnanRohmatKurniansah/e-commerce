@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -54,6 +56,7 @@ class ProductController extends Controller
 
         $validatedData['short_desc'] = Str::limit(strip_tags($request->desc), 150);
 
+        $validatedData['weight'] = $request->weight / 1000;
         $validatedData['color'] = json_encode($request->input('color') ?? []);
         $validatedData['size'] = json_encode($request->input('size') ?? []);
 
@@ -91,6 +94,7 @@ class ProductController extends Controller
         $rules = [
             'name' => 'required|max:255',
             'desc' => 'required',
+            'weight' => 'required',
             'price' => 'required',
             'qty' => 'required',
             'image' => 'image|file|max:2048',
@@ -138,4 +142,5 @@ class ProductController extends Controller
         $slug = SlugService::createSlug(Product::class, 'slug', $request->name);
         return response()->json(['slug' => $slug]);
     }
+
 }

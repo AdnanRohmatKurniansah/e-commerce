@@ -103,6 +103,18 @@
                         </div>
                         <div class="col-12">
                             <div class="form-group">
+                                <label for="weight">Weight</label>
+                                <input type="text" id="weight" required class="form-control mt-3 @error('weight') is-invalid @enderror" name="weight"
+                                    placeholder="weight" value="{{ old('weight') }}" oninput="this.value = this.value.replace(/[^0-9.]/g, '')">
+                            </div>
+                            @error('weight')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>                                          
+                        <div class="col-12">
+                            <div class="form-group">
                                 <label for="price">Price</label>
                                 <input type="text" id="price" required class="form-control mt-3 @error('price') is-invalid @enderror" name="price"
                                     placeholder="Price" value="{{ old('price') }}" oninput="this.value = this.value.replace(/[^0-9.]/g, '')">

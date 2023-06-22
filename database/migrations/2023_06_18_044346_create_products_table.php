@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('short_desc');
             $table->text('desc');
+            $table->decimal('weight', 10, 2);
             $table->decimal('price', 15, 2);
             $table->integer('qty')->default(10);
             $table->text('image');

@@ -13,12 +13,12 @@
 	<link rel="stylesheet" href="/assets/css/themify-icons.css">
 	<link rel="stylesheet" href="/assets/css/bootstrap.css">
 	<link rel="stylesheet" href="/assets/css/owl.carousel.css">
-	{{-- <link rel="stylesheet" href="/assets/css/nice-select.css"> --}}
+	<link rel="stylesheet" href="/assets/css/nice-select.css?v=1">
 	<link rel="stylesheet" href="/assets/css/nouislider.min.css">
 	<link rel="stylesheet" href="/assets/css/ion.rangeSlider.css" />
 	<link rel="stylesheet" href="/assets/css/ion.rangeSlider.skinFlat.css" />
 	<link rel="stylesheet" href="/assets/css/magnific-popup.css">
-	<link rel="stylesheet" href="/assets/css/main.css?v=1">
+	<link rel="stylesheet" href="/assets/css/main.css?v=2">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
@@ -35,7 +35,7 @@
 	 crossorigin="anonymous"></script>
 	<script src="/assets/js/vendor/bootstrap.min.js"></script>
 	<script src="/assets/js/jquery.ajaxchimp.min.js"></script>
-	<script src="/assets/js/jquery.nice-select.min.js"></script>
+	<script src="/assets/js/jquery.nice-select.min.js?v=1"></script>
 	<script src="/assets/js/jquery.sticky.js"></script>
 	<script src="/assets/js/nouislider.min.js"></script>
 	<script src="/assets/js/countdown.js"></script>

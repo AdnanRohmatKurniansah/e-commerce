@@ -21,6 +21,7 @@
                 aria-expanded="false" href="#"><span class="ti-user"></span></a>
                 <ul class="dropdown-menu">
                   <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/show_cart">Cart</a></li>
                   <li class="nav-item">
                     <form action="/logout" method="post">
                       @csrf
@@ -35,7 +36,7 @@
             @endguest
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
+            <li class="nav-item"><a href="/show_cart" class="cart"><span class="ti-bag"></span></a></li>
             <li class="nav-item">
               <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
             </li>
