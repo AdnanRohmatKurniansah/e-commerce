@@ -103,7 +103,7 @@
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="weight">Weight</label>
+                                <label for="weight">Weight (gram)</label>
                                 <input type="text" id="weight" required class="form-control mt-3 @error('weight') is-invalid @enderror" name="weight"
                                     placeholder="weight" value="{{ old('weight') }}" oninput="this.value = this.value.replace(/[^0-9.]/g, '')">
                             </div>
@@ -117,7 +117,7 @@
                             <div class="form-group">
                                 <label for="price">Price</label>
                                 <input type="text" id="price" required class="form-control mt-3 @error('price') is-invalid @enderror" name="price"
-                                    placeholder="Price" value="{{ old('price') }}" oninput="this.value = this.value.replace(/[^0-9.]/g, '')">
+                                    placeholder="Price" value="{{ old('price') }}">
                             </div>
                             @error('price')
                                 <div class="invalid-feedback">
@@ -188,6 +188,28 @@
         imgPreview.src = oFREvent.target.result;
       }
     }
+
+    var price = document.getElementById("price");
+    price.addEventListener("keyup", function(e) {
+    price.value = formatPrice(this.value);
+    });
+
+    function formatPrice(angka, prefix) {
+    var number_string = angka.replace(/[^,\d]/g, "").toString(),
+        split = number_string.split(","),
+        sisa = split[0].length % 3,
+        rupiah = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    if (ribuan) {
+        separator = sisa ? "." : "";
+        rupiah += separator + ribuan.join(".");
+    }
+
+    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+    return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+    }
+
     </script>
 
 @endsection

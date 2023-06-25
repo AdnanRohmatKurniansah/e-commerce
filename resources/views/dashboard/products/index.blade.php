@@ -35,7 +35,7 @@
               <tr>
                   <td>{{ $product->name }}</td>
                   <td>Rp. {{ number_format($product->price, 0, ',', '.') }}</td>
-                  <td>{{ $product->weight }}</td>
+                  <td>{{ $product->weight }} gram</td>
                   <td>{{ implode(', ', json_decode($product->color)) }}</td>
                   <td>{{ implode(', ', json_decode($product->size)) }}</td>
                   <td>{{ $product->qty }}</td>

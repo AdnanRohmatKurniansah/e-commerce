@@ -15,11 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('product_name');
             $table->text('image');
-            $table->decimal('price', 15, 2);
+            $table->integer('price');
+            $table->decimal('weight', 15);
             $table->string('color');
             $table->string('size');
             $table->integer('qty');
-            $table->decimal('total', 15, 2);
+            $table->integer('total');
+            $table->decimal('allWeight', 15);
             $table->unsignedInteger('product_id');
             $table->foreignId('user_id');
             $table->timestamps();

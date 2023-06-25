@@ -20,8 +20,11 @@
                 <a class="nav-link dropdown-toggle user" data-toggle="dropdown" role="button" aria-haspopup="true"
                 aria-expanded="false" href="#"><span class="ti-user"></span></a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
-                  <li class="nav-item"><a class="nav-link" href="/show_cart">Cart</a></li>
+                  @if (auth()->user()->role == 'admin')
+                    <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+                  @else
+                    <li class="nav-item"><a class="nav-link" href="/show_cart">Cart</a></li>
+                  @endif
                   <li class="nav-item">
                     <form action="/logout" method="post">
                       @csrf

@@ -44,7 +44,7 @@ class ProductController extends Controller
             'name' => 'required|max:255',
             'slug'  => 'required|unique:products',
             'desc' => 'required',
-            'price' => 'required',
+            'weight' => 'required',
             'qty' => 'required',
             'image' => 'image|file|max:2048',
             'category_id' => 'required'
@@ -54,9 +54,9 @@ class ProductController extends Controller
             $validatedData['image'] = $request->file('image')->store('product-images');
         } 
 
+        $validatedData['price'] = (int) str_replace(['.', ','], '', $request->price);
         $validatedData['short_desc'] = Str::limit(strip_tags($request->desc), 150);
 
-        $validatedData['weight'] = $request->weight / 1000;
         $validatedData['color'] = json_encode($request->input('color') ?? []);
         $validatedData['size'] = json_encode($request->input('size') ?? []);
 
@@ -95,7 +95,6 @@ class ProductController extends Controller
             'name' => 'required|max:255',
             'desc' => 'required',
             'weight' => 'required',
-            'price' => 'required',
             'qty' => 'required',
             'image' => 'image|file|max:2048',
             'category_id' => 'required'
@@ -112,8 +111,9 @@ class ProductController extends Controller
                 Storage::delete($request->oldImage);
             }
             $validatedData['image'] = $request->file('image')->store('product-images');
-        }
+        }   
 
+        $validatedData['price'] = (int) str_replace(['.', ','], '', $request->price);
         $validatedData['short_desc'] = Str::limit(strip_tags($request->desc), 150);
 
         $validatedData['color'] = json_encode($request->input('color') ?? []);
@@ -142,5 +142,4 @@ class ProductController extends Controller
         $slug = SlugService::createSlug(Product::class, 'slug', $request->name);
         return response()->json(['slug' => $slug]);
     }
-
 }

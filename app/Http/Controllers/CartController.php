@@ -12,8 +12,12 @@ class CartController extends Controller
     public function add_cart(Request $request, Product $product) 
     {
         if (Auth::id()) 
-            {
+            {   
                 $user = Auth::user();
+
+                if ($user->role === 'admin') {
+                    return redirect()->back();
+                }
 
                 $existingCart = Cart::where('user_id', $user->id)
                             ->where('product_id', $product->id)
@@ -35,7 +39,9 @@ class CartController extends Controller
                     $data['product_name'] = $product->name;
                     $data['image'] = $product->image;
                     $data['price'] = $product->price;
+                    $data['weight'] = $product->weight;
                     $data['total'] = $product->price * $request->qty;
+                    $data['allWeight'] = $product->weight * $request->qty;
                     $data['product_id'] = $product->id;
                     $data['user_id'] = $user->id;
 
@@ -53,12 +59,19 @@ class CartController extends Controller
     {
         if (Auth::id()) 
         {
-            $id = Auth::user()->id;
+            $user = Auth::user();
+
+            if ($user->role === 'admin') {
+                return redirect()->back();
+            }
+
+            $id = $user->id;
             $carts = Cart::where('user_id', '=', $id)->get();
             return view('cart', [
                 'title' => 'Your Cart',
                 'carts' => $carts,
-                'subTotal' => Cart::where('user_id', '=', $id)->get()->sum('total')
+                'subTotal' => $carts->sum('total'),
+                'subWeight' => $carts->sum('allWeight')
             ]);
         } 
         else 

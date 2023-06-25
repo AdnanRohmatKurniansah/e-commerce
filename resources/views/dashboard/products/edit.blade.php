@@ -106,7 +106,7 @@
                         
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="weight">Weight</label>
+                                <label for="weight">Weight (gram)</label>
                                 <input type="text" id="weight" required class="form-control mt-3 @error('weight') is-invalid @enderror" name="weight"
                                 placeholder="weight" value="{{ old('weight', $product->weight) }}" oninput="this.value = this.value.replace(/[^0-9.]/g, '')">
                             </div>
@@ -120,7 +120,7 @@
                             <div class="form-group">
                                 <label for="price">Price</label>
                                 <input type="text" id="price" required class="form-control mt-3 @error('price') is-invalid @enderror" name="price"
-                                placeholder="Price" value="{{ old('price', $product->price) }}" oninput="this.value = this.value.replace(/[^0-9.]/g, '')">
+                                placeholder="Price" value="{{ old('price', number_format($product->price, 0, ',', '.')) }}">
                             </div>
                             @error('price')
                                 <div class="invalid-feedback">
@@ -195,6 +195,23 @@
       oFReader.onload = function(oFREvent) {
         imgPreview.src = oFREvent.target.result;
       }
+    }
+
+    var price = document.getElementById("price");
+    price.addEventListener("keyup", function(e) {
+    price.value = formatPrice(this.value);
+    });
+
+    function formatPrice(angka, prefix) {
+        var number_string = angka.replace(/\D/g, "").toString(),
+        split = number_string.split(/(?=(?:\d{3})+(?:\.|$))/g),
+        rupiah = split.join(".");
+
+    return prefix == undefined ? rupiah : rupiah;
+    
+
+    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+    return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
     }
     </script>
 
