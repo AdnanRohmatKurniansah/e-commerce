@@ -14,7 +14,7 @@
 	<link rel="stylesheet" href="/assets/css/bootstrap.css">
 	<link rel="stylesheet" href="/assets/css/owl.carousel.css">
 	<link rel="stylesheet" href="/assets/css/nice-select.css?v=10">
-	<link rel="stylesheet" href="/assets/css/nouislider.min.css">
+	<link rel="stylesheet" href="/assets/css/nouislider.min.css?v=2">
 	<link rel="stylesheet" href="/assets/css/ion.rangeSlider.css" />
 	<link rel="stylesheet" href="/assets/css/ion.rangeSlider.skinFlat.css" />
 	<link rel="stylesheet" href="/assets/css/magnific-popup.css">
@@ -37,13 +37,13 @@
 	<script src="/assets/js/jquery.ajaxchimp.min.js"></script>
 	<script src="/assets/js/jquery.nice-select.min.js?v=3"></script>
 	<script src="/assets/js/jquery.sticky.js"></script>
-	<script src="/assets/js/nouislider.min.js"></script>
+	<script src="/assets/js/nouislider.min.js?v=1"></script>
 	<script src="/assets/js/countdown.js"></script>
 	<script src="/assets/js/jquery.magnific-popup.min.js"></script>
 	<script src="/assets/js/owl.carousel.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
 	<script src="/assets/js/gmaps.min.js"></script>
-	<script src="/assets/js/main.js?v="></script>
+	<script src="/assets/js/main.js?v=3"></script>
 
 	@include('vendor.alert')
 

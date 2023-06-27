@@ -43,6 +43,8 @@ Route::get('/product/{product:slug}', function (Product $product) {
     ]);
 });
 
+Route::get('/filter-products', [ProductController::class, 'filter']);
+
 Route::get('/blog', function () {
     return view('blog', [
         'title' => 'Blog'

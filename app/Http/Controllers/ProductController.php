@@ -142,4 +142,37 @@ class ProductController extends Controller
         $slug = SlugService::createSlug(Product::class, 'slug', $request->name);
         return response()->json(['slug' => $slug]);
     }
+    public function filter(Request $request)
+    {
+        $selectedCategories = $request->input('categories', []);
+        $selectedColors = $request->input('colors', []);
+        $selectedSizes = $request->input('sizes', []);
+    
+        $query = Product::query();
+    
+        if (!empty($selectedCategories)) {
+            $query->whereIn('category_id', $selectedCategories);
+        }
+    
+        if (!empty($selectedColors)) {
+            $query->where(function($subquery) use ($selectedColors) {
+                foreach ($selectedColors as $color) {
+                    $subquery->orWhere('color', 'LIKE', '%' . $color . '%');
+                }
+            });
+        }
+    
+        if (!empty($selectedSizes)) {
+            $query->where(function($subquery) use ($selectedSizes) {
+                foreach ($selectedSizes as $size) {
+                    $subquery->orWhere('size', 'LIKE', '%' . $size . '%');
+                }
+            });
+        }
+    
+        $filteredProducts = $query->get();
+    
+        return response()->json($filteredProducts);
+    }
+      
 }
