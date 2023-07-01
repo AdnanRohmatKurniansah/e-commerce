@@ -84,32 +84,35 @@
 					<div class="filter-bar d-flex flex-wrap align-items-center justify-content-end" style="height: 60px"></div>
 					<section class="lattest-product-area pb-40 category-list">
 						<div class="row" id="product-list">
+							@if ($products->count())
 							@foreach ($products as $product)
-								<div class="col-lg-4 col-md-6">
-									@php
-										$colors = implode(', ', json_decode($product->color));
-										$sizes = implode(', ', json_decode($product->size))
-									@endphp
-									<div class="single-product" id="category-{{ $product->category->name }}" data-category="{{ $product->category->id }}" data-color="{{ $colors }}" data-size="{{ $sizes }}">
-										<img class="img-fluid" src="{{ asset('storage/'. $product->image) }}" alt="">
-										<div class="product-details">
-											<h6>{{ $product->name }}</h6>	
-											<div class="price">
-												<h6>RP. {{ number_format($product->price, 0, ',', '.') }}</h6>
-											</div>
-											<div class="prd-bottom">
-												<a href="/product/{{ $product->slug }}" class="social-info">
-													<span class="lnr lnr-move"></span>
-													<p class="hover-text">view more</p>
-												</a>
-											</div>
+							<div class="col-lg-4 col-md-6">
+								@php
+									$colors = implode(', ', json_decode($product->color));
+									$sizes = implode(', ', json_decode($product->size))
+								@endphp
+								<div class="single-product" id="category-{{ $product->category->name }}" data-category="{{ $product->category->id }}" data-color="{{ $colors }}" data-size="{{ $sizes }}">
+									<img class="img-fluid" src="{{ asset('storage/'. $product->image) }}" alt="">
+									<div class="product-details">
+										<h6>{{ $product->name }}</h6>	
+										<div class="price">
+											<h6>RP. {{ number_format($product->price, 0, ',', '.') }}</h6>
+										</div>
+										<div class="prd-bottom">
+											<a href="/product/{{ $product->slug }}" class="social-info">
+												<span class="lnr lnr-move"></span>
+												<p class="hover-text">view more</p>
+											</a>
 										</div>
 									</div>
 								</div>
-							@endforeach
-							<div class="col-md-4 col-md-6 my-5">
-								<h1 id="not-found" class="my-5" style="display: none">Not Found </h1>
 							</div>
+							@endforeach
+							@else
+								<div class="col-md-4 col-md-6 mx-auto">
+									<h1 class="d-flex justify-content-center" style="margin: 300px 0" id="not-found" class="my-5">Not Found </h1>
+								</div>
+							@endif
 						</div>
 					</section>
 					<div class="filter-bar d-flex flex-wrap align-items-center justify-content-center">

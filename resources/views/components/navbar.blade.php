@@ -12,9 +12,9 @@
         <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
           <ul class="nav navbar-nav menu_nav ml-auto">
             <li class="nav-item {{ Request::is('/') ? 'active' : '' }}"><a class="nav-link" href="/">Home</a></li>
-            <li class="nav-item {{ Request::is('products') ? 'active' : '' }}"><a class="nav-link" href="/products">Products</a></li>
-            <li class="nav-item {{ Request::is('blog') ? 'active' : '' }}"><a class="nav-link" href="/blog">Blog</a></li>
-            <li class="nav-item {{ Request::is('contact') ? 'active' : '' }}"><a class="nav-link" href="/contact">Contact</a></li>
+            <li class="nav-item {{ Request::is('products*') ? 'active' : '' }}"><a class="nav-link" href="/products">Products</a></li>
+            <li class="nav-item {{ Request::is('blog*') ? 'active' : '' }}"><a class="nav-link" href="/blog">Blog</a></li>
+            <li class="nav-item {{ Request::is('contact*') ? 'active' : '' }}"><a class="nav-link" href="/contact">Contact</a></li>
             @auth 
               <li class="nav-item submenu dropdown">
                 <a class="nav-link dropdown-toggle user" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -39,7 +39,12 @@
             @endguest
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li class="nav-item"><a href="/show_cart" class="cart"><span class="ti-bag"></span></a></li>
+            @php
+                $user = Auth::user();
+                $id = $user->id;
+                $count = \App\Models\Cart::where('user_id', '=', $id)->count();
+            @endphp
+            <li class="nav-item"><a href="/show_cart" class="cart"><span class="ti-bag"></span><sup class="pl-1 text-info">{{ $count }}</sup></a></li>
             <li class="nav-item">
               <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
             </li>
@@ -50,8 +55,8 @@
   </div>
   <div class="search_input" id="search_input_box">
     <div class="container">
-      <form class="d-flex justify-content-between">
-        <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+      <form class="d-flex justify-content-between" action="/products">
+        <input type="text" name="search" value="{{ request('search') }}" class="form-control" id="search_input" placeholder="Search Here">
         <button type="submit" class="btn"></button>
         <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
       </form>

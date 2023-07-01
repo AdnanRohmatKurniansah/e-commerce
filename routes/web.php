@@ -1,10 +1,14 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogCategoryController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Models\Blog;
+use App\Models\BlogCategory;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
@@ -22,14 +26,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome', [
-        'title' => 'Welcome to BiteStore'
+        'title' => 'Homepage'
     ]);
 });
 
 Route::get('/products', function () {
     return view('products', [
         'title' => 'Products',
-        'products' => Product::orderBy('id', 'desc')->paginate(6),
+        'products' => Product::orderBy('id', 'desc')->filter(request(['search']))->paginate(6),
         'categories' => Category::all(),
         'colors' => ['Black', 'White', 'Brown', 'Gray', 'Blue', 'Red', 'Green', 'Yellow', 'Pink', 'Purple'],
         'sizes' => ['32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', 'S', 'M', 'L', 'XL', 'XXL']
@@ -47,9 +51,22 @@ Route::get('/filter-products', [ProductController::class, 'filter']);
 
 Route::get('/blog', function () {
     return view('blog', [
-        'title' => 'Blog'
+        'title' => 'Blog',
+        'blogCategories' => BlogCategory::all(),
+        'blogs' => Blog::filter(request(['search', 'blogCategory']))->paginate(3),
+        'lblogs' => Blog::orderBy('id', 'desc')->get()
     ]);
 });
+
+Route::get('/blogDetail/{blog:slug}', function(Blog $blog) {
+    return view('blogDetail', [
+        'title' => 'Blog Detail',
+        'blog' => $blog,
+        'blogCategories' => BlogCategory::all(),
+        'lblogs' => Blog::orderBy('id', 'desc')->get()
+    ]);
+});
+
 Route::get('/contact', function () {
     return view('contact', [
         'title' => 'Contact'
@@ -79,8 +96,12 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
     Route::get('/', function () {
         return view('dashboard.index');
     });
-    Route::resource('/products/categories', CategoryController::class)->except('show');
     Route::get('/products/categories/checkSlug', [CategoryController::class, 'checkSlug']);
-    Route::resource('/products', ProductController::class)->except('show');
+    Route::resource('/products/categories', CategoryController::class)->except('show');
     Route::get('/products/checkSlug', [ProductController::class, 'checkSlug']);
+    Route::resource('/products', ProductController::class)->except('show');
+    Route::get('/blogs/categories/checkSlug', [BlogCategoryController::class, 'checkSlug']);
+    Route::resource('/blogs/categories', BlogCategoryController::class);
+    Route::get('/blogs/checkSlug', [BlogController::class, 'checkSlug']);
+    Route::resource('/blogs', BlogController::class);
 });

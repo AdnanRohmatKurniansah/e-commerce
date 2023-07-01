@@ -73,55 +73,57 @@
                                     <h3>Shipping Details</h3>
                                     <input type="checkbox" id="f-option3" name="selector" onclick="toggleForm()">
                                     <label for="f-option3">Ship to a different address?</label>
+                                    <div class="row">
+                                        <div class="differentAddress mt-3" id="differentAddress" style="display: none">
+                                            <div class="col-md-12 form-group p_star">
+                                                <input type="text" class="form-control" id="first" name="fname">
+                                                <span class="placeholder" data-placeholder="First name"></span>
+                                            </div>
+                                            <div class="col-md-12 form-group p_star">
+                                                <input type="text" class="form-control" id="last" name="lname">
+                                                <span class="placeholder" data-placeholder="Last name"></span>
+                                            </div>
+                                            <div class="col-md-12 form-group p_star">
+                                                <input type="text" class="form-control" id="number" name="pnumber">
+                                                <span class="placeholder" data-placeholder="Phone number"></span>
+                                            </div>
+                                            <div class="col-md-12 form-group p_star">
+                                                <input type="email" class="form-control" id="email" name="email">
+                                                <span class="placeholder" data-placeholder="Email Address"></span>
+                                            </div>
+                                            <div class="col-md-12 form-group p_star">
+                                                <select class="country_select" id="difProvince" name="difProvince" required>
+                                                    <label for="">-- Province -- </label>
+                                                    @foreach ($provinces as $province)
+                                                    <option value="{{ $province->id }}">{{ $province->name }}</option>
+                                                @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-12 form-group p_star">
+                                                <select class="country_select" name="difRegency" id="difRegency">
+                                                    <option>-- Regency --</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-12 form-group p_star">
+                                                <select class="country_select" name="difDistrict" id="difDistrict">
+                                                    <option>-- District --</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-12 form-group p_star">
+                                                <select class="country_select" name="difVillage" id="difVillage">
+                                                    <option>-- Village --</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-12 form-group p_star">
+                                                <input type="text" class="form-control" id="add2" name="street">
+                                                <span class="placeholder" data-placeholder="Street Address"></span>
+                                            </div>
+                                            <div class="col-md-12 form-group">
+                                                <input type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                {{-- <div class="differentAddress" id="differentAddress" style="display: none">
-                                    <div class="col-md-6 form-group p_star">
-                                        <input type="text" class="form-control" id="first" name="fname">
-                                        <span class="placeholder" data-placeholder="First name"></span>
-                                    </div>
-                                    <div class="col-md-6 form-group p_star">
-                                        <input type="text" class="form-control" id="last" name="lname">
-                                        <span class="placeholder" data-placeholder="Last name"></span>
-                                    </div>
-                                    <div class="col-md-6 form-group p_star">
-                                        <input type="text" class="form-control" id="number" name="pnumber">
-                                        <span class="placeholder" data-placeholder="Phone number"></span>
-                                    </div>
-                                    <div class="col-md-6 form-group p_star">
-                                        <input type="email" class="form-control" id="email" name="email">
-                                        <span class="placeholder" data-placeholder="Email Address"></span>
-                                    </div>
-                                    <div class="col-md-12 form-group p_star">
-                                        <select class="country_select" id="province" name="province" required>
-                                            <label for="">-- Province -- </label>
-                                            @foreach ($provinces as $province)
-                                            <option value="{{ $province->id }}">{{ $province->name }}</option>
-                                        @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-md-12 form-group p_star">
-                                        <select class="country_select" name="regency" id="regency">
-                                            <option>-- Regency --</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-12 form-group p_star">
-                                        <select class="country_select" name="district" id="district">
-                                            <option>-- District --</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-12 form-group p_star">
-                                        <select class="country_select" name="village" id="village">
-                                            <option>-- Village --</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-12 form-group p_star">
-                                        <input type="text" class="form-control" id="add2" name="street">
-                                        <span class="placeholder" data-placeholder="Street Address"></span>
-                                    </div>
-                                    <div class="col-md-12 form-group">
-                                        <input type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP">
-                                    </div>
-                                </div> --}}
                                 <textarea class="form-control" name="message" id="message" rows="1" placeholder="Order Notes"></textarea>
                             </div>
                             <div class="col-md-12 form-group p_star">
@@ -157,7 +159,7 @@
                                 </a></li>
                                 <li class="mt-5"><a>Total<span id="total">Rp. {{ number_format($subTotal, 0, ',', '.') }}</span></a></li>
                             </ul>
-                            <div class="payment_item">
+                            {{-- <div class="payment_item">
                                 <div class="radion_btn">
                                     <input type="radio" id="f-option5" name="selector">
                                     <label for="f-option5">Check payments</label>
@@ -175,13 +177,13 @@
                                 </div>
                                 <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal
                                     account.</p>
-                            </div>
+                            </div> --}}
                             <div class="creat_account">
                                 <input type="checkbox" id="f-option4" name="selector">
                                 <label for="f-option4">I’ve read and accept the </label>
                                 <a href="#">terms & conditions*</a>
                             </div>
-                            <a class="primary-btn" href="#">Proceed to Paypal</a>
+                            <button type="submit" class="primary-btn border-0 w-100">Buy Now</button>
                         </div>
                     </div>
                 </div>
@@ -249,12 +251,73 @@
                         },
                     })
                 });
-                
+
+
+                $('#difProvince').on('change', function() {
+                    let id_province = $('#difProvince').val();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/checkout/getRegencies',
+                        data: {id_province: id_province},
+                        cache: false,
+
+                        success: function(msg) {
+                            console.log("Received data:",msg);
+                            $('#difRegency').html(msg).niceSelect('update');
+                        },
+                        error: function(data) {
+                            console.log('error:', data)
+                        },
+                    })
+                });
+
+                $('#difRegency').on('change', function() {
+                    let id_regency = $('#difRegency').val();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/checkout/getDistricts',
+                        data: {id_regency: id_regency},
+                        cache: false,
+
+                        success: function(msg) {
+                            console.log("Received data:",msg);
+                            $('#difDistrict').html(msg).niceSelect('update');
+                        },
+                        error: function(data) {
+                            console.log('error:', data)
+                        },
+                    })
+                });
+
+                $('#difDistrict').on('change', function() {
+                    let id_district = $('#difDistrict').val();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/checkout/getVillages',
+                        data: {id_district: id_district},
+                        cache: false,
+
+                        success: function(msg) {
+                            console.log("Received data:",msg);
+                            $('#difVillage').html(msg).niceSelect('update');
+                        },
+                        error: function(data) {
+                            console.log('error:', data)
+                        },
+                    })
+                });
+
+
                 $('#courier').on('change', function() {
-                    let provinceId = $('select[name=province]').val();
-                    let regencyId = $('select[name=regency]').val();
-                    let weight = {{ $carts->sum('allWeight') }}; 
+                    let provinceId = $('#province').val();
+                    let regencyId = $('#regency').val();
+                    let weight = {{ $carts->sum('allWeight') }};
                     let courier = $('select[name=courier]').val();
+
+                    if ($('#f-option3').is(':checked')) {
+                        provinceId = $('#difProvince').val();
+                        regencyId = $('#difRegency').val();
+                    }
                     $.ajax({
                         url: '/checkout/cost',
                         type: 'POST',
@@ -284,9 +347,9 @@
                                 let subtotal = {{ $subTotal }};
                                 let shippingCost = parseInt($('#shipping').val());
                                 let total = subtotal + shippingCost;
-                                $('#total').html('Total <span>Rp. ' + formatRupiah(total) + '</span>');
+                                $('#total').html('<span>Rp. ' + formatRupiah(total) + '</span>');
                             });
-                        }
+                        }   
                     });
                 });
 

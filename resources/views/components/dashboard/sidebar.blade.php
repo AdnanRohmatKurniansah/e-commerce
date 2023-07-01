@@ -17,23 +17,15 @@
                     <li><a href="/dashboard/products/categories">Category</a></li>
                 </ul>
             </li>
-            <li class="sidebar-item  has-sub">
-
+            <li class="sidebar-item {{ Request::is('dashboard/blogs*') ? 'active' : '' }} has-sub">
                 <a href="#" class='sidebar-link'>
-                    <i data-feather="briefcase" width="20"></i> 
-                    <span>Extra Components</span>
+                    <i data-feather="book" width="20"></i> 
+                    <span>Blogs</span>
                 </a>
-                <ul class="submenu ">
-                    <li>
-                        <a href="component-extra-avatar.html">Avatar</a>
-                    </li>
-                    
-                    <li>
-                        <a href="component-extra-divider.html">Divider</a>
-                    </li>
-                    
+                <ul class="submenu">
+                    <li><a href="/dashboard/blogs">Blogs</a></li>
+                    <li><a href="/dashboard/blogs/categories">Category</a></li>
                 </ul>
-                
             </li>
             
         

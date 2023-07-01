@@ -5,7 +5,6 @@ namespace App\Models;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use PhpParser\Node\Stmt\Return_;
 
 class Product extends Model
 {
@@ -26,5 +25,14 @@ class Product extends Model
                 'source' => 'name'
             ]
         ];
+    }
+    public function scopeFilter($query, array $filters) 
+    {
+        $query->when($filters['search'] ?? false, function($query, $search) {
+            return $query->where(function($query) use ($search) {
+                 $query->where('name', 'like', '%' . $search . '%')
+                             ->orWhere('desc', 'like', '%' . $search . '%');
+             });
+         }); 
     }
 }
