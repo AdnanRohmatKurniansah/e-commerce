@@ -30,17 +30,40 @@
                 </div>
             </li>
             <li class="dropdown nav-icon me-2">
-                <a href="#" data-bs-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                <a href="#" data-bs-toggle="dropdown" class="nav-link  dropdown-toggle nav-link-lg nav-link-user">
                     <div class="d-lg-inline-block">
                         <i data-feather="mail"></i>
+                        @php
+                            $messages = \App\Models\Message::where('status', 'unread')->get();
+                        @endphp
+                        <sup class="mb-3 fs-6 text-info">{{ $messages->count() }}</sup>
                     </div>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end" >
-                    <a class="dropdown-item" href="#"><i data-feather="user"></i> Account</a>
-                    <a class="dropdown-item active" href="#"><i data-feather="mail"></i> Messages</a>
-                    <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#"><i data-feather="log-out"></i> Logout</a>
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-large">
+                    <h6 class='py-2 px-4'>Messages</h6>
+                    <ul class="list-group rounded-none">
+                        @if ($messages->count())
+                            @foreach ($messages as $message)   
+                            <li class="list-group-item border-0 align-items-start">
+                                <div class="avatar bg-info me-3">
+                                    <span class="avatar-content"><i data-feather="message-circle"></i></span>
+                                </div>
+                                <a href="/dashboard/messages/{{ $message->id }}/show">
+                                    <div>
+                                        <h6 class='text-bold'>New Message</h6>
+                                        <p class='text-xs'>
+                                            An message from {{ $message->name }}
+                                        </p>
+                                    </div>
+                                </a>
+                            </li>
+                            @endforeach
+                        @else
+                            <li class="list-group-item border-0 align-items-start">
+                                <h6 class='font-bold'>There are no messages for now</h6>
+                            </li>
+                        @endif
+                    </ul>
                 </div>
             </li>
             <li class="dropdown">

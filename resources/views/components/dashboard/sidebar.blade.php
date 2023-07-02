@@ -28,13 +28,13 @@
                     <li><a href="/dashboard/blogs/comments">Comments</a></li>
                 </ul>
             </li>
-            
-        
-            
+            <li class="sidebar-item {{ Request::is('dashboard/messages*') ? 'active' : '' }}">
+                <a href="/dashboard/messages" class='sidebar-link'>
+                    <i data-feather="mail" width="20"></i> 
+                    <span>Messages</span>
+                </a>
+            </li>
             <li class='sidebar-title'>Forms &amp; Tables</li>
-            
-        
-            
             <li class="sidebar-item  has-sub">
 
                 <a href="#" class='sidebar-link'>

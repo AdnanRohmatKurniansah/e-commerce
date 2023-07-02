@@ -5,6 +5,7 @@ use App\Http\Controllers\BlogCategoryController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Models\Blog;
@@ -83,6 +84,7 @@ Route::middleware(['guest'])->group(function() {
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
+Route::post('/addMessage', [MessageController::class, 'addMessage']);
 Route::post('/addComment', [BlogController::class, 'addComment']);
 Route::post('/add_cart/{product:slug}', [CartController::class, 'add_cart']);
 Route::get('/show_cart', [CartController::class, 'show_cart']);
@@ -109,4 +111,7 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
     Route::delete('/blogs/comments/{blogComment:id}', [BlogController::class, 'removeComment']);
     Route::get('/blogs/comments', [BlogController::class, 'comment']);
     Route::resource('/blogs', BlogController::class);
+    Route::get('/messages', [MessageController::class, 'index']);
+    Route::get('/messages/{message:id}/show', [MessageController::class, 'show']);
+    Route::delete('/messages/{message:id}', [MessageController::class, 'removeMessage']);
 });
