@@ -39,12 +39,17 @@
             @endguest
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            @auth
             @php
-                $user = Auth::user();
-                $id = $user->id;
-                $count = \App\Models\Cart::where('user_id', '=', $id)->count();
+              $user = Auth::user();
+              $id = $user->id;
+              $count = \App\Models\Cart::where('user_id', '=', $id)->count();
             @endphp
             <li class="nav-item"><a href="/show_cart" class="cart"><span class="ti-bag"></span><sup class="pl-1 text-info">{{ $count }}</sup></a></li>
+            @endauth
+            @guest
+            <li class="nav-item"><a href="/show_cart" class="cart"><span class="ti-bag"></span></a></li>
+            @endguest
             <li class="nav-item">
               <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
             </li>

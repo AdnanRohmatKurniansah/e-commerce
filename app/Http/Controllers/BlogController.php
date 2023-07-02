@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Models\BlogCategory;
+use App\Models\BlogComment;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
@@ -124,4 +126,33 @@ class BlogController extends Controller
         $slug = SlugService::createSlug(Blog::class, 'slug', $request->title);
         return response()->json(['slug' => $slug]);
     }
+    public function addComment(Request $request) 
+    {   
+        if (Auth::id()) {
+            $data = $request->validate([
+                'blog_id' => 'required',
+                'message' => 'required',
+            ]);
+    
+            $data['name'] = auth()->user()->name;
+            $data['user_id'] = auth()->user()->id;
+    
+            BlogComment::create($data);
+    
+            return redirect()->back()->with('success', 'Thanks for your comment');
+        } else {
+            return redirect('/login')->with('logFirst', 'You Must Login First');
+        }
+    }
+    public function comment() 
+    {
+        return view('dashboard.blogs.comments.index', [
+            'blogComments' => BlogComment::orderBy('id', 'desc')->get()
+        ]);
+    }
+    public function removeComment(BlogComment $blogComment) {
+        BlogComment::destroy($blogComment->id);
+        return redirect('/dashboard/blogs/comments')->with('success', 'Blog Comment has been deleted!');
+    }
+    
 }

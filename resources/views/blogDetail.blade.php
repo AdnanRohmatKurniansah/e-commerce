@@ -39,64 +39,54 @@
                         </div>
                     </div>
                     <div class="comments-area">
-                        <h4>05 Comments</h4>
-                        <div class="comment-list">
-                            <div class="single-comment justify-content-between d-flex">
-                                <div class="user justify-content-between d-flex">
-                                    <div class="thumb">
-                                        <img src="img/blog/c4.jpg" alt="">
-                                    </div>
-                                    <div class="desc">
-                                        <h5><a href="#">Maria Luna</a></h5>
-                                        <p class="date">December 4, 2018 at 3:12 pm </p>
-                                        <p class="comment">
-                                            Never say goodbye till the end comes!
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="comment-list">
-                            <div class="single-comment justify-content-between d-flex">
-                                <div class="user justify-content-between d-flex">
-                                    <div class="thumb">
-                                        <img src="img/blog/c5.jpg" alt="">
-                                    </div>
-                                    <div class="desc">
-                                        <h5><a href="#">Ina Hayes</a></h5>
-                                        <p class="date">December 4, 2018 at 3:12 pm </p>
-                                        <p class="comment">
-                                            Never say goodbye till the end comes!
-                                        </p>
+                        @if ($blogComments->count())  
+                            <h4>{{ $blogComments->count() }} Comments</h4>
+                            @foreach ($blogComments as $blogComment) 
+                            <div class="comment-list">
+                                <div class="single-comment justify-content-between d-flex">
+                                    <div class="user justify-content-between d-flex">
+                                        <div class="desc">
+                                            <h5><a>{{ $blogComment->name }}</a></h5>
+                                            <p class="date">{{ $blogComment->created_at->format('F j, Y \a\t g:i a') }}</p>
+                                            <p class="comment">
+                                                {{ $blogComment->message }}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            @endforeach
+                        @else
+                            <h2 class="my-5 text-center">There are no comments for now</h2>
+                        @endif
                     </div>
+                    @php
+                        $existingComment = null;
+                        if (auth()->check()) {
+                        $existingComment = \App\Models\BlogComment::where('user_id', auth()->user()->id)
+                            ->where('blog_id', $blog->id)
+                            ->first();
+                        }
+                    @endphp
+                    @if (auth()->guest() || !$existingComment)
                     <div class="comment-form">
                         <h4>Leave a Comment</h4>
-                        <form>
-                            <div class="form-group form-inline">
-                                <div class="form-group col-lg-6 col-md-6 name">
-                                    <input type="text" class="form-control" id="name" placeholder="Enter Name" onfocus="this.placeholder = ''"
-                                        onblur="this.placeholder = 'Enter Name'">
-                                </div>
-                                <div class="form-group col-lg-6 col-md-6 email">
-                                    <input type="email" class="form-control" id="email" placeholder="Enter email address"
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'">
-                                </div>
-                            </div>
+                        <form action="/addComment" method="post">
+                            @csrf
                             <div class="form-group">
-                                <input type="text" class="form-control" id="subject" placeholder="Subject" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Subject'">
+                                <input type="hidden" name="blog_id" value="{{ $blog->id}}">
+                                <textarea class="form-control @error('message') is-invalid @enderror mb-10" rows="5" name="message" placeholder="Messege"
+                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'" required></textarea>
+                                @error('message')
+                                    <div class="invalid-feedback">  
+                                      {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
-                            <div class="form-group">
-                                <textarea class="form-control mb-10" rows="5" name="message" placeholder="Messege"
-                                    onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required=""></textarea>
-                            </div>
-                            <a href="#" class="primary-btn submit_btn">Post Comment</a>
+                            <button type="submit" class="primary-btn border-0 submit_btn">Post Comment</button>
                         </form>
                     </div>
+                    @endif
                 </div>
                 <div class="col-lg-4 mb-5">
                     <div class="blog_right_sidebar">

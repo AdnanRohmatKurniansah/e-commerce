@@ -41,7 +41,7 @@
 								@enderror
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+								<input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Name'">
 								@error('name')
 								<div class="invalid-feedback text-left">
 									{{ $message }}

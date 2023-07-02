@@ -24,7 +24,8 @@
                 </a>
                 <ul class="submenu">
                     <li><a href="/dashboard/blogs">Blogs</a></li>
-                    <li><a href="/dashboard/blogs/categories">Category</a></li>
+                    <li><a href="/dashboard/blogs/categories">Categories</a></li>
+                    <li><a href="/dashboard/blogs/comments">Comments</a></li>
                 </ul>
             </li>
             

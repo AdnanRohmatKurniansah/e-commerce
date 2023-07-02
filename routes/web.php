@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Models\Blog;
 use App\Models\BlogCategory;
+use App\Models\BlogComment;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
@@ -63,7 +64,8 @@ Route::get('/blogDetail/{blog:slug}', function(Blog $blog) {
         'title' => 'Blog Detail',
         'blog' => $blog,
         'blogCategories' => BlogCategory::all(),
-        'lblogs' => Blog::orderBy('id', 'desc')->get()
+        'lblogs' => Blog::orderBy('id', 'desc')->get(),
+        'blogComments' => BlogComment::where('blog_id', $blog->id)->get()
     ]);
 });
 
@@ -81,6 +83,7 @@ Route::middleware(['guest'])->group(function() {
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
+Route::post('/addComment', [BlogController::class, 'addComment']);
 Route::post('/add_cart/{product:slug}', [CartController::class, 'add_cart']);
 Route::get('/show_cart', [CartController::class, 'show_cart']);
 Route::delete('/remove_cart/{cart:id}', [CartController::class, 'remove_cart']);
@@ -103,5 +106,7 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
     Route::get('/blogs/categories/checkSlug', [BlogCategoryController::class, 'checkSlug']);
     Route::resource('/blogs/categories', BlogCategoryController::class);
     Route::get('/blogs/checkSlug', [BlogController::class, 'checkSlug']);
+    Route::delete('/blogs/comments/{blogComment:id}', [BlogController::class, 'removeComment']);
+    Route::get('/blogs/comments', [BlogController::class, 'comment']);
     Route::resource('/blogs', BlogController::class);
 });
