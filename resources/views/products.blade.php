@@ -81,7 +81,18 @@
 					</div>
 				</div>
 				<div class="col-xl-9 col-lg-8 col-md-7">
-					<div class="filter-bar d-flex flex-wrap align-items-center justify-content-end" style="height: 60px"></div>
+					<div class="filter-bar d-flex flex-wrap align-items-center justify-content-start" style="height: 70px">
+						{{-- <div class="input-group-icon my-3">
+							<div class="icon"></div>
+							<div class="form-select bg-light" id="default-select">
+								<select name="sort">
+									<option value="">Sort</option>
+									<option value="name">Name</option>
+									<option value="price">Price</option>
+								  </select>								  
+							</div>
+						</div> --}}
+					</div>
 					<section class="lattest-product-area pb-40 category-list">
 						<div class="row" id="product-list">
 							@if ($products->count())
@@ -110,7 +121,7 @@
 							@endforeach
 							@else
 								<div class="col-md-4 col-md-6 mx-auto">
-									<h1 class="d-flex justify-content-center" style="margin: 300px 0" id="not-found" class="my-5">Not Found </h1>
+									<h1 class="d-flex justify-content-center" style="margin: 220px 0" id="not-found" class="my-5">Not Found </h1>
 								</div>
 							@endif
 						</div>
@@ -236,7 +247,7 @@
 	let html = '';
 	
 	if (products.length === 0) {
-		html = '<h1 class="mx-auto" style="margin: 300px 0">Product Not Found</h1>'
+		html = '<h1 class="mx-auto" style="margin: 220px 0">Product Not Found</h1>'
 	} else {
 		products.forEach(function(product) {
 		console.log(product)

@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         return view('dashboard.products.categories.index', [
-            'categories' => Category::orderBy('id', 'desc')->get()
+            'categories' => Category::latest()->paginate(20)
         ]);
     }
 

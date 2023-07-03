@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductComment;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class ProductController extends Controller
     public function index()
     {
         return view('dashboard.products.index', [
-            'products' => Product::orderBy('id', 'desc')->get()
+            'products' => Product::latest()->paginate(20)
         ]);
     }
 
@@ -173,6 +174,42 @@ class ProductController extends Controller
         $filteredProducts = $query->get();
     
         return response()->json($filteredProducts);
+    }
+    public function addComment(Request $request) 
+    {   
+        if (Auth::id()) {
+            $data = $request->validate([
+                'product_id' => 'required',
+                'message' => 'required|max:250',
+            ]);
+    
+            $data['name'] = auth()->user()->name;
+            $data['user_id'] = auth()->user()->id;
+
+            $existingComment = ProductComment::where('user_id', $data['user_id'])
+            ->where('product_id', $data['product_id'])
+            ->first();
+
+            if ($existingComment) {
+                return redirect()->back()->with('error', 'You have already commented');
+            }
+    
+            ProductComment::create($data);
+    
+            return redirect()->back()->with('success', 'Thanks for your comment');
+        } else {
+            return redirect('/login')->with('logFirst', 'You Must Login First');
+        }
+    }
+    public function comment() 
+    {
+        return view('dashboard.products.comments.index', [
+            'productComments' => ProductComment::latest()->paginate(20)
+        ]);
+    }
+    public function removeComment(ProductComment $productComment) {
+        ProductComment::destroy($productComment->id);
+        return redirect('/dashboard/products/comments')->with('success', 'Product Comment has been deleted!');
     }
       
 }

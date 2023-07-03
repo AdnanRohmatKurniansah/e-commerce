@@ -60,15 +60,6 @@
                             <h2 class="my-5 text-center">There are no comments for now</h2>
                         @endif
                     </div>
-                    @php
-                        $existingComment = null;
-                        if (auth()->check()) {
-                        $existingComment = \App\Models\BlogComment::where('user_id', auth()->user()->id)
-                            ->where('blog_id', $blog->id)
-                            ->first();
-                        }
-                    @endphp
-                    @if (auth()->guest() || !$existingComment)
                     <div class="comment-form">
                         <h4>Leave a Comment</h4>
                         <form action="/addComment" method="post">
@@ -86,7 +77,6 @@
                             <button type="submit" class="primary-btn border-0 submit_btn">Post Comment</button>
                         </form>
                     </div>
-                    @endif
                 </div>
                 <div class="col-lg-4 mb-5">
                     <div class="blog_right_sidebar">

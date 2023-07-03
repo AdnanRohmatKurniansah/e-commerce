@@ -8,11 +8,14 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReviewController;
 use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\BlogComment;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductComment;
+use App\Models\Review;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,7 +48,9 @@ Route::get('/products', function () {
 Route::get('/product/{product:slug}', function (Product $product) {
     return view('product', [
         'title' => 'Product Detail',
-        'product' => $product
+        'product' => $product,
+        'productComments' => ProductComment::where('product_id', $product->id)->get(),
+        'reviews' => Review::where('product_id', $product->id)->get(),
     ]);
 });
 
@@ -84,6 +89,8 @@ Route::middleware(['guest'])->group(function() {
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
+Route::post('/addReview', [ReviewController::class, 'addReview']);
+Route::post('/addProductComment', [ProductController::class, 'addComment']);
 Route::post('/addMessage', [MessageController::class, 'addMessage']);
 Route::post('/addComment', [BlogController::class, 'addComment']);
 Route::post('/add_cart/{product:slug}', [CartController::class, 'add_cart']);
@@ -104,6 +111,10 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
     Route::get('/products/categories/checkSlug', [CategoryController::class, 'checkSlug']);
     Route::resource('/products/categories', CategoryController::class)->except('show');
     Route::get('/products/checkSlug', [ProductController::class, 'checkSlug']);
+    Route::delete('/products/reviews/{review:id}', [ReviewController::class, 'removeReview']);
+    Route::get('/products/reviews', [ReviewController::class, 'review']);
+    Route::delete('/products/comments/{productComment:id}', [ProductController::class, 'removeComment']);
+    Route::get('/products/comments', [ProductController::class, 'comment']);
     Route::resource('/products', ProductController::class)->except('show');
     Route::get('/blogs/categories/checkSlug', [BlogCategoryController::class, 'checkSlug']);
     Route::resource('/blogs/categories', BlogCategoryController::class);

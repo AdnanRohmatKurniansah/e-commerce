@@ -18,7 +18,7 @@ class BlogController extends Controller
     public function index()
     {
         return view('dashboard.blogs.index', [
-            'blogs' => Blog::orderBy('id', 'desc')->get()
+            'blogs' => Blog::latest()->paginate(20)
         ]);
     }
 
@@ -131,11 +131,19 @@ class BlogController extends Controller
         if (Auth::id()) {
             $data = $request->validate([
                 'blog_id' => 'required',
-                'message' => 'required',
+                'message' => 'required|max:250',
             ]);
     
             $data['name'] = auth()->user()->name;
             $data['user_id'] = auth()->user()->id;
+
+            $existingComment = BlogComment::where('user_id', $data['user_id'])
+            ->where('blog_id', $data['blog_id'])
+            ->first();
+
+            if ($existingComment) {
+                return redirect()->back()->with('error', 'You have already commented');
+            }
     
             BlogComment::create($data);
     
@@ -147,7 +155,7 @@ class BlogController extends Controller
     public function comment() 
     {
         return view('dashboard.blogs.comments.index', [
-            'blogComments' => BlogComment::orderBy('id', 'desc')->get()
+            'blogComments' => BlogComment::latest()->paginate(20)
         ]);
     }
     public function removeComment(BlogComment $blogComment) {

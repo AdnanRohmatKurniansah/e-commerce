@@ -21,6 +21,7 @@
           <table class="table table-striped mb-0">
             <thead>
               <tr>
+                <th>No</th>
                 <th>Name</th>
                 <th>Price</th>
                 <th>Weight</th>
@@ -33,6 +34,7 @@
             <tbody>
               @foreach ($products as $product)  
               <tr>
+                  <td>{{ $loop->iteration }}</td>
                   <td>{{ $product->name }}</td>
                   <td>Rp. {{ number_format($product->price, 0, ',', '.') }}</td>
                   <td>{{ $product->weight }} gram</td>
@@ -54,6 +56,19 @@
         </div>
       </div>
     </div>
+
+    <div class="d-flex justify-content-center mt-5">
+      <ul class="pagination pagination-primary">
+          <li class="page-item"><a class="page-link" href="{{ $products->previousPageUrl() }}">Prev</a></li>
+          @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
+              <li class="page-item {{ $products->currentPage() == $page ? 'active' : '' }}">
+                  <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+              </li>
+          @endforeach
+          <li class="page-item"><a class="page-link" href="{{ $products->nextPageUrl() }}">Next</a></li>
+      </ul>        
+  </div>
+
   </div>
 </div>
 

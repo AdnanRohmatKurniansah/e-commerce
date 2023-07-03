@@ -94,190 +94,149 @@
 		<div class="container">
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 				<li class="nav-item">
-					<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Description</a>
+					<a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Description</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
 					 aria-selected="false">Comments</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review"
+					<a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review"
 					 aria-selected="false">Reviews</a>
 				</li>
 			</ul>
 			<div class="tab-content" id="myTabContent">
-				<div class="tab-pane fade  show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+				<div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
 					<p>{{ $product->desc }}</p>
 				</div>
 				<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 					<div class="row">
 						<div class="col-lg-6">
-							<div class="comment_list">
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img src="img/product/review-3.png" alt="">
+							@if ($productComments->count())
+							@foreach ($productComments as $productComment)
+								<div class="comment_list">
+									<div class="review_item">
+										<div class="media">
+											<div class="media-body">
+												<h4>{{ $productComment->name }}</h4>
+												<h5>{{ $productComment->created_at->format('F j, Y \a\t g:i a') }}</h5>
+											</div>
 										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<h5>12th Feb, 2018 at 05:56 pm</h5>
-										</div>
+										<p>{{ $productComment->message }}</p>
 									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
 								</div>
-							</div>
+							@endforeach
+							@else
+								<h4 class="d-flex justify-content-center align-items-center my-5">There are no comments for now</h4>
+							@endif
 						</div>
 						<div class="col-lg-6">
-							<div class="review_box">
-								<h4>Post a comment</h4>
-								<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" id="name" name="name" placeholder="Your Full name">
+								<div class="review_box">
+									<h4>Post a comment</h4>
+									<form class="row contact_form" action="/addProductComment" method="post" id="contactForm">
+										@csrf
+										<div class="col-md-12">
+											<div class="form-group">
+												<input type="hidden" name="product_id" value="{{ $product->id}}">
+												<textarea class="form-control @error('message') is-invalid @enderror" name="message" required id="message" rows="1" placeholder="Message"></textarea>
+												@error('message')
+													<div class="invalid-feedback">  
+													{{ $message }}
+													</div>
+												@enderror
+											</div>
 										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="email" class="form-control" id="email" name="email" placeholder="Email Address">
+										<div class="col-md-12 text-right">
+											<button type="submit" value="submit" class="btn primary-btn">Submit Now</button>
 										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" id="number" name="number" placeholder="Phone Number">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<textarea class="form-control" name="message" id="message" rows="1" placeholder="Message"></textarea>
-										</div>
-									</div>
-									<div class="col-md-12 text-right">
-										<button type="submit" value="submit" class="btn primary-btn">Submit Now</button>
-									</div>
-								</form>
-							</div>
+									</form>
+								</div>
 						</div>
 					</div>
 				</div>
-				<div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+				<div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
 					<div class="row">
 						<div class="col-lg-6">
 							<div class="row total_rate">
 								<div class="col-6">
 									<div class="box_total">
 										<h5>Overall</h5>
-										<h4>4.0</h4>
-										<h6>(03 Reviews)</h6>
+										@php
+											$sum = \App\Models\Review::where('product_id', $product->id)->sum('rating');
+											$count = \App\Models\Review::where('product_id', $product->id)->count();
+											$average = $count > 0 ? $sum / $count : 0;
+										@endphp
+										<h4>{{ $average }}</h4>
+										<h6>({{ $reviews->count() }} Reviews)</h6>
 									</div>
 								</div>
 								<div class="col-6">
 									<div class="rating_list">
-										<h3>Based on 3 Reviews</h3>
+										<h3>Based on {{ $reviews->count() }} Reviews</h3>
 										<ul class="list">
-											<li><a href="#">5 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">1 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+											@for ($i = 5; $i >= 1; $i--)
+												@php
+													$count = \App\Models\Review::where('product_id', $product->id)->where('rating', $i)->count();
+												@endphp
+												<li><a>{{ $i }} Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> {{ $count }}</a></li>
+											@endfor
 										</ul>
 									</div>
 								</div>
 							</div>
-							<div class="review_list">
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img src="img/product/review-1.png" alt="">
+							@if ($reviews->count())
+								<div class="review_list">
+									@foreach ($reviews as $review)
+										<div class="review_item">
+											<div class="media">
+												<div class="media-body">
+													<h4>{{ $review->name }}</h4>
+													@for ($i = 1; $i <= 5; $i++)
+														@if ($i <= $review->rating)
+															<i class="fa fa-star"></i>
+														@else
+															<i class="fa fa-star text-muted"></i>
+														@endif
+													@endfor
+												</div>
+											</div>
+											<p>{{ $review->message }}</p>
 										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
+									@endforeach
 								</div>
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img src="img/product/review-2.png" alt="">
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img src="img/product/review-3.png" alt="">
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
-							</div>
+							@else
+								<h4 class="d-flex justify-content-center my-5">There are no reviews for now</h4>
+							@endif
 						</div>
 						<div class="col-lg-6">
 							<div class="review_box">
 								<h4>Add a Review</h4>
 								<p>Your Rating:</p>
-								<ul class="list">
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-								</ul>
-								<p>Outstanding</p>
-								<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+								<form class="row contact_form" action="/addReview" method="post" id="contactForm">
+									@csrf
 									<div class="col-md-12">
 										<div class="form-group">
-											<input type="text" class="form-control" id="name" name="name" placeholder="Your Full name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Full name'">
+											<input type="hidden" name="product_id" value="{{ $product->id}}">
+											<div class="rating">
+												<input type="radio" id="star5" name="rating" value="5" />
+												<label class="star" for="star5" title="Awesome" aria-hidden="true"></label>
+												<input type="radio" id="star4" name="rating" value="4" />
+												<label class="star" for="star4" title="Great" aria-hidden="true"></label>
+												<input type="radio" id="star3" name="rating" value="3" />
+												<label class="star" for="star3" title="Very good" aria-hidden="true"></label>
+												<input type="radio" id="star2" name="rating" value="2" />
+												<label class="star" for="star2" title="Good" aria-hidden="true"></label>
+												<input type="radio" id="star1" name="rating" value="1" checked />
+												<label class="star" for="star1" title="Bad" aria-hidden="true"></label>
+											  </div>
 										</div>
-									</div>
-									<div class="col-md-12">
 										<div class="form-group">
-											<input type="email" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" id="number" name="number" placeholder="Phone Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number'">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<textarea class="form-control" name="message" id="message" rows="1" placeholder="Review" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Review'"></textarea></textarea>
+											<textarea type="text" class="form-control @error('message') is-invalid @enderror" name="message" id="message" rows="1" placeholder="Review" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Review'"></textarea></textarea>
+											@error('message')
+												<div class="invalid-feedback">  
+												{{ $message }}
+												</div>
+											@enderror
 										</div>
 									</div>
 									<div class="col-md-12 text-right">
@@ -291,4 +250,6 @@
 			</div>
 		</div>
 	</section>
+
 @endsection
+

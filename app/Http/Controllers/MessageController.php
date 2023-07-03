@@ -11,7 +11,7 @@ class MessageController extends Controller
         $data = $request->validate([
             'name' => 'required|min:3',
             'email' => 'required|email:dns',
-            'message' => 'required'
+            'message' => 'required|max:250'
         ]);
 
         Message::create($data);

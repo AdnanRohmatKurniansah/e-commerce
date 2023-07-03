@@ -15,6 +15,8 @@
                 <ul class="submenu">
                     <li><a href="/dashboard/products">Products</a></li>
                     <li><a href="/dashboard/products/categories">Category</a></li>
+                    <li><a href="/dashboard/products/comments">Comments</a></li>
+                    <li><a href="/dashboard/products/reviews">Reviews</a></li>
                 </ul>
             </li>
             <li class="sidebar-item {{ Request::is('dashboard/blogs*') ? 'active' : '' }} has-sub">

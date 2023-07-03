@@ -21,6 +21,7 @@
           <table class="table table-striped mb-0">
             <thead>
               <tr>
+                <th>No</th>
                 <th>Title</th>
                 <th>Blog Category</th>
                 <th>Author</th>
@@ -30,6 +31,7 @@
             <tbody>
               @foreach ($blogs as $blog)  
               <tr>
+                  <td>{{ $loop->iteration }}</td>
                   <td>{{ $blog->title }}</td>
                   <td>{{ $blog->blogCategory->name }}</td>
                   <td>{{ $blog->author }}</td>
@@ -48,6 +50,19 @@
         </div>
       </div>
     </div>
+
+    <div class="d-flex justify-content-center mt-5">
+      <ul class="pagination pagination-primary">
+          <li class="page-item"><a class="page-link" href="{{ $blogs->previousPageUrl() }}">Prev</a></li>
+          @foreach ($blogs->getUrlRange(1, $blogs->lastPage()) as $page => $url)
+              <li class="page-item {{ $blogs->currentPage() == $page ? 'active' : '' }}">
+                  <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+              </li>
+          @endforeach
+          <li class="page-item"><a class="page-link" href="{{ $blogs->nextPageUrl() }}">Next</a></li>
+      </ul>        
+    </div>
+
   </div>
 </div>
 

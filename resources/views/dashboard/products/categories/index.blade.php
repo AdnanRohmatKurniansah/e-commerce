@@ -21,6 +21,7 @@
           <table class="table table-striped mb-0">
             <thead>
               <tr>
+                <th>No</th>
                 <th>Category Name</th>
                 <th>Action</th>
               </tr>
@@ -28,6 +29,7 @@
             <tbody>
               @foreach ($categories as $category)  
               <tr>
+                  <td>{{ $loop->iteration }}</td>
                   <td>{{ $category->name }}</td>
                   <td class="d-flex">
                     <a href="/dashboard/products/categories/{{ $category->slug }}/edit"><i class="badge-circle badge-circle-light-secondary" data-feather="edit"></i></a>
@@ -44,6 +46,19 @@
         </div>
       </div>
     </div>
+
+    <div class="d-flex justify-content-center mt-5">
+      <ul class="pagination pagination-primary">
+          <li class="page-item"><a class="page-link" href="{{ $categories->previousPageUrl() }}">Prev</a></li>
+          @foreach ($categories->getUrlRange(1, $categories->lastPage()) as $page => $url)
+              <li class="page-item {{ $categories->currentPage() == $page ? 'active' : '' }}">
+                  <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+              </li>
+          @endforeach
+          <li class="page-item"><a class="page-link" href="{{ $categories->nextPageUrl() }}">Next</a></li>
+      </ul>        
+  </div>
+
   </div>
 </div>
 

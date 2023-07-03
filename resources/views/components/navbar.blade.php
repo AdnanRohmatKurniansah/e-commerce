@@ -12,7 +12,7 @@
         <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
           <ul class="nav navbar-nav menu_nav ml-auto">
             <li class="nav-item {{ Request::is('/') ? 'active' : '' }}"><a class="nav-link" href="/">Home</a></li>
-            <li class="nav-item {{ Request::is('products*') ? 'active' : '' }}"><a class="nav-link" href="/products">Products</a></li>
+            <li class="nav-item {{ Request::is('products*') || Request::is('product*') ? 'active' : '' }}"><a class="nav-link" href="/products">Products</a></li>
             <li class="nav-item {{ Request::is('blog*') ? 'active' : '' }}"><a class="nav-link" href="/blog">Blog</a></li>
             <li class="nav-item {{ Request::is('contact*') ? 'active' : '' }}"><a class="nav-link" href="/contact">Contact</a></li>
             @auth 
