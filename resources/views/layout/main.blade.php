@@ -13,12 +13,12 @@
 	<link rel="stylesheet" href="/assets/css/themify-icons.css">
 	<link rel="stylesheet" href="/assets/css/bootstrap.css">
 	<link rel="stylesheet" href="/assets/css/owl.carousel.css">
-	<link rel="stylesheet" href="/assets/css/nice-select.css?v=10">
+	<link rel="stylesheet" href="/assets/css/nice-select.css?v=12">
 	<link rel="stylesheet" href="/assets/css/nouislider.min.css?v=2">
 	<link rel="stylesheet" href="/assets/css/ion.rangeSlider.css" />
 	<link rel="stylesheet" href="/assets/css/ion.rangeSlider.skinFlat.css" />
 	<link rel="stylesheet" href="/assets/css/magnific-popup.css">
-	<link rel="stylesheet" href="/assets/css/main.css?v=5">
+	<link rel="stylesheet" href="/assets/css/main.css?v=6">
 	<script src="/assets/js/vendor/jquery-2.2.4.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
 	 crossorigin="anonymous"></script>
@@ -43,7 +43,7 @@
 	<script src="/assets/js/owl.carousel.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
 	<script src="/assets/js/gmaps.min.js"></script>
-	<script src="/assets/js/main.js?v=3"></script>
+	<script src="/assets/js/main.js?v=4"></script>
 
 	@include('vendor.alert')
 

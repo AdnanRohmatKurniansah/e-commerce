@@ -27,7 +27,7 @@
                         <div class="col-lg-12  col-md-3">
                             <div class="blog_info text-left">
                                 <ul class="blog_meta list d-flex">
-                                    <li><a href="#"><i class="lnr lnr-flag mr-2"></i> Category : {{ $blog->blogCategory->name }}</a></li>
+                                    <li><a><i class="lnr lnr-flag mr-2"></i> Category : {{ $blog->blogCategory->name }}</a></li>
                                     <li><a><i class="lnr lnr-user mr-2"></i> Author : {{ $blog->author }}</a></li>
                                     <li><a><i class="lnr lnr-calendar-full mr-2"></i> Created at : {{ $blog->created_at->format('d F Y') }}</a></li>
                                 </ul>
@@ -66,7 +66,7 @@
                             @csrf
                             <div class="form-group">
                                 <input type="hidden" name="blog_id" value="{{ $blog->id}}">
-                                <textarea class="form-control @error('message') is-invalid @enderror mb-10" rows="5" name="message" placeholder="Messege"
+                                <textarea class="form-control @error('message') is-invalid @enderror mb-10" rows="5" name="message" placeholder="Message"
                                 onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'" required></textarea>
                                 @error('message')
                                     <div class="invalid-feedback">  

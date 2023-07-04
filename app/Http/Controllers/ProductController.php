@@ -175,6 +175,38 @@ class ProductController extends Controller
     
         return response()->json($filteredProducts);
     }
+    public function sort(Request $request)
+    {
+        $selectedSort = $request->input('sort');
+
+        $query = Product::query();
+
+        if ($selectedSort === 'nameAsc') {
+            $query->orderBy('name', 'asc');
+        } elseif ($selectedSort === 'nameDesc') {
+            $query->orderBy('name', 'desc');
+        } elseif ($selectedSort === 'priceHigh') {
+            $query->orderBy('price', 'desc');
+        } elseif ($selectedSort === 'priceLow') {
+            $query->orderBy('price', 'asc');
+        }
+
+        $sortedProducts = $query->get();
+
+        return response()->json($sortedProducts);
+    }
+
+    public function filterRange(Request $request)
+    {
+        $lowerPrice = $request->query('lowerPrice');
+        $upperPrice = $request->query('upperPrice');
+
+        $products = Product::whereBetween('price', [$lowerPrice, $upperPrice])->get();
+
+        return response()->json($products);
+    }
+
+
     public function addComment(Request $request) 
     {   
         if (Auth::id()) {

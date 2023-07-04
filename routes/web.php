@@ -55,6 +55,8 @@ Route::get('/product/{product:slug}', function (Product $product) {
 });
 
 Route::get('/filter-products', [ProductController::class, 'filter']);
+Route::get('/sort-products', [ProductController::class, 'sort']);
+Route::get('/filter-range', [ProductController::class, 'filterRange']);
 
 Route::get('/blog', function () {
     return view('blog', [

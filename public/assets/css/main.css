@@ -945,14 +945,15 @@ h1, h2, h3, h4, h5, h6 {
   height: 40px;
   width: 100%; }
   .form-select .nice-select {
-    border: none;
+    border: 1px solid rgb(230, 230, 230);
     border-radius: 0px;
     height: 40px;
-    background: #f9f9ff;
+    background: #ffffff;
     padding-left: 45px;
     padding-right: 40px;
     width: 100%; }
     .form-select .nice-select .list {
+      overflow-y: hidden;
       margin-top: 0;
       border: none;
       border-radius: 0px;

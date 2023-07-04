@@ -33,6 +33,6 @@ class Product extends Model
                  $query->where('name', 'like', '%' . $search . '%')
                              ->orWhere('desc', 'like', '%' . $search . '%');
              });
-         }); 
+        }); 
     }
 }

@@ -27,8 +27,8 @@
 						<h3>{{ $product->name }}</h3>
 						<h2>RP. {{ number_format($product->price, 0, ',', '.') }}</h2>
 						<ul class="list">
-							<li><a class="active" href="#"><span>Category</span> : {{ $product->category->name }}</a></li>
-							<li><a href="#"><span>Availibility</span> : 
+							<li><a class="active"><span>Category</span> : {{ $product->category->name }}</a></li>
+							<li><a ><span>Availibility</span> : 
                                 @if ($product->qty > 0)
                                 {{ $product->qty }} In Stock
                                 @else
@@ -73,7 +73,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="product_count">
+							<div class="product_count mt-3">
 								<label for="qty">Quantity:</label>
 								<input type="text" name="qty" id="sst"  maxlength="12" value="1" title="Quantity:" class="input-text qty">
 								<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
@@ -208,7 +208,7 @@
 								<h4 class="d-flex justify-content-center my-5">There are no reviews for now</h4>
 							@endif
 						</div>
-						<div class="col-lg-6">
+						<div class="col-lg-6 mt-3">
 							<div class="review_box">
 								<h4>Add a Review</h4>
 								<p>Your Rating:</p>

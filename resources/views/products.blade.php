@@ -42,7 +42,7 @@
 						<div class="common-filter">
 							<div class="head">Sizes</div>
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col">
 								<ul>
 									@foreach (collect($sizes)->take(10) as $size)
 										<li class="filter-list">
@@ -52,7 +52,7 @@
 									@endforeach
 								</ul>
 							</div>
-							<div class="col-md-6">
+							<div class="col">
 								<ul>
 									@foreach (collect($sizes)->skip(10) as $size)
 										<li class="filter-list">
@@ -64,7 +64,7 @@
 							</div>
 							</div>
 						</div>
-						{{-- <div class="common-filter">
+						<div class="common-filter">
 							<div class="head">Price</div>
 							<div class="price-range-area">
 								<div id="price-range"></div>
@@ -77,21 +77,23 @@
 									<div id="upper-value"></div>
 								</div>
 							</div>
-						</div> --}}
+						</div>
 					</div>
 				</div>
 				<div class="col-xl-9 col-lg-8 col-md-7">
 					<div class="filter-bar d-flex flex-wrap align-items-center justify-content-start" style="height: 70px">
-						{{-- <div class="input-group-icon my-3">
+						<div class="input-group-icon my-3">
 							<div class="icon"></div>
 							<div class="form-select bg-light" id="default-select">
-								<select name="sort">
-									<option value="">Sort</option>
-									<option value="name">Name</option>
-									<option value="price">Price</option>
+								<select id="sort" name="sort">
+									<option value="">Sort By</option>
+									<option value="nameAsc">Name Asc</option>
+									<option value="nameDesc">Name Desc</option>
+									<option value="priceHigh">Highest Price</option>
+									<option value="priceLow">Lowest Price</option>
 								  </select>								  
 							</div>
-						</div> --}}
+						</div>
 					</div>
 					<section class="lattest-product-area pb-40 category-list">
 						<div class="row" id="product-list">
@@ -150,6 +152,83 @@
 	let categoryInputs = document.querySelectorAll('input[name="category"]');
 	let colorInputs = document.querySelectorAll('input[name="color"]');
 	let sizeInputs = document.querySelectorAll('input[name="size"]');
+	
+	$('#sort').on('change',function(){
+        let sort = $('#sort').val();
+		console.log(sort)
+        $.ajax({
+            url:"/sort-products",
+            method:"GET",
+            data:{
+				sort:sort
+			},
+            success:function(response){
+			console.log(response)
+			let productList = document.getElementById('product-list');
+			productList.innerHTML = renderProductList(response);
+            }
+        });
+    });
+
+
+	$(function(){
+		if (document.getElementById("price-range")) {
+		var nonLinearSlider = document.getElementById('price-range');
+		var lowerValue = document.getElementById('lower-value');
+		var upperValue = document.getElementById('upper-value');
+
+		noUiSlider.create(nonLinearSlider, {
+				connect: true,
+				behaviour: 'tap',
+				start: [80000, 10000000],
+				range: {
+					'min': [0],
+					'10%': [80000, 500000],
+					'50%': [1000000, 5000000],
+					'max': [10000000]
+				},
+				format: {
+					to: function (value) {
+						return numberFormat(value);
+					},
+					from: function (value) {
+						return value.replace('Rp. ', '').replace(/\./g, '');
+					}
+				}
+		});
+
+		var nodes = [
+				lowerValue,
+				upperValue
+		];
+
+		nonLinearSlider.noUiSlider.on('update', function (values, handle, unencoded, isTap, positions) {
+				nodes[handle].innerHTML = values[handle];
+				filterRange(values); 
+		});
+	}
+
+	function filterRange(values) {
+		var lowerPrice = parseInt(values[0].replace(/\./g, '')); 
+		var upperPrice = parseInt(values[1].replace(/\./g, '')); 
+
+		$.ajax({
+				url: '/filter-range', 
+				method: 'GET',
+				data: {
+					lowerPrice: lowerPrice,
+					upperPrice: upperPrice
+				},
+				success: function (response) {
+					let productList = document.getElementById('product-list');
+					productList.innerHTML = renderProductList(response);
+				},
+				error: function (error) {
+					console.error('Error:', error);
+				}
+		});
+	}
+	});
 
 	categoryInputs.forEach(function(input) {
 		input.addEventListener('change', function() {
@@ -181,13 +260,13 @@
 
 	inputs.forEach(function(input) {
 		if (input.checked) {
-		if (input.id.includes('category') && input.value !== 'all') {
-			selectedValues.categories.push(input.value);
-		} else if (input.id.includes('color') && input.value !== 'all') {
-			selectedValues.colors.push(input.value);
-		} else if (input.id.includes('size') && input.value !== 'all') {
-			selectedValues.sizes.push(input.value);
-		}
+			if (input.id.includes('category') && input.value !== 'all') {
+				selectedValues.categories.push(input.value);
+			} else if (input.id.includes('color') && input.value !== 'all') {
+				selectedValues.colors.push(input.value);
+			} else if (input.id.includes('size') && input.value !== 'all') {
+				selectedValues.sizes.push(input.value);
+			}
 		}
 	});
 
