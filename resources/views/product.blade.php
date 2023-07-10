@@ -115,17 +115,22 @@
 							@if ($productComments->count())
 							@foreach ($productComments as $productComment)
 								<div class="comment_list">
-									<div class="review_item">
+									<div class="comment_item">
 										<div class="media">
 											<div class="media-body">
-												<h4>{{ $productComment->name }}</h4>
-												<h5>{{ $productComment->created_at->format('F j, Y \a\t g:i a') }}</h5>
+												<h6>{{ $productComment->name }}</h6>
+												<a>{{ $productComment->created_at->format('F j, Y \a\t g:i a') }}</a>
 											</div>
 										</div>
 										<p>{{ $productComment->message }}</p>
 									</div>
+									
 								</div>
-							@endforeach
+								@endforeach
+
+								<div class="text-center mt-5">
+									<button id="loadMore" class="primary-btn border-0">Load More</button>
+								</div>
 							@else
 								<h4 class="d-flex justify-content-center align-items-center my-5">There are no comments for now</h4>
 							@endif
@@ -204,6 +209,10 @@
 										</div>
 									@endforeach
 								</div>
+
+								<div class="text-center mt-5">
+									<button id="loadMoreBtn" class="primary-btn border-0">Load More</button>
+								</div>
 							@else
 								<h4 class="d-flex justify-content-center my-5">There are no reviews for now</h4>
 							@endif
@@ -251,5 +260,55 @@
 		</div>
 	</section>
 
+	<script>
+		$(function() {
+			let reviewsPerPage = 3;
+			let reviewItems = $("div.review_item");
+			let totalReviews = reviewItems.length;
+			let displayedReviews = reviewsPerPage;
+	
+			reviewItems.slice(reviewsPerPage).hide();
+	
+			if (totalReviews <= reviewsPerPage) {
+				$("#loadMoreBtn").hide();
+			}
+	
+			$("#loadMoreBtn").on('click', function(e) {
+				e.preventDefault();
+				reviewItems.slice(displayedReviews, displayedReviews + reviewsPerPage).slideDown();
+				displayedReviews += reviewsPerPage;
+	
+				if (displayedReviews >= totalReviews) {
+					$("#loadMoreBtn").hide();
+				}
+			});
+		});
+
+		$(function() {
+			let commentsPerPage = 3;
+			let commentItems = $("div.comment_item");
+			let totalComments = commentItems.length;
+			let displayedComments = commentsPerPage;
+	
+			commentItems.slice(commentsPerPage).hide();
+	
+			if (totalComments <= commentsPerPage) {
+				$("#loadMore").hide();
+			}
+	
+			$("#loadMore").on('click', function(e) {
+				e.preventDefault();
+				commentItems.slice(displayedComments, displayedComments + commentsPerPage).slideDown();
+				displayedComments += commentsPerPage;
+	
+				if (displayedComments >= totalComments) {
+					$("#loadMore").hide();
+				}
+			});
+		});
+	</script>
+	
+	
+	
 @endsection
 

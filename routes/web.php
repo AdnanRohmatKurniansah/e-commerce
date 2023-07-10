@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Models\Blog;
@@ -105,6 +106,11 @@ Route::post('/checkout/getDistricts', [OrderController::class, 'getDistricts']);
 Route::post('/checkout/getVillages', [OrderController::class, 'getVillages']);
 Route::post('/checkout/cost', [OrderController::class, 'cost']);
 
+Route::middleware('auth')->group(function() {
+    Route::post('/doCheckout', [OrderController::class, 'doCheckout']);
+    Route::get('/invoice/{id}', [PaymentController::class, 'invoice']);
+    Route::get('/transaction', [PaymentController::class, 'transaction']);
+});
 
 Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
     Route::get('/', function () {

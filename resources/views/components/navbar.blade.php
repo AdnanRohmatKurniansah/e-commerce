@@ -24,6 +24,7 @@
                     <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
                   @else
                     <li class="nav-item"><a class="nav-link" href="/show_cart">Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/transaction">Transaction</a></li>
                   @endif
                   <li class="nav-item">
                     <form action="/logout" method="post">
@@ -43,7 +44,9 @@
             @php
               $user = Auth::user();
               $id = $user->id;
-              $count = \App\Models\Cart::where('user_id', '=', $id)->count();
+              $count = \App\Models\Cart::where('user_id', $id)
+                      ->whereDoesntHave('orders')
+                      ->count();
             @endphp
             <li class="nav-item"><a href="/show_cart" class="cart"><span class="ti-bag"></span><sup class="pl-1 text-info">{{ $count }}</sup></a></li>
             @endauth

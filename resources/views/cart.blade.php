@@ -105,6 +105,25 @@
                 </div>
                 @endif
             </div>
+
+            @if ($carts->perPage() > 10)
+                <div class="d-flex flex-wrap align-items-center justify-content-center">
+                    <ul class="pagination">
+                        <li class="page-item {{ ($carts->currentPage() == 1) ? 'disabled' : '' }}">
+                            <a class="page-link" href="{{ $carts->previousPageUrl() }}"><i class="fa fa-long-arrow-left"></i></a>
+                        </li>
+                        @foreach ($carts->getUrlRange(1, $carts->lastPage()) as $page => $url)
+                            <li class="page-item {{ ($carts->currentPage() == $page) ? 'active' : '' }}">
+                                <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                            </li>
+                        @endforeach
+                        <li class="page-item {{ ($carts->currentPage() == $carts->lastPage()) ? 'disabled' : '' }}">
+                            <a class="page-link" href="{{ $carts->nextPageUrl() }}"><i class="fa fa-long-arrow-right"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            @endif
+
         </div>
     </section>
     

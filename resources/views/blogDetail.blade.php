@@ -42,20 +42,24 @@
                         @if ($blogComments->count())  
                             <h4>{{ $blogComments->count() }} Comments</h4>
                             @foreach ($blogComments as $blogComment) 
-                            <div class="comment-list">
-                                <div class="single-comment justify-content-between d-flex">
-                                    <div class="user justify-content-between d-flex">
-                                        <div class="desc">
-                                            <h5><a>{{ $blogComment->name }}</a></h5>
-                                            <p class="date">{{ $blogComment->created_at->format('F j, Y \a\t g:i a') }}</p>
-                                            <p class="comment">
-                                                {{ $blogComment->message }}
-                                            </p>
+                                <div class="comment-list">
+                                    <div class="single-comment justify-content-between d-flex">
+                                        <div class="user justify-content-between d-flex">
+                                            <div class="desc">
+                                                <h5><a>{{ $blogComment->name }}</a></h5>
+                                                <p class="date">{{ $blogComment->created_at->format('F j, Y \a\t g:i a') }}</p>
+                                                <p class="comment">
+                                                    {{ $blogComment->message }}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
+                            <div class="text-center mt-5">
+                                <button id="loadMore" class="primary-btn border-0">Load More</button>
                             </div>
-                            @endforeach
+
                         @else
                             <h2 class="my-5 text-center">There are no comments for now</h2>
                         @endif
@@ -133,4 +137,30 @@
             </div>
         </div>
     </section>
+
+    <script>
+        $(function() {
+			let commentPerPage = 3;
+			let commentItem = $("div.comment-list");
+			let totalComment = commentItem.length;
+			let displayedComment = commentPerPage;
+	
+			commentItem.slice(commentPerPage).hide();
+	
+			if (totalComment <= commentPerPage) {
+				$("#loadMore").hide();
+			}
+	
+			$("#loadMore").on('click', function(e) {
+				e.preventDefault();
+				commentItem.slice(displayedComment, displayedComment + commentPerPage).slideDown();
+				displayedComment += commentPerPage;
+	
+				if (displayedComment >= totalComment) {
+					$("#loadMore").hide();
+				}
+			});
+		});
+    </script>
+
 @endsection

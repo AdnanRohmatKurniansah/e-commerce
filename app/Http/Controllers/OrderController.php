@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Courier;
 use App\Models\District;
+use App\Models\Order;
 use App\Models\Province;
 use App\Models\Regency;
 use App\Models\Village;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use function PHPUnit\Framework\isEmpty;
 
@@ -93,5 +95,82 @@ class OrderController extends Controller
     
     return response()->json(['services' => $services]);  
     }
+    
+    public function doCheckout(Request $request) 
+    {
+        $id = Auth::user()->id;
+        $carts = Cart::where('user_id', '=', $id)->get();
 
+        $data = $request->validate([
+            'fname' => 'required|max:255',
+            'lname' => 'required|max:255',
+            'pnumber' => 'required',
+            'email' => 'required|email:dns',
+            'province' => 'required',
+            'regency' => 'required',
+            'district' => 'required',
+            'village' => 'required',
+            'street' => 'required',
+            'zip' => 'required',
+            'note' => 'required',
+            'courier' => 'required',
+            'cart_ids' => 'required|array'
+        ]);
+
+        if ($request->ship_to === 'on') {
+            $data['fname'] = $request->input('difFname');
+            $data['lname'] = $request->input('difLname');
+            $data['pnumber'] = $request->input('difPnumber');
+            $data['email'] = $request->input('difEmail');
+            $data['province'] = $request->input('difProvince');
+            $data['regency'] = $request->input('difRegency');
+            $data['district'] = $request->input('difDistrict');
+            $data['village'] = $request->input('difVillage');
+            $data['street'] = $request->input('difStreet');
+            $data['zip'] = $request->input('difZip');
+        }
+            
+        $service = $request->shipping;
+        $serviceArray = explode(' | ',$service);
+
+        $data['service'] = $serviceArray[0] . ' | ' . $serviceArray[2];
+        $shippingCost = (int) preg_replace('/[^\d]/', '', $serviceArray[1]);
+        $data['shipping_cost'] = $shippingCost;
+
+        $data['sub_total'] = $carts->sum('total');
+        $data['total'] = $carts->sum('total') + $data['shipping_cost'];
+
+        $data['user_id'] = $id;
+
+        $order = Order::create($data);
+        $order->carts()->sync($data['cart_ids']);
+
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+            
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => $order->id,
+                'gross_amount' => $order->total,
+            ),
+            'customer_details' => array(
+                'first_name' => $order->fname,
+                'last_name' => $order->lname,
+                'phone' => $order->phone,
+            ),
+        );
+            
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+        $order->snaptoken = $snapToken;
+        $order->save();
+
+        return redirect('/invoice/' . $order->id)->with('success', 'Your order has been received');
+    }
 }

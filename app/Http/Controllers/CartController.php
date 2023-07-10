@@ -48,40 +48,40 @@ class CartController extends Controller
                     Cart::create($data);
                 }
 
-                return redirect('/show_cart')->with('success', 'Your shopping items have been added to the shopping cart');
+                return redirect('/show_cart')->with('success', 'Successfully added to cart');
             }   
             else
             {
                 return redirect('/login')->with('logFirst', 'You Must Login First');
             }
     }
-    public function show_cart() 
-    {
-        if (Auth::id()) 
-        {
-            $user = Auth::user();
+    public function show_cart()
+{
+    if (Auth::id()) {
+        $user = Auth::user();
 
-            if ($user->role === 'admin') {
-                return redirect()->back();
-            }
-
-            $id = $user->id;
-            $carts = Cart::where('user_id', '=', $id)->get();
-            return view('cart', [
-                'title' => 'Your Cart',
-                'carts' => $carts,
-                'subTotal' => $carts->sum('total'),
-                'subWeight' => $carts->sum('allWeight')
-            ]);
-        } 
-        else 
-        {
-            return redirect('/login')->with('logFirst', 'You Must Login First');
+        if ($user->role === 'admin') {
+            return redirect()->back();
         }
+
+        $id = $user->id;
+        $carts = Cart::where('user_id', $id)
+            ->whereDoesntHave('orders')->paginate(10);
+
+        return view('cart', [
+            'title' => 'Your Cart',
+            'carts' => $carts,
+            'subTotal' => $carts->sum('total'),
+            'subWeight' => $carts->sum('allWeight')
+        ]);
+    } else {
+        return redirect('/login')->with('logFirst', 'You Must Login First');
     }
+}
+
     public function remove_cart(Cart $cart) {
         Cart::destroy($cart->id);
-        return redirect('/show_cart')->with('success', 'Item Was Successfully Removed From Your Shopping Cart!');
+        return redirect('/show_cart')->with('success', 'Successfully removed to cart');
     }
     public function update_cart(Request $request, $id)
     {

@@ -27,6 +27,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Cart::class);
     }
+    public function orders() {
+        return $this->hasMany(Order::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
