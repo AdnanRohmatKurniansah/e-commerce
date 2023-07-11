@@ -11,6 +11,7 @@ use App\Models\Regency;
 use App\Models\Village;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use function PHPUnit\Framework\isEmpty;
@@ -22,7 +23,8 @@ class OrderController extends Controller
         if (Auth::id()) 
         {   
             $id = Auth::user()->id;
-            $carts = Cart::where('user_id', '=', $id)->get();
+            $carts = Cart::where('user_id', $id)
+                    ->whereDoesntHave('orders')->get();
             if ($carts === isEmpty()) {
                 return redirect('/cart')->with('logFirst', 'Your Cart is Empty');
             }
@@ -74,7 +76,8 @@ class OrderController extends Controller
     public function cost(Request $request) 
     {   
         $id = Auth::user()->id;
-        $carts = Cart::where('user_id', '=', $id)->get();
+        $carts = Cart::where('user_id', $id)
+                ->whereDoesntHave('orders')->get();
         
         $origin = env('RAJAONGKIR_ORIGIN'); 
         $destination = $request->provinceId;
@@ -99,7 +102,8 @@ class OrderController extends Controller
     public function doCheckout(Request $request) 
     {
         $id = Auth::user()->id;
-        $carts = Cart::where('user_id', '=', $id)->get();
+        $carts = Cart::where('user_id', $id)
+                ->whereDoesntHave('orders')->get();
 
         $data = $request->validate([
             'fname' => 'required|max:255',
@@ -162,6 +166,7 @@ class OrderController extends Controller
             'customer_details' => array(
                 'first_name' => $order->fname,
                 'last_name' => $order->lname,
+                'email' => $order->email,
                 'phone' => $order->phone,
             ),
         );
@@ -171,6 +176,6 @@ class OrderController extends Controller
         $order->snaptoken = $snapToken;
         $order->save();
 
-        return redirect('/invoice/' . $order->id)->with('success', 'Your order has been received');
+        return redirect('/invoice/' . Crypt::encryptString($order->id))->with('success', 'Your order has been received');
     }
 }
