@@ -46,9 +46,6 @@ class PaymentController extends Controller
                         $product->update(['qty' => $reduce]);
                     }
                 }
-            } else {
-                $order = Order::find($request->order_id);
-                $order->update(['status' => $request->transaction_status]);
             }
         } 
     }

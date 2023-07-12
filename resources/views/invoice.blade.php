@@ -163,25 +163,6 @@
                     icon: 'success',
                     title: 'Payment success!'
                 })
-                // $.ajaxSetup({
-                //     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-                // });
-                // $.ajax({
-                //     url: '/callback',
-                //     type: 'POST',
-                //     data: {
-                //         order_id: result.order_id,
-                //         // status_code: result.status_code,
-                //         // gross_amount: result.gross_amount,
-                //         // signature_key: result.signature_key
-                //     },
-                //     success: function(response) {
-                //         console.log(response);
-                //     },
-                //     error: function(error) {
-                //         console.log(error);
-                //     }
-                // });
                 console.log(result);
                 window.location.href = '/transaction'
             },
