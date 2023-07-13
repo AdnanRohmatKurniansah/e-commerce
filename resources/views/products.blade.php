@@ -204,6 +204,10 @@
 
 		nonLinearSlider.noUiSlider.on('update', function (values, handle, unencoded, isTap, positions) {
 				nodes[handle].innerHTML = values[handle];
+		});
+
+		nonLinearSlider.noUiSlider.on('change', function (values, handle, unencoded, isTap, positions) {
+				nodes[handle].innerHTML = values[handle];
 				filterRange(values); 
 		});
 	}
@@ -221,6 +225,7 @@
 				},
 				success: function (response) {
 					let productList = document.getElementById('product-list');
+					console.log(response)
 					productList.innerHTML = renderProductList(response);
 				},
 				error: function (error) {

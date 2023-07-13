@@ -22,6 +22,7 @@
             <thead>
               <tr>
                 <th>No</th>
+                <th>Image</th>
                 <th>Title</th>
                 <th>Blog Category</th>
                 <th>Author</th>
@@ -32,15 +33,16 @@
               @foreach ($blogs as $blog)  
               <tr>
                   <td>{{ $loop->iteration }}</td>
+                  <td><img src="{{ asset('storage/' . $blog->image) }}" width="50" alt=""></td>
                   <td>{{ $blog->title }}</td>
                   <td>{{ $blog->blogCategory->name }}</td>
                   <td>{{ $blog->author }}</td>
                   <td class="d-flex">
-                    <a href="/dashboard/blogs/{{ $blog->slug }}/edit"><i class="badge-circle badge-circle-light-secondary" data-feather="edit"></i></a>
+                    <a class="fs-5" href="/dashboard/blogs/{{ $blog->slug }}/edit"><i class="badge-circle badge-circle-light-secondary" data-feather="edit"></i></a>
                     <form action="/dashboard/blogs/{{ $blog->slug }}" method="post">
                       @method('delete')
                       @csrf
-                        <button class="badge-circle badge-circle-light-secondary text-red border-0" style="background-color: transparent" onclick="return confirm('Are you sure?')" type="submit"><i data-feather="trash"></i></button>
+                        <button class="fs-5 badge-circle badge-circle-light-secondary text-red border-0" style="background-color: transparent" onclick="return confirm('Are you sure?')" type="submit"><i data-feather="trash"></i></button>
                     </form>
                 </td>
               </tr>

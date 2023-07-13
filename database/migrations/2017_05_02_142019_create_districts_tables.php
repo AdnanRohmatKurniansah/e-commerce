@@ -23,7 +23,7 @@ class CreateDistrictsTables extends Migration
         Schema::create('districts', function(Blueprint $table){
             $table->char('id', 7)->index();
             $table->char('regency_id', 4);
-            $table->string('name', 50);
+            $table->string('name');
             $table->foreign('regency_id')
                 ->references('id')
                 ->on('regencies')

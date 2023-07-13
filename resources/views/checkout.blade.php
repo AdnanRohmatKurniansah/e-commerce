@@ -73,11 +73,6 @@
                                 </select>
                             </div>
                             <div class="col-md-12 form-group p_star">
-                                <select class="country_select" name="village" id="village" required>
-                                    <option>-- Village --</option>
-                                </select>
-                            </div>
-                            <div class="col-md-12 form-group p_star">
                                 <input type="text" class="form-control @error('street') is-invalid @enderror" value="{{ old('street') }}" placeholder="Street Address" id="add2" name="street" required>
                                 @error('street')
                                     <div class="invalid-feedback">
@@ -131,11 +126,6 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-12 form-group p_star">
-                                                <select class="country_select" name="difVillage" id="difVillage">
-                                                    <option>-- Village --</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-12 form-group p_star">
                                                 <input type="text" class="form-control" id="add2" name="difStreet" placeholder="Street Address">
                                             </div>
                                             <div class="col-md-12 form-group">
@@ -162,7 +152,7 @@
                                     <li><a>Product <span>Total</span></a></li>
                                     @foreach ($carts as $cart)
                                         <input type="hidden" name="cart_ids[]" value="{{ $cart->id }}">
-                                        <li><a>{{ $cart->product_name }}<span class="middle">x {{ $cart->qty }}</span><span class="last">Rp. {{ number_format($cart->price, 0, ',', '.') }}</span></a></li>
+                                        <li><a>{{ Str::limit($cart->product_name, 10) }}<span class="middle">x {{ $cart->qty }}</span><span class="last">Rp. {{ number_format($cart->price, 0, ',', '.') }}</span></a></li>
                                     @endforeach
                                 </ul>
                                 <ul class="list list_2">
@@ -244,24 +234,6 @@
                     })
                 });
 
-                $('#district').on('change', function() {
-                    let id_district = $('#district').val();
-                    $.ajax({
-                        type: 'POST',
-                        url: '/checkout/getVillages',
-                        data: {id_district: id_district},
-                        cache: false,
-
-                        success: function(msg) {
-                            console.log("Received data:",msg);
-                            $('#village').html(msg).niceSelect('update');
-                        },
-                        error: function(data) {
-                            console.log('error:', data)
-                        },
-                    })
-                });
-
                 $('#difProvince').on('change', function() {
                     let id_province = $('#difProvince').val();
                     $.ajax({
@@ -291,24 +263,6 @@
                         success: function(msg) {
                             console.log("Received data:",msg);
                             $('#difDistrict').html(msg).niceSelect('update');
-                        },
-                        error: function(data) {
-                            console.log('error:', data)
-                        },
-                    })
-                });
-
-                $('#difDistrict').on('change', function() {
-                    let id_district = $('#difDistrict').val();
-                    $.ajax({
-                        type: 'POST',
-                        url: '/checkout/getVillages',
-                        data: {id_district: id_district},
-                        cache: false,
-
-                        success: function(msg) {
-                            console.log("Received data:",msg);
-                            $('#difVillage').html(msg).niceSelect('update');
                         },
                         error: function(data) {
                             console.log('error:', data)
@@ -350,6 +304,14 @@
                             });
                             $('#shipping').niceSelect('update');
 
+                            if($('#f-option3').on('change', function() {
+                                $('#shipping').empty();
+                                $('#shipping').append('<option value="cost">-- Select Service --</option>');
+                                $('#courier').val('');
+                                $('#shipping').niceSelect('update');
+                                $('#courier').niceSelect('update');
+                            }))
+
                             $('#shipping').on('change', function() {
                                 let subtotal = {{ $subTotal }};
                                 let values = $('#shipping').val()
@@ -369,6 +331,7 @@
                     let formatted = ribuan.join('.').split('').reverse().join('');
                     return formatted;
                 }
+                
             });
         });
 

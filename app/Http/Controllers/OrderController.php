@@ -63,16 +63,16 @@ class OrderController extends Controller
             echo "<option value='$district->id'>$district->name</option>";
         }
     }
-    public function getVillages(Request $request) 
-    {
-        $id_district = $request->id_district;
+    // public function getVillages(Request $request) 
+    // {
+    //     $id_district = $request->id_district;
 
-        $villages = Village::where('district_id', $id_district)->get();
+    //     $villages = Village::where('district_id', $id_district)->get();
 
-        foreach ($villages as $village) {
-            echo "<option value='$village->id'>$village->name</option>";
-        }
-    }
+    //     foreach ($villages as $village) {
+    //         echo "<option value='$village->id'>$village->name</option>";
+    //     }
+    // }
     public function cost(Request $request) 
     {   
         $id = Auth::user()->id;
@@ -80,7 +80,7 @@ class OrderController extends Controller
                 ->whereDoesntHave('orders')->get();
         
         $origin = env('RAJAONGKIR_ORIGIN'); 
-        $destination = $request->provinceId;
+        $destination = $request->regencyId;
         $weight = $carts->sum('allWeight');
         $courier = $request->courier;
 
@@ -113,7 +113,6 @@ class OrderController extends Controller
             'province' => 'required',
             'regency' => 'required',
             'district' => 'required',
-            'village' => 'required',
             'street' => 'required',
             'zip' => 'required',
             'note' => 'required',
@@ -129,7 +128,6 @@ class OrderController extends Controller
             $data['province'] = $request->input('difProvince');
             $data['regency'] = $request->input('difRegency');
             $data['district'] = $request->input('difDistrict');
-            $data['village'] = $request->input('difVillage');
             $data['street'] = $request->input('difStreet');
             $data['zip'] = $request->input('difZip');
         }

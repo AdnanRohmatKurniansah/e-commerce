@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -24,6 +25,10 @@ class PaymentController extends Controller
     {
         $id = Auth::user()->id;
         $orders = Order::where('user_id', '=', $id)->paginate(10);
+        Order::where('user_id', '=', $id)
+            ->where('status', '==', 'unpaid')
+            ->where('created_at', '<=', DB::raw('due_date'))
+            ->update(['status' => 'expired']);
 
         return view('transaction', [
             'title' => 'Transaction',

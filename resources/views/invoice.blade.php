@@ -56,10 +56,6 @@
                                 $district = \App\Models\District::where('id', $order->district)->pluck('name')->first();
                             @endphp
                             <li><a><span>District</span> : {{ $district }}</a></li>
-                            @php
-                                $village = \App\Models\Village::where('id', $order->village)->pluck('name')->first();
-                            @endphp
-                            <li><a><span>Village</span> : {{ $village }}</a></li>
                             <li><a><span>Postcode </span> : {{ $order->zip }}</a></li>
                         </ul>
                     </div>
@@ -130,9 +126,11 @@
                     </table>
                 </div>
             </div>
+            @if ($order->status === 'unpaid')
             <div class="pay d-flex justify-content-end mt-3" >
                 <button id="pay-btn" type="submit" class="primary-btn rounded-0 border-0">Pay Now</button>
             </div>
+            @endif
         </div>
 </section>
 

@@ -23,7 +23,8 @@ class CreateRegenciesTables extends Migration
         Schema::create('regencies', function(Blueprint $table){
             $table->char('id', 4)->index();
             $table->char('province_id', 2);
-            $table->string('name', 50);
+            $table->string('name');
+            $table->string('postal_code');
             $table->foreign('province_id')
                 ->references('id')
                 ->on('provinces')

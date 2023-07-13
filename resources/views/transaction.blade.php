@@ -30,8 +30,8 @@
                                 <th scope="col">Product</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Order date</th>
-                                <th scope="col">Shipping cost</th>
                                 <th scope="col">Total</th>
+                                <th scope="col">Due date</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -53,13 +53,13 @@
                                     <h5>{{ implode(', ', $order->carts->pluck('qty')->toArray()) }}</h5>
                                 </td>
                                 <td>
-                                    <h5>{{ $order->created_at->format('d M Y') }}</h5>
+                                    <h5>{{ $order->created_at->format('d M Y h:i') }}</h5>
                                 </td>                        
                                 <td>
-                                    <h5>RP. {{ number_format($order->shipping_cost, 0, ',', '.') }}</h5>
+                                    <h5>RP. {{ number_format($order->total, 0, ',', '.') }}</h5>
                                 </td>
                                 <td>
-                                    <h5>RP. {{ number_format($order->total, 0, ',', '.') }}</h5>
+                                    <h5>{{ \Carbon\Carbon::parse($order->due_date)->format('d M Y h:i') }}</h5>
                                 </td>
                                 @php
                                     $status = $order->status;
