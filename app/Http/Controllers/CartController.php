@@ -94,7 +94,17 @@ class CartController extends Controller
         $cart->total = $cart->qty * $cart->price;
         $cart->save();
 
-        return response()->json(['success' => 'Cart was successfully updated!']);
+        $userId = $cart->user_id;
+        $carts = Cart::where('user_id', $userId)
+            ->whereDoesntHave('orders')->paginate(10);
+        $subTotal = $carts->sum('total');
+
+        return response()->json(
+            [
+            'success' => 'Cart was successfully updated!', 
+            'total' => $cart->total, 
+            'subTotal' => $subTotal
+            ]);
     }
 
 

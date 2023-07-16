@@ -38,7 +38,7 @@
                         </thead>
                         <tbody>
                             @foreach ($carts as $cart) 
-                            <tr>
+                            <tr class="cart-item" data-cart-id="{{ $cart->id }}">
                                 <td>
                                     <div class="media">
                                         <div class="d-flex">
@@ -66,7 +66,7 @@
                                     </div>
                                 </td>                                
                                 <td>
-                                    <h5>RP. {{ number_format($cart->total, 0, ',', '.') }}</h5>
+                                    <h5 id="total{{ $cart->id }}">RP. {{ number_format($cart->total, 0, ',', '.') }}</h5>
                                 </td>
                                 <td>
                                     <form action="/remove_cart/{{ $cart->id }}" method="POST">
@@ -84,7 +84,7 @@
                                 <td></td>
                                 <td></td>
                                 <td><h5>Subtotal</h5></td>
-                                <td><h5>RP. {{ number_format($subTotal, 0, ',', '.') }}</h5></td>
+                                <td><h5 id="subTotal">RP. {{ number_format($subTotal, 0, ',', '.') }}</h5></td>
                             </tr>
                             <tr class="out_button_area">
                                 <td></td>
@@ -162,11 +162,22 @@
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        }
+                var totalElement = document.getElementById('total' + cartId);
+                totalElement.innerHTML = 'RP. ' + formatRupiah(data.total);
+                var subTotalElement = document.getElementById('subTotal');
+                subTotalElement.innerHTML = 'RP. ' + formatRupiah(data.subTotal);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            }
+            function formatRupiah(angka) {
+                let reverse = angka.toString().split('').reverse().join('');
+                let ribuan = reverse.match(/\d{1,3}/g);
+                let formatted = ribuan.join('.').split('').reverse().join('');
+                return formatted;
+            }
+        
     </script>
     
 
