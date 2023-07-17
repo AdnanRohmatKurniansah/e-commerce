@@ -18,13 +18,12 @@ class PaymentController extends Controller
 
         return view('invoice', [
             'order' => $order,
-            'title' => 'Invoice'
+            'title' => 'INV' . str_pad($order->id, 5, '0', STR_PAD_LEFT)
         ]);
     }
     public function transaction() 
     {
         $id = Auth::user()->id;
-        $orders = Order::where('user_id', '=', $id)->paginate(10);
         Order::where('user_id', '=', $id)
             ->where('status', '==', 'unpaid')
             ->where('created_at', '<=', DB::raw('due_date'))
@@ -32,7 +31,6 @@ class PaymentController extends Controller
 
         return view('transaction', [
             'title' => 'Transaction',
-            'orders' => $orders,
         ]);
     }
     public function callback(Request $request)
@@ -54,6 +52,4 @@ class PaymentController extends Controller
             }
         } 
     }
-
-
 }

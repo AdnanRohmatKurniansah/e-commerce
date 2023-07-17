@@ -18,7 +18,7 @@
         <div class="card-body">
         </div>
         <div class="table-responsive">
-          <table class="table table-striped mb-0">
+          <table class="table table-striped mb-0" id="table1">
             <thead>
               <tr>
                 <th>No</th>
@@ -52,19 +52,6 @@
         </div>
       </div>
     </div>
-
-    <div class="d-flex justify-content-center mt-5">
-      <ul class="pagination pagination-primary">
-          <li class="page-item"><a class="page-link" href="{{ $blogs->previousPageUrl() }}">Prev</a></li>
-          @foreach ($blogs->getUrlRange(1, $blogs->lastPage()) as $page => $url)
-              <li class="page-item {{ $blogs->currentPage() == $page ? 'active' : '' }}">
-                  <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-              </li>
-          @endforeach
-          <li class="page-item"><a class="page-link" href="{{ $blogs->nextPageUrl() }}">Next</a></li>
-      </ul>        
-    </div>
-
   </div>
 </div>
 

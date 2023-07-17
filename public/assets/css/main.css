@@ -1757,7 +1757,8 @@ h1, h2, h3, h4, h5, h6 {
 .details-tab-navigation {
   background: #f9fafc; }
   .details-tab-navigation .nav-tabs {
-    border: none; }
+    border: none; 
+  }
   .details-tab-navigation .nav-link {
     border: 1px solid #eee;
     background: #fff;
@@ -4008,7 +4009,7 @@ label {
   padding-bottom: 120px;
   margin-top: 60px; }
   .product_description_area .nav.nav-tabs {
-    background: #e8f0f2;
+    background: #faf9ff;
     text-align: center;
     display: block;
     border: none;
@@ -4039,10 +4040,9 @@ label {
           color: #fff;
           border: 1px solid transparent; }
   .product_description_area .tab-content {
-    border-left: 1px solid #eee;
-    border-right: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-    padding: 30px; }
+    padding: 30px;  
+    min-height: 300px;
+  }
     .product_description_area .tab-content .total_rate .box_total {
       background: #e8f0f2;
       text-align: center;
@@ -4077,12 +4077,9 @@ label {
       .product_description_area .tab-content .total_rate .rating_list .list li:nth-child a i:last-child {
         color: #eeeeee; }
     .product_description_area .tab-content .table {
-      margin-bottom: 0px; }
-      .product_description_area .tab-content .table tbody tr td {
-        padding-left: 65px;
-        padding-right: 65px;
-        padding-top: 14px;
-        padding-bottom: 14px; }
+      margin-bottom: 0px; 
+    }
+      
         .product_description_area .tab-content .table tbody tr td h5 {
           font-size: 14px;
           font-family: "Roboto", sans-serif;
@@ -5843,3 +5840,5 @@ label {
 .rating > input:checked ~ label:hover ~ label {
   color: #FECE31;
 }
+
+

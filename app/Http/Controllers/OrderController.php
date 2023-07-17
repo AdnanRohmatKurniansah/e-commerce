@@ -8,11 +8,10 @@ use App\Models\District;
 use App\Models\Order;
 use App\Models\Province;
 use App\Models\Regency;
-use App\Models\Village;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use function PHPUnit\Framework\isEmpty;
 
@@ -63,16 +62,6 @@ class OrderController extends Controller
             echo "<option value='$district->id'>$district->name</option>";
         }
     }
-    // public function getVillages(Request $request) 
-    // {
-    //     $id_district = $request->id_district;
-
-    //     $villages = Village::where('district_id', $id_district)->get();
-
-    //     foreach ($villages as $village) {
-    //         echo "<option value='$village->id'>$village->name</option>";
-    //     }
-    // }
     public function cost(Request $request) 
     {   
         $id = Auth::user()->id;
@@ -143,6 +132,8 @@ class OrderController extends Controller
         $data['total'] = $carts->sum('total') + $data['shipping_cost'];
 
         $data['user_id'] = $id;
+        $dueDate = Carbon::parse($request->created_at)->addDay();
+        $data['due_date'] = $dueDate;
 
         $order = Order::create($data);
         $order->carts()->sync($data['cart_ids']);

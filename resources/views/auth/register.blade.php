@@ -58,10 +58,9 @@
 							</div>
 							<div class="col-md-12 form-group">
 								<button type="submit" value="submit" class="primary-btn">Register</button>
-								<p class="my-3">Already have an account? <a class="text-info" href="/login">login now</a></p>
 							</div>
+							<p class="d-flex mx-auto text-center mt-3">Already have an account ?<a href="/login" class="text-decoration-none ml-1"> Login Now!</a></p>
 						</form>
-						
 					</div>
 				</div>
 			</div>

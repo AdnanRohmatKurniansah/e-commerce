@@ -18,7 +18,7 @@ class BlogController extends Controller
     public function index()
     {
         return view('dashboard.blogs.index', [
-            'blogs' => Blog::latest()->paginate(20)
+            'blogs' => Blog::orderBy('id', 'desc')->get()
         ]);
     }
 
@@ -155,7 +155,7 @@ class BlogController extends Controller
     public function comment() 
     {
         return view('dashboard.blogs.comments.index', [
-            'blogComments' => BlogComment::latest()->paginate(20)
+            'blogComments' => BlogComment::orderBy('id', 'desc')->get()
         ]);
     }
     public function removeComment(BlogComment $blogComment) {

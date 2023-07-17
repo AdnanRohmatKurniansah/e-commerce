@@ -16,6 +16,7 @@
 
 <section class="order_details section_gap">
         <div class="container">
+            <h3 class="ml-3 mb-5"><span>No Invoice</span> : #INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</h3>
             <div class="row order_d_inner">
                 <div class="col-lg-4">
                     <div class="details_item">
@@ -32,9 +33,9 @@
                     <div class="details_item">
                         <h4>Order Info</h4>
                         <ul class="list">
-                            <li><a><span>Order number</span> : {{ $order->id }}</a></li>
                             <li><a><span>Shipping</span> : {{ strtoupper($order->courier) }} | {{ $order->shipping_cost }} | {{ $order->service }}</a></li>
-                            <li><a><span>Date</span> : {{ $order->created_at->format('d M Y') }}</a></li>
+                            <li><a><span>Time Order</span> : {{ $order->created_at->format('d M Y h:i') }}</a></li>
+                            <li><a><span>Due Date</span> : {{ \Carbon\Carbon::parse($order->due_date)->format('d M Y h:i') }}</a></li>
                             <li><a><span>Total</span> : Rp. {{ number_format($order->total, 0, ',', '.') }}</a></li>
                         </ul>
                     </div>
@@ -45,17 +46,17 @@
                         <ul class="list">
                             <li><a><span>Street</span> : {{ $order->street }}</a></li>
                             @php
-                                $province = \App\Models\Province::where('id', $order->province)->pluck('name')->first();
+                                $district = \App\Models\District::where('id', $order->district)->pluck('name')->first();
                             @endphp
-                            <li><a><span>Province</span> : {{ $province }}</a></li>
+                            <li><a><span>District</span> : {{ $district }}</a></li>
                             @php
                                 $regency = \App\Models\Regency::where('id', $order->regency)->pluck('name')->first();
                             @endphp
                             <li><a><span>Regency</span> : {{ $regency }}</a></li>
                             @php
-                                $district = \App\Models\District::where('id', $order->district)->pluck('name')->first();
+                                $province = \App\Models\Province::where('id', $order->province)->pluck('name')->first();
                             @endphp
-                            <li><a><span>District</span> : {{ $district }}</a></li>
+                            <li><a><span>Province</span> : {{ $province }}</a></li>
                             <li><a><span>Postcode </span> : {{ $order->zip }}</a></li>
                         </ul>
                     </div>

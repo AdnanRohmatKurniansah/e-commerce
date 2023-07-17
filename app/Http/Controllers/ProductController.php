@@ -20,7 +20,7 @@ class ProductController extends Controller
     public function index()
     {
         return view('dashboard.products.index', [
-            'products' => Product::latest()->paginate(20)
+            'products' => Product::orderBy('id', 'desc')->get()
         ]);
     }
 
@@ -236,7 +236,7 @@ class ProductController extends Controller
     public function comment() 
     {
         return view('dashboard.products.comments.index', [
-            'productComments' => ProductComment::latest()->paginate(20)
+            'productComments' => ProductComment::orderBy('id', 'desc')->get()
         ]);
     }
     public function removeComment(ProductComment $productComment) {

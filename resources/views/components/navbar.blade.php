@@ -18,12 +18,18 @@
             @auth 
               <li class="nav-item submenu dropdown">
                 <a class="nav-link dropdown-toggle user" data-toggle="dropdown" role="button" aria-haspopup="true"
-                aria-expanded="false" href="#"><span class="ti-user"></span></a>
+                aria-expanded="false" href="#">
+                @if (auth()->user()->profile == null)
+                  <img src="/assets/admin/images/user.png" style="border-radius: 50%" width="25" alt="">
+                @else
+                  <img src="{{ asset('storage/' . auth()->user()->profile) }}" style="border-radius: 50%" width="25" alt="">
+                @endif
+              </a>
                 <ul class="dropdown-menu">
                   @if (auth()->user()->role == 'admin')
                     <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
                   @else
-                    <li class="nav-item"><a class="nav-link" href="/show_cart">Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/profile">Account</a></li>
                     <li class="nav-item"><a class="nav-link" href="/transaction">Transaction</a></li>
                   @endif
                   <li class="nav-item">

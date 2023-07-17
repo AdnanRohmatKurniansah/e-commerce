@@ -128,21 +128,23 @@
 							@endif
 						</div>
 					</section>
-					<div class="filter-bar d-flex flex-wrap align-items-center justify-content-center">
-						<ul class="pagination">
-							<li class="page-item {{ ($products->currentPage() == 1) ? 'disabled' : '' }}">
-								<a class="page-link" href="{{ $products->previousPageUrl() }}"><i class="fa fa-long-arrow-left"></i></a>
-							</li>
-							@foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
-								<li class="page-item {{ ($products->currentPage() == $page) ? 'active' : '' }}">
-									<a class="page-link" href="{{ $url }}">{{ $page }}</a>
+					@if ($products->perPage() > 12)
+						<div class="filter-bar d-flex flex-wrap align-items-center justify-content-center">
+							<ul class="pagination">
+								<li class="page-item {{ ($products->currentPage() == 1) ? 'disabled' : '' }}">
+									<a class="page-link" href="{{ $products->previousPageUrl() }}"><i class="fa fa-long-arrow-left"></i></a>
 								</li>
-							@endforeach
-							<li class="page-item {{ ($products->currentPage() == $products->lastPage()) ? 'disabled' : '' }}">
-								<a class="page-link" href="{{ $products->nextPageUrl() }}"><i class="fa fa-long-arrow-right"></i></a>
-							</li>
-						</ul>
-					</div>
+								@foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
+									<li class="page-item {{ ($products->currentPage() == $page) ? 'active' : '' }}">
+										<a class="page-link" href="{{ $url }}">{{ $page }}</a>
+									</li>
+								@endforeach
+								<li class="page-item {{ ($products->currentPage() == $products->lastPage()) ? 'disabled' : '' }}">
+									<a class="page-link" href="{{ $products->nextPageUrl() }}"><i class="fa fa-long-arrow-right"></i></a>
+								</li>
+							</ul>
+						</div>
+					@endif
 				</div>
 		</div>
 	</div>

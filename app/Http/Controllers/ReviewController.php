@@ -45,7 +45,7 @@ class ReviewController extends Controller
     public function review() 
     {
         return view('dashboard.products.reviews.index', [
-            'reviews' => Review::latest()->paginate(20)
+            'reviews' => Review::orderBy('id', 'desc')->get()
         ]);
     }
     public function removeReview(Review $review) 

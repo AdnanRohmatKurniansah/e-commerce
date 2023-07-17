@@ -66,23 +66,25 @@
                                 </article>
                             @endforeach
                         @else
-                            <h1 style="margin: 250px 0" class="mx-auto d-flex justify-content-center">Blog Not Found</h1>
+                            <h1 style="margin: 120px 0" class="mx-auto d-flex justify-content-center">Blog Not Found</h1>
                         @endif
-                        <nav class="blog-pagination justify-content-center d-flex">
-                            <ul class="pagination">
-                                <li class="page-item {{ ($blogs->currentPage() == 1) ? 'disabled' : '' }}">
-                                    <a class="page-link" href="{{ $blogs->previousPageUrl() }}"><i class="fa fa-long-arrow-left"></i></a>
-                                </li>
-                                @foreach ($blogs->getUrlRange(1, $blogs->lastPage()) as $page => $url)
-                                    <li class="page-item {{ ($blogs->currentPage() == $page) ? 'active' : '' }}">
-                                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                        @if ($blogs->perPage() > 3)
+                            <nav class="blog-pagination justify-content-center d-flex">
+                                <ul class="pagination">
+                                    <li class="page-item {{ ($blogs->currentPage() == 1) ? 'disabled' : '' }}">
+                                        <a class="page-link" href="{{ $blogs->previousPageUrl() }}"><i class="fa fa-long-arrow-left"></i></a>
                                     </li>
-                                @endforeach
-                                <li class="page-item {{ ($blogs->currentPage() == $blogs->lastPage()) ? 'disabled' : '' }}">
-                                    <a class="page-link" href="{{ $blogs->nextPageUrl() }}"><i class="fa fa-long-arrow-right"></i></a>
-                                </li>
-                            </ul>
-                        </nav>
+                                    @foreach ($blogs->getUrlRange(1, $blogs->lastPage()) as $page => $url)
+                                        <li class="page-item {{ ($blogs->currentPage() == $page) ? 'active' : '' }}">
+                                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                        </li>
+                                    @endforeach
+                                    <li class="page-item {{ ($blogs->currentPage() == $blogs->lastPage()) ? 'disabled' : '' }}">
+                                        <a class="page-link" href="{{ $blogs->nextPageUrl() }}"><i class="fa fa-long-arrow-right"></i></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-4 mb-5">

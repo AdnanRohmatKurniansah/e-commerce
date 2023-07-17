@@ -20,6 +20,7 @@ class CartController extends Controller
                 }
 
                 $existingCart = Cart::where('user_id', $user->id)
+                            ->whereDoesntHave('orders')
                             ->where('product_id', $product->id)
                             ->where('color', $request->color)
                             ->where('size', $request->size)
@@ -27,7 +28,8 @@ class CartController extends Controller
 
                 if ($existingCart) {
                     $existingCart->qty += $request->qty;
-                    $existingCart->price = $product->price * $existingCart->qty;
+                    $existingCart->total = $product->price * $existingCart->qty;
+                    $existingCart->allWeight = $product->weight * $existingCart->qty;
                     $existingCart->save();
                 } else {
                     $data = $request->validate([
@@ -48,7 +50,7 @@ class CartController extends Controller
                     Cart::create($data);
                 }
 
-                return redirect('/show_cart')->with('success', 'Successfully added to cart');
+                return redirect('/show_cart')->with('success', 'Successfully added');
             }   
             else
             {
@@ -56,32 +58,31 @@ class CartController extends Controller
             }
     }
     public function show_cart()
-{
-    if (Auth::id()) {
-        $user = Auth::user();
+    {
+        if (Auth::id()) {
+            $user = Auth::user();
 
-        if ($user->role === 'admin') {
-            return redirect()->back();
+            if ($user->role === 'admin') {
+                return redirect()->back();
+            }
+
+            $id = $user->id;
+            $carts = Cart::where('user_id', $id)
+                ->whereDoesntHave('orders')->paginate(10);
+
+            return view('cart', [
+                'title' => 'Your Cart',
+                'carts' => $carts,
+                'subTotal' => $carts->sum('total'),
+                'subWeight' => $carts->sum('allWeight')
+            ]);
+        } else {
+            return redirect('/login')->with('logFirst', 'You Must Login First');
         }
-
-        $id = $user->id;
-        $carts = Cart::where('user_id', $id)
-            ->whereDoesntHave('orders')->paginate(10);
-
-        return view('cart', [
-            'title' => 'Your Cart',
-            'carts' => $carts,
-            'subTotal' => $carts->sum('total'),
-            'subWeight' => $carts->sum('allWeight')
-        ]);
-    } else {
-        return redirect('/login')->with('logFirst', 'You Must Login First');
     }
-}
-
     public function remove_cart(Cart $cart) {
         Cart::destroy($cart->id);
-        return redirect('/show_cart')->with('success', 'Successfully removed to cart');
+        return redirect('/show_cart')->with('success', 'Successfully deleted ');
     }
     public function update_cart(Request $request, $id)
     {
@@ -92,6 +93,7 @@ class CartController extends Controller
         $cart = Cart::findOrFail($id);
         $cart->qty = $data['qty'];
         $cart->total = $cart->qty * $cart->price;
+        $cart->allWeight = $cart->weight * $cart->qty;
         $cart->save();
 
         $userId = $cart->user_id;
@@ -100,11 +102,11 @@ class CartController extends Controller
         $subTotal = $carts->sum('total');
 
         return response()->json(
-            [
+        [
             'success' => 'Cart was successfully updated!', 
             'total' => $cart->total, 
             'subTotal' => $subTotal
-            ]);
+        ]);
     }
 
 

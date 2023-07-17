@@ -20,7 +20,7 @@ class MessageController extends Controller
     }
     public function index() {
         return view('dashboard.messages.index', [
-            'messages' => Message::latest()->paginate(20)
+            'messages' => Message::orderBy('id', 'desc')->get()
         ]);
     }
     public function show($id) {

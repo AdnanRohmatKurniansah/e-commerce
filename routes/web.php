@@ -14,9 +14,12 @@ use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\BlogComment;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductComment;
 use App\Models\Review;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,7 +42,7 @@ Route::get('/', function () {
 Route::get('/products', function () {
     return view('products', [
         'title' => 'Products',
-        'products' => Product::orderBy('id', 'desc')->filter(request(['search']))->paginate(6),
+        'products' => Product::latest()->filter(request(['search']))->paginate(12),
         'categories' => Category::all(),
         'colors' => ['Black', 'White', 'Brown', 'Gray', 'Blue', 'Red', 'Green', 'Yellow', 'Pink', 'Purple'],
         'sizes' => ['32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', 'S', 'M', 'L', 'XL', 'XXL']
@@ -90,7 +93,12 @@ Route::middleware(['guest'])->group(function() {
     Route::post('/register', [AuthController::class, 'store']);
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
+Route::middleware('auth')->group(function() {
+    Route::get('/profile', [AuthController::class, 'profile']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::put('/update_profile', [AuthController::class, 'update_profile']);
+    Route::post('/update_password', [AuthController::class, 'update_password']);
+});
 
 Route::post('/addReview', [ReviewController::class, 'addReview']);
 Route::post('/addProductComment', [ProductController::class, 'addComment']);
@@ -103,7 +111,6 @@ Route::put('/update_cart/{id}', [CartController::class, 'update_cart']);
 Route::get('/checkout', [OrderController::class, 'show_checkout']);
 Route::post('/checkout/getRegencies', [OrderController::class, 'getRegencies']);
 Route::post('/checkout/getDistricts', [OrderController::class, 'getDistricts']);
-Route::post('/checkout/getVillages', [OrderController::class, 'getVillages']);
 Route::post('/checkout/cost', [OrderController::class, 'cost']);
 
 Route::middleware('auth')->group(function() {
@@ -133,4 +140,22 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
     Route::get('/messages', [MessageController::class, 'index']);
     Route::get('/messages/{message:id}/show', [MessageController::class, 'show']);
     Route::delete('/messages/{message:id}', [MessageController::class, 'removeMessage']);
+    Route::get('/orders', function() {
+        return view('dashboard.orders.index', [
+            'orders' => Order::latest()->paginate(20)
+        ]);
+    });
+    Route::get('/order/{id}', function($id) {
+        $url = Crypt::decryptString($id);
+        $order = Order::findOrFail($url);
+        
+        return view('dashboard.orders.show', [
+            'order' => $order
+        ]);
+    });
+    Route::get('profile', function() {
+        return view('dashboard.profile', [
+            'users' => Auth::user()
+        ]);
+    });
 });

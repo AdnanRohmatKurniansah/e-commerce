@@ -21,7 +21,6 @@ return new class extends Migration
                 $table->string('province');
                 $table->string('regency');
                 $table->string('district');
-                // $table->string('village');
                 $table->text('street');
                 $table->string('zip');
                 $table->string('note');
@@ -36,7 +35,7 @@ return new class extends Migration
 
                 $table->foreignId('user_id');
                 $table->timestamps();
-                $table->timestamp('due_date')->default(now()->addDay());
+                $table->timestamp('due_date');
             });
     }
 

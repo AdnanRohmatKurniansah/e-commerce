@@ -17,7 +17,7 @@
         <div class="card-body">
         </div>
         <div class="table-responsive">
-          <table class="table table-striped mb-0">
+          <table class="table table-striped mb-0" id="table1">
             <thead>
               <tr>
                 <th>No</th>
@@ -47,18 +47,6 @@
           </table>
         </div>
       </div>
-    </div>
-
-    <div class="d-flex justify-content-center mt-5">
-      <ul class="pagination pagination-primary">
-          <li class="page-item"><a class="page-link" href="{{ $productComments->previousPageUrl() }}">Prev</a></li>
-          @foreach ($productComments->getUrlRange(1, $productComments->lastPage()) as $page => $url)
-              <li class="page-item {{ $productComments->currentPage() == $page ? 'active' : '' }}">
-                  <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-              </li>
-          @endforeach
-          <li class="page-item"><a class="page-link" href="{{ $productComments->nextPageUrl() }}">Next</a></li>
-      </ul>        
     </div>
 
   </div>

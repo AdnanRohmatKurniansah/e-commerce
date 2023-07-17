@@ -14,7 +14,7 @@ class BlogCategoryController extends Controller
     public function index()
     {
         return view('dashboard.blogs.categories.index', [
-            'blogCategories' => BlogCategory::latest()->paginate(20)
+            'blogCategories' => BlogCategory::orderBy('id', 'desc')->get()
         ]);
     }
 

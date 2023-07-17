@@ -18,7 +18,7 @@
         <div class="card-body">
         </div>
         <div class="table-responsive">
-          <table class="table table-striped mb-0">
+          <table class="table table-striped mb-0" id="table1">
             <thead>
               <tr>
                 <th>No</th>
@@ -35,20 +35,25 @@
               @foreach ($products as $product)  
               <tr>
                   <td>{{ $loop->iteration }}</td>
-                  <td>{{ $product->name }}</td>
+                  <td>{{ Str::limit($product->name, 20) }}</td>
                   <td>Rp. {{ number_format($product->price, 0, ',', '.') }}</td>
                   <td>{{ $product->weight }} gram</td>
                   <td>{{ implode(', ', json_decode($product->color)) }}</td>
                   <td>{{ implode(', ', json_decode($product->size)) }}</td>
                   <td>{{ $product->qty }}</td>
-                  <td class="d-flex">
-                    <a href="/dashboard/products/{{ $product->slug }}/edit"><i class="badge-circle badge-circle-light-secondary" data-feather="edit"></i></a>
+                  <td style="vertical-align: middle; text-align: center;">
+                    <a  href="/dashboard/products/{{ $product->slug }}/edit">
+                      <i class="badge-circle badge-circle-light-secondary" data-feather="edit"></i>
+                    </a>
                     <form action="/dashboard/products/{{ $product->slug }}" method="post">
                       @method('delete')
                       @csrf
-                        <button class="badge-circle badge-circle-light-secondary text-red border-0" style="background-color: transparent" onclick="return confirm('Are you sure?')" type="submit"><i data-feather="trash"></i></button>
+                      <div class="my-1" style="border-bottom: 1px solid gray"></div>
+                      <button class="badge-circle badge-circle-light-secondary text-red border-0" style="background-color: transparent" onclick="return confirm('Are you sure?')" type="submit">
+                        <i data-feather="trash"></i>
+                      </button>
                     </form>
-                </td>
+                  </td>  
               </tr>
               @endforeach
             </tbody>
@@ -57,7 +62,7 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-center mt-5">
+    {{-- <div class="d-flex justify-content-center mt-5">
       <ul class="pagination pagination-primary">
           <li class="page-item"><a class="page-link" href="{{ $products->previousPageUrl() }}">Prev</a></li>
           @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
@@ -67,7 +72,7 @@
           @endforeach
           <li class="page-item"><a class="page-link" href="{{ $products->nextPageUrl() }}">Next</a></li>
       </ul>        
-  </div>
+  </div> --}}
 
   </div>
 </div>

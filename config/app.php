@@ -159,7 +159,6 @@ return [
         /*
          * Package Service Providers...
          */
-        AzisHapidin\IndoRegion\IndoRegionServiceProvider::class, 
         /*
          * Application Service Providers...
          */
@@ -168,6 +167,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        AzisHapidin\IndoRegion\IndoRegionServiceProvider::class, 
     ])->toArray(),
 
     /*

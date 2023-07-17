@@ -18,7 +18,7 @@
 	<link rel="stylesheet" href="/assets/css/ion.rangeSlider.css" />
 	<link rel="stylesheet" href="/assets/css/ion.rangeSlider.skinFlat.css" />
 	<link rel="stylesheet" href="/assets/css/magnific-popup.css">
-	<link rel="stylesheet" href="/assets/css/main.css?v=6">
+	<link rel="stylesheet" href="/assets/css/main.css?v=9">
 	<script src="/assets/js/vendor/jquery-2.2.4.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
 	 crossorigin="anonymous"></script>
@@ -36,7 +36,7 @@
 	
 	<script src="/assets/js/vendor/bootstrap.min.js"></script>
 	<script src="/assets/js/jquery.ajaxchimp.min.js"></script>
-	<script src="/assets/js/jquery.nice-select.min.js?v=3"></script>
+	<script src="/assets/js/jquery.nice-select.min.js?v=4"></script>
 	<script src="/assets/js/jquery.sticky.js"></script>
 	<script src="/assets/js/nouislider.min.js?v=1"></script>
 	<script src="/assets/js/countdown.js"></script>

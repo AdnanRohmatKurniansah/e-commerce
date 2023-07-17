@@ -17,7 +17,7 @@
         <div class="card-body">
         </div>
         <div class="table-responsive">
-          <table class="table table-striped mb-0">
+          <table class="table table-striped mb-0" id="table1">
             <thead>
               <tr>
                 <th>Name</th>
@@ -35,7 +35,9 @@
               <tr>
                   <td>{{ $message->name }}</td>
                   <td>{{ $message->email }}</td>
-                  <td class="{{ $class }}">{{ $message->status }}</td>
+                  <td>
+                    <span class="{{ $class }}">{{ $message->status }}</span>
+                  </td>
                   <td class="d-flex">
                     <a href="/dashboard/messages/{{ $message->id }}/show"><i class="badge-circle badge-circle-light-secondary" data-feather="eye"></i></a>
                     <form action="/dashboard/messages/{{ $message->id }}" method="post">
@@ -51,19 +53,6 @@
         </div>
       </div>
     </div>
-    
-    <div class="d-flex justify-content-center mt-5">
-        <ul class="pagination pagination-primary">
-            <li class="page-item"><a class="page-link" href="{{ $messages->previousPageUrl() }}">Prev</a></li>
-            @foreach ($messages->getUrlRange(1, $messages->lastPage()) as $page => $url)
-                <li class="page-item {{ $messages->currentPage() == $page ? 'active' : '' }}">
-                    <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-                </li>
-            @endforeach
-            <li class="page-item"><a class="page-link" href="{{ $messages->nextPageUrl() }}">Next</a></li>
-        </ul>        
-    </div>
-
   </div>
 </div>
 

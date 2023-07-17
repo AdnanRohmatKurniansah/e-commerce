@@ -304,13 +304,27 @@
                             });
                             $('#shipping').niceSelect('update');
 
-                            if($('#f-option3').on('change', function() {
-                                $('#shipping').empty();
-                                $('#shipping').append('<option value="cost">-- Select Service --</option>');
-                                $('#courier').val('');
-                                $('#shipping').niceSelect('update');
-                                $('#courier').niceSelect('update');
-                            }))
+                            $('#f-option3').on('change', function() {
+                                if ($('#f-option3').is(':checked')) {
+                                    $('#shipping').empty();
+                                    $('#shipping').append('<option value="cost">-- Select Service --</option>');
+                                    $('#courier').val('');
+                                    $('#shipping').niceSelect('update');
+                                    $('#courier').niceSelect('update');
+                                } else {
+                                    $('#shipping').empty();
+                                    $.each(response.services, function(index, service) {
+                                        let serviceName = service['service'];
+                                        let serviceCost = service['cost'][0]['value'];
+                                        let serviceEtd = service['cost'][0]['etd'];
+                                        let formattedServiceCost = formatRupiah(serviceCost);
+                                        let optionText = serviceName + ' | Rp. ' + formattedServiceCost + ' |  ' + serviceEtd;
+                                        $('#shipping').append('<option value="' + optionText + '">' + optionText + '</option>');
+                                    });
+                                    $('#shipping').niceSelect('update');
+                                    $('#courier').val(courier).niceSelect('update');
+                                }
+                            });
 
                             $('#shipping').on('change', function() {
                                 let subtotal = {{ $subTotal }};

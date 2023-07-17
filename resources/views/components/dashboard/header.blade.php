@@ -15,17 +15,22 @@
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-large">
                     <h6 class='py-2 px-4'>Notifications</h6>
                     <ul class="list-group rounded-none">
-                        <li class="list-group-item border-0 align-items-start">
-                            <div class="avatar bg-success me-3">
-                                <span class="avatar-content"><i data-feather="shopping-cart"></i></span>
-                            </div>
-                            <div>
-                                <h6 class='text-bold'>New Order</h6>
-                                <p class='text-xs'>
-                                    An order made by Ahmad Saugi for product Samsung Galaxy S69
-                                </p>
-                            </div>
-                        </li>
+                        @php
+                            $orders = \App\Models\Order::orderBy('id', 'desc')->paginate(3);
+                        @endphp
+                        @foreach ($orders as $order) 
+                            <li class="list-group-item border-0 align-items-start">
+                                <div class="avatar bg-success me-3">
+                                    <span class="avatar-content"><i data-feather="shopping-cart"></i></span>
+                                </div>
+                                <div>
+                                    <h6 class='text-bold'>New Order</h6>
+                                    <p class='text-xs'>
+                                        An order from {{ $order->fname }}
+                                    </p>
+                                </div>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </li>
@@ -69,13 +74,16 @@
             <li class="dropdown">
                 <a href="#" data-bs-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                     <div class="avatar me-1">
-                        <img src="assets/images/avatar/avatar-s-1.png" alt="" srcset="">
+                        @if (auth()->user()->profile == null)
+                            <img src="/assets/admin/images/user.png" alt="" srcset="">
+                        @else
+                            <img src="{{ asset('storage/' . auth()->user()->profile) }}" alt="" srcset="">
+                        @endif
                     </div>
                     <div class="d-none d-md-block d-lg-inline-block">Hi, {{ auth()->user()->name }}</div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="#"><i data-feather="user"></i> Account</a>
-                    <a class="dropdown-item" href="#"><i data-feather="mail"></i> Messages</a>
+                    <a class="dropdown-item" href="/dashboard/profile"><i data-feather="user"></i> Account</a>
                     <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a>
                     <div class="dropdown-divider"></div>
                     <form action="/logout" method="post">

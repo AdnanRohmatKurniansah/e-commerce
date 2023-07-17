@@ -50,8 +50,8 @@
 							</div>
 							<div class="col-md-12 form-group">
 								<button type="submit" value="submit" class="primary-btn">Log In</button>
-                                <p class="my-3">Don't have an account? <a class="text-info" href="/register">register now</a></p>
 							</div>
+							<p class="d-flex mx-auto text-center mt-3">Not Registered? <a href="/register" class="text-decoration-none ml-1"> Register Now!</a></p>
 						</form>
 					</div>
 				</div>
