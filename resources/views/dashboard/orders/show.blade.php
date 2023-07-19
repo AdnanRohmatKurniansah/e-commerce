@@ -9,7 +9,6 @@
             </div>
         </div>
     </div>
-
 <div class="row mt-5" id="table-striped">
   <div class="col-12">
     <div class="print-pdf mb-4">
@@ -18,18 +17,24 @@
     <div class="card" id="canvas">
       <div class="card-content">
         <div class="card-body">
-            <h3 class="ml-3 mb-3"><span>No Invoice</span> : #INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</h3>
-                <form class="d-flex justify-content-end" action="" method="post">
-                    @method('put')
-                    @csrf
-                    <input type="text" id="resi" required class="form-control w-25 mb-4 @error('resi') is-invalid @enderror" name="resi" placeholder="Resi" value="{{ old('resi') }}">
-                    @error('resi')
-                          <div class="invalid-feedback">
-                          {{ $message }}
-                          </div>
-                    @enderror
-                    <button type="submit" class="btn btn-danger h-25">Process</button>
-                </form>
+            <h3 class="ml-3 mb-5"><span>No Invoice</span> : #INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</h3>
+                @if ($order->status != 'expired' && $order->status != 'process')
+                    <form class="d-flex justify-content-end" action="/dashboard/orderProcess" method="post">
+                        @method('PUT')
+                        @csrf
+                        @php
+                            $resi = 'RS' . $order->created_at->format('dmy') . $order->regency . $order->id;
+                        @endphp
+                        <input type="hidden" value="{{ $order->id }}" name="id">
+                        <input type="text" id="resi" required class="form-control w-25 mb-4 @error('resi') is-invalid @enderror" name="resi" placeholder="{{ $resi }}" value="{{ $resi }}">
+                        @error('resi')
+                            <div class="invalid-feedback">
+                            {{ $message }}
+                            </div>
+                        @enderror
+                        <button type="submit" class="btn btn-danger h-25">Process</button>
+                    </form>
+                @endif
             <div class="row order_d_inner">
                 <div class="col">
                     <div class="details_item">
@@ -46,6 +51,7 @@
                     <div class="details_item">
                         <h4>Order Info</h4>
                         <ul class="list-unstyled m-3">
+                            <li><a><span>No Resi</span> : {{ $order->resi == null ? 'No receipt' : $order->resi }}</a></li>
                             <li class="py-1"><a><span>Shipping</span> : {{ strtoupper($order->courier) }} | {{ $order->shipping_cost }} | {{ $order->service }}</a></li>
                             <li class="py-1"><a><span>Time Order</span> : {{ $order->created_at->format('d M Y h:i') }}</a></li>
                             <li><a><span>Due Date</span> : {{ \Carbon\Carbon::parse($order->due_date)->format('d M Y h:i') }}</a></li>

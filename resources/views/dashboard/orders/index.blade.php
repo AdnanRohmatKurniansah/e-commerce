@@ -22,6 +22,7 @@
               <tr>
                 <th>No</th>
                 <th>No Invoice</th>
+                <th>No Resi</th>
                 <th>Total</th>
                 <th>Time Order</th>
                 <th>Due Date</th>
@@ -32,12 +33,23 @@
             <tbody>
               @foreach ($orders as $order)  
               @php
-                  $status = $order->status;
-                  $class = $status == 'paid' ? 'bg-success text-white' : 'bg-danger text-white';
+                  $class = '';
+                  if ($order->status == 'paid') {
+                      $class = 'bg-success text-white';
+                  } elseif ($order->status == 'unpaid') {
+                      $class = 'bg-danger text-white';
+                  } elseif ($order->status == 'process') {
+                      $class = 'bg-warning text-white';
+                  } elseif ($order->status == 'fimished') {
+                      $class = 'bg-info text-white';
+                  } else {
+                      $class = 'bg-dark text-white';
+                  }
               @endphp
               <tr>
                   <td>{{ $loop->iteration }}</td>
                   <td>INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</td>
+                  <td>{{ $order->resi == null ? 'No receipt' : $order->resi }}</td>
                   <td>Rp. {{ number_format($order->total, 0, ',', '.') }}</td>
                   <td>{{ $order->created_at->format('d M Y h:i') }}</td>
                   <td>{{ \Carbon\Carbon::parse($order->due_date)->format('d M Y h:i') }}</td>

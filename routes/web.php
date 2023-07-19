@@ -5,6 +5,7 @@ use App\Http\Controllers\BlogCategoryController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\InterfaceController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
@@ -13,11 +14,16 @@ use App\Http\Controllers\ReviewController;
 use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\BlogComment;
+use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Contact;
+use App\Models\Feature;
+use App\Models\Gallery;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductComment;
 use App\Models\Review;
+use App\Models\Slide;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -35,7 +41,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome', [
-        'title' => 'Homepage'
+        'title' => 'Homepage',
+        'slides' => Slide::orderBy('id', 'desc')->get(),
+        'features' => Feature::orderBy('id', 'desc')->get(),
+        'galleries' => Gallery::orderBy('id', 'desc')->get(),
+        'brands' => Brand::orderBy('id', 'desc')->get(),
+        'products' => Product::latest()->paginate(8),
     ]);
 });
 
@@ -83,7 +94,8 @@ Route::get('/blogDetail/{blog:slug}', function(Blog $blog) {
 
 Route::get('/contact', function () {
     return view('contact', [
-        'title' => 'Contact'
+        'title' => 'Contact',
+        'contacts' => Contact::all()
     ]);
 });
 Route::middleware(['guest'])->group(function() {
@@ -117,6 +129,7 @@ Route::middleware('auth')->group(function() {
     Route::post('/doCheckout', [OrderController::class, 'doCheckout']);
     Route::get('/invoice/{id}', [PaymentController::class, 'invoice']);
     Route::get('/transaction', [PaymentController::class, 'transaction']);
+    Route::put('/itemsArrived', [PaymentController::class, 'itemsArrived']);
 });
 
 Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
@@ -140,6 +153,7 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
     Route::get('/messages', [MessageController::class, 'index']);
     Route::get('/messages/{message:id}/show', [MessageController::class, 'show']);
     Route::delete('/messages/{message:id}', [MessageController::class, 'removeMessage']);
+    Route::put('/orderProcess', [PaymentController::class, 'orderProcess']);
     Route::get('/orders', function() {
         return view('dashboard.orders.index', [
             'orders' => Order::latest()->paginate(20)
@@ -158,4 +172,55 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
             'users' => Auth::user()
         ]);
     });
-});
+
+    //interface slide
+    Route::get('/slides', [InterfaceController::class, 'slide']);
+    Route::get('/slides/create', [InterfaceController::class, 'createSlide']);
+    Route::post('/slides/store', [InterfaceController::class, 'storeSlide']);
+    Route::get('/slides/{slide:id}/edit', [InterfaceController::class, 'editSlide']);
+    Route::put('/slides/{slide:id}', [InterfaceController::class, 'updateSlide']);
+    Route::delete('/slides/{slide:id}', [InterfaceController::class, 'destroySlide']);
+
+    //interface feature
+    Route::get('/features', [InterfaceController::class, 'feature']);
+    Route::get('/features/create', [InterfaceController::class, 'createFeature']);
+    Route::post('/features/store', [InterfaceController::class, 'storeFeature']);
+    Route::get('/features/{feature:id}/edit', [InterfaceController::class, 'editFeature']);
+    Route::put('/features/{feature:id}', [InterfaceController::class, 'updateFeature']);
+    Route::delete('/features/{feature:id}', [InterfaceController::class, 'destroyFeature']);
+
+    //interface gallery
+    Route::get('/galleries', [InterfaceController::class, 'gallery']);
+    Route::get('/galleries/create', [InterfaceController::class, 'createGallery']);
+    Route::post('/galleries/store', [InterfaceController::class, 'storeGallery']);
+    Route::get('/galleries/{gallery:id}/edit', [InterfaceController::class, 'editGallery']);
+    Route::put('/galleries/{gallery:id}', [InterfaceController::class, 'updateGallery']);
+    Route::delete('/galleries/{gallery:id}', [InterfaceController::class, 'destroyGallery']);
+
+    //interface brand
+    Route::get('/brands', [InterfaceController::class, 'brand']);
+    Route::get('/brands/create', [InterfaceController::class, 'createBrand']);
+    Route::post('/brands/store', [InterfaceController::class, 'storeBrand']);
+    Route::get('/brands/{brand:id}/edit', [InterfaceController::class, 'editBrand']);
+    Route::put('/brands/{brand:id}', [InterfaceController::class, 'updateBrand']);
+    Route::delete('/brands/{brand:id}', [InterfaceController::class, 'destroyBrand']);
+
+    // interface contact
+    Route::get('/contacts', [InterfaceController::class, 'contact']);
+    Route::get('/contacts/{contact:id}/edit', [InterfaceController::class, 'editContact']);
+    Route::put('/contacts/{contact:id}', [InterfaceController::class, 'updateContact']);
+
+    //interface feature
+    Route::get('/sosmeds', [InterfaceController::class, 'sosmed']);
+    Route::get('/sosmeds/create', [InterfaceController::class, 'createSosmed']);
+    Route::post('/sosmeds/store', [InterfaceController::class, 'storeSosmed']);
+    Route::get('/sosmeds/{sosmed:id}/edit', [InterfaceController::class, 'editSosmed']);
+    Route::put('/sosmeds/{sosmed:id}', [InterfaceController::class, 'updateSosmed']);
+    Route::delete('/sosmeds/{sosmed:id}', [InterfaceController::class, 'destroySosmed']);
+
+    // interface footer
+    Route::get('/footer', [InterfaceController::class, 'footer']);
+    Route::get('/footer/{footer:id}/edit', [InterfaceController::class, 'editFooter']);
+    Route::put('/footer/{footer:id}', [InterfaceController::class, 'updateFooter']);
+}); 
+

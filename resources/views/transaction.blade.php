@@ -41,7 +41,10 @@
                                 @php
                                     $id = Auth::id();
                                     $unpaid = \App\Models\Order::where('user_id', '=', $id)
-                                        ->where('status', 'unpaid')
+                                        ->where(function ($query) {
+                                        $query->where('status', 'unpaid')
+                                            ->orWhere('status', 'expired');
+                                        })
                                         ->orderBy('id', 'desc')
                                         ->paginate(10);
                                 @endphp
@@ -51,6 +54,8 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col">No</th>
+                                                <th scope="col">No Invoice</th>
+                                                <th scope="col">No Resi</th>
                                                 <th scope="col">Product</th>
                                                 <th scope="col">Quantity</th>
                                                 <th scope="col">Order date</th>
@@ -65,6 +70,12 @@
                                             <tr>
                                                 <td>
                                                     {{ $loop->iteration }}
+                                                </td>
+                                                <td>
+                                                    INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}
+                                                </td>
+                                                <td>
+                                                    {{ $order->resi == null ? 'No receipt' : $order->resi }}
                                                 </td>
                                                 <td>
                                                     <div class="media">
@@ -86,7 +97,10 @@
                                                     <h5>{{ \Carbon\Carbon::parse($order->due_date)->format('d M Y h:i') }}</h5>
                                                 </td>
                                                 <td>
-                                                    <h5 class="text-danger">{{ $order->status }}</h5>
+                                                    @php
+                                                        $class = $order->status == 'unpaid' ? 'text-danger' : 'text-secondary   '
+                                                    @endphp
+                                                    <h5 class="{{ $class }}">{{ $order->status }}</h5>
                                                 </td>
                                                 <td>
                                                     <a class="bg-info text-light p-2" href="/invoice/{{ Crypt::encryptString($order->id) }}">Detail</a>
@@ -136,6 +150,8 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">No</th>
+                                                    <th scope="col">No Invoice</th>
+                                                    <th scope="col">No Resi</th>
                                                     <th scope="col">Product</th>
                                                     <th scope="col">Quantity</th>
                                                     <th scope="col">Order date</th>
@@ -150,6 +166,12 @@
                                                 <tr>
                                                     <td>
                                                         {{ $loop->iteration }}
+                                                    </td>
+                                                    <td>
+                                                        INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $order->resi == null ? 'No receipt' : $order->resi }}
                                                     </td>
                                                     <td>
                                                         <div class="media">
@@ -221,6 +243,8 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">No</th>
+                                                    <th scope="col">No Invoice</th>
+                                                    <th scope="col">No Resi</th>
                                                     <th scope="col">Product</th>
                                                     <th scope="col">Quantity</th>
                                                     <th scope="col">Order date</th>
@@ -235,6 +259,12 @@
                                                 <tr>
                                                     <td>
                                                         {{ $loop->iteration }}
+                                                    </td>
+                                                    <td>
+                                                        INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $order->resi == null ? 'No receipt' : $order->resi }}
                                                     </td>
                                                     <td>
                                                         <div class="media">
@@ -307,6 +337,8 @@
                                                 <tr>
                                                     <th scope="col">No</th>
                                                     <th scope="col">Product</th>
+                                                    <th scope="col">No Invoice</th>
+                                                    <th scope="col">No Resi</th>
                                                     <th scope="col">Quantity</th>
                                                     <th scope="col">Order date</th>
                                                     <th scope="col">Total</th>
@@ -320,6 +352,12 @@
                                                 <tr>
                                                     <td>
                                                         {{ $loop->iteration }}
+                                                    </td>
+                                                    <td>
+                                                        INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $order->resi == null ? 'No receipt' : $order->resi }}
                                                     </td>
                                                     <td>
                                                         <div class="media">

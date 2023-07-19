@@ -6,6 +6,7 @@
   <link rel="shortcut icon" href="img/fav.png">
 	<meta name="description" content="">
 	<meta name="csrf-token" content="{{ csrf_token() }}" />
+	<link rel="shortcut icon" href="/assets/img/fav.png">
 	<meta charset="UTF-8">
 	<title>{{ $title }}</title>
 	<link rel="stylesheet" href="/assets/css/linearicons.css?v=1">
@@ -44,7 +45,7 @@
 	<script src="/assets/js/owl.carousel.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
 	<script src="/assets/js/gmaps.min.js"></script>
-	<script src="/assets/js/main.js?v=5"></script>
+	<script src="/assets/js/main.js?v=6"></script>
 
 	@include('vendor.alert')
 

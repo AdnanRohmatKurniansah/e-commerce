@@ -16,7 +16,7 @@ class CouriersTableSeeder extends Seeder
         $data = [
             ['code' => 'jne', 'title' => 'JNE'],
             ['code' => 'pos', 'title' => 'POS'],
-            ['code' => 'tIki', 'title' => 'TIKI']
+            ['code' => 'tiki', 'title' => 'TIKI']
         ];
         Courier::insert($data);
     }

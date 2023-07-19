@@ -10,6 +10,7 @@
                 <a href="#" data-bs-toggle="dropdown" class="nav-link  dropdown-toggle nav-link-lg nav-link-user">
                     <div class="d-lg-inline-block">
                         <i data-feather="bell"></i>
+                        <sup class="mb-3 fs-6 text-info">{{ $orders->count() }}</sup>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-large">
@@ -26,7 +27,7 @@
                                 <div>
                                     <h6 class='text-bold'>New Order</h6>
                                     <p class='text-xs'>
-                                        An order from {{ $order->fname }}
+                                        An order from <a href="/dashboard/order/{{ Crypt::encryptString($order->id) }}">{{ $order->fname }}</a>
                                     </p>
                                 </div>
                             </li>
@@ -74,10 +75,10 @@
             <li class="dropdown">
                 <a href="#" data-bs-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                     <div class="avatar me-1">
-                        @if (auth()->user()->profile == null)
-                            <img src="/assets/admin/images/user.png" alt="" srcset="">
-                        @else
+                        @if (auth()->user()->profile != null)
                             <img src="{{ asset('storage/' . auth()->user()->profile) }}" alt="" srcset="">
+                        @else
+                            <img src="/assets/admin/images/user.png" alt="" srcset="">
                         @endif
                     </div>
                     <div class="d-none d-md-block d-lg-inline-block">Hi, {{ auth()->user()->name }}</div>

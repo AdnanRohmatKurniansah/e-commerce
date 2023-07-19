@@ -1,6 +1,7 @@
 @extends('layout.main')
 
 @section('content')
+
 <section class="banner-area organic-breadcrumb">
     <div class="container">
         <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
@@ -33,6 +34,7 @@
                     <div class="details_item">
                         <h4>Order Info</h4>
                         <ul class="list">
+                            <li><a><span>No Resi</span> : {{ $order->resi == null ? 'No receipt' : $order->resi }}</a></li>
                             <li><a><span>Shipping</span> : {{ strtoupper($order->courier) }} | {{ $order->shipping_cost }} | {{ $order->service }}</a></li>
                             <li><a><span>Time Order</span> : {{ $order->created_at->format('d M Y h:i') }}</a></li>
                             <li><a><span>Due Date</span> : {{ \Carbon\Carbon::parse($order->due_date)->format('d M Y h:i') }}</a></li>
@@ -127,10 +129,33 @@
                     </table>
                 </div>
             </div>
-            @if ($order->status === 'unpaid')
+            @if ($order->status == 'unpaid')
             <div class="pay d-flex justify-content-end mt-3" >
                 <button id="pay-btn" type="submit" class="primary-btn rounded-0 border-0">Pay Now</button>
             </div>
+            @endif
+            @if ($order->status == 'process')
+                @php
+                    $array = explode(' | ', $order->service);
+                    $value = $array[1];
+                    $etd = explode('-', $value)[0];
+                    $date = date('d M Y', strtotime('+' . $etd . ' days'));
+                @endphp
+                @if ($order->updated_at <= $date) 
+                <div class="d-flex justify-content-end mt-3" >
+                    <small>Estimation of up to {{ $value }} days please wait, if the item has arrived please confirm by clicking this button</small>
+                    <form action="/itemsArrived" method="post">
+                        @method('put')
+                        @csrf
+                        <input type="hidden" value="{{ $order->id }}" name="id">
+                        <button type="submit" onclick="return confirm('Sure the order actually arrived')" class="genric-btn info e-large rounded-0 border-1" style="font-size: 16px">Items arrived</button>
+                    </form>
+                </div>
+                @else
+                <div class="d-flex justify-content-end mt-3 text-danger" >
+                    <small>The possibility of items arriving on {{ $date }}, if the item has arrived please confirmation</small>
+                </div>
+                @endif
             @endif
         </div>
 </section>
