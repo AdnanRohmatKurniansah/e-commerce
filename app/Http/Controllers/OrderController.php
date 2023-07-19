@@ -84,8 +84,13 @@ class OrderController extends Controller
 
         $results = $response['rajaongkir']['results'][0];
         $services = $results['costs'];
+
+        if (empty($services)) {
+            return response()->json(['services' => 'Tidak Ada Service']);
+        } else {
+            return response()->json(['services' => $services]);  
+        }
     
-    return response()->json(['services' => $services]);  
     }
     
     public function doCheckout(Request $request) 

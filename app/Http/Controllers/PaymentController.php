@@ -25,8 +25,8 @@ class PaymentController extends Controller
     {
         $id = Auth::user()->id;
         Order::where('user_id', '=', $id)
-            ->where('status', '==', 'unpaid')
-            ->where('created_at', '<=', DB::raw('due_date'))
+            ->whereNotIn('status', ['paid', 'process', 'finished'])
+            ->where('created_at', '>=', DB::raw('due_date'))
             ->update(['status' => 'expired']);
 
         return view('transaction', [
@@ -51,5 +51,22 @@ class PaymentController extends Controller
                 }
             }
         } 
+    }
+    public function orderProcess(Request $request) 
+    {
+        Order::where('id', $request->id)
+            ->update([
+            'resi' => $request->resi,
+            'status' => 'process'
+        ]);
+
+        return redirect('/dashboard/orders')->with('success', 'Order processed');
+    }
+    public function itemsArrived(Request $request) 
+    {
+        Order::where('id', $request->id)
+            ->update(['status' => 'finished']);
+
+        return redirect('/transaction')->with('update', 'Thank you for ordering here');
     }
 }
