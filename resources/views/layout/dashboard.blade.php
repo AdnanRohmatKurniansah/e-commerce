@@ -7,7 +7,8 @@
     
     <link rel="stylesheet" href="/assets/admin/css/bootstrap.css">
     
-    <link rel="stylesheet" href="/assets/admin/vendors/chartjs/Chart.min.css">
+    <script src="/assets/admin/vendors/chartjs/Chart.min.js?v=1"></script>
+    <link rel="stylesheet" href="/assets/admin/vendors/chartjs/Chart.min.css?v=1">
 
     <link rel="stylesheet" href="/assets/admin/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="/assets/admin/css/app.css?v=1">
@@ -38,10 +39,8 @@
     <script src="/assets/admin/js/feather-icons/feather.min.js"></script>
     <script src="/assets/admin/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="/assets/admin/js/app.js"></script>
-    
-    <script src="/assets/admin/vendors/chartjs/Chart.min.js"></script>
     <script src="/assets/admin/vendors/apexcharts/apexcharts.min.js"></script>
-    <script src="/assets/admin/js/pages/dashboard.js"></script>
+    <script src="/assets/admin/js/pages/dashboard.js?v=1"></script>
     <script src="/assets/admin/vendors/simple-datatables/simple-datatables.js?v=2"></script>
     <script src="/assets/admin/js/vendors.js?v=1"></script>
     <script src="/assets/admin/js/main.js"></script>

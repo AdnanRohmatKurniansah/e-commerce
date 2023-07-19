@@ -26,6 +26,7 @@ use App\Models\Review;
 use App\Models\Slide;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -134,7 +135,27 @@ Route::middleware('auth')->group(function() {
 
 Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
     Route::get('/', function () {
-        return view('dashboard.index');
+        $orderData = Order::whereIn('status', ['paid', 'process', 'finished'])
+            ->select(DB::raw('DATE_FORMAT(updated_at, "%M") AS date'), DB::raw('COUNT(*) AS count'))
+            ->groupBy(DB::raw('DATE_FORMAT(updated_at, "%M")'))
+            ->orderBy(DB::raw('DATE_FORMAT(updated_at, "%M")'))
+            ->get();
+
+        $thisMonth = Order::where('status', 'finished')
+            ->whereYear('updated_at', now()->year)
+            ->whereMonth('updated_at', now()->month)
+            ->sum('total');
+
+        $lastMonth = Order::where('status', 'finished')
+            ->whereYear('updated_at', now()->subMonth()->year)
+            ->whereMonth('updated_at', now()->subMonth()->month)
+            ->sum('total');
+
+        return view('dashboard.index', [
+            'orderData' => $orderData,
+            'thisMonth' => $thisMonth,
+            'lastMonth' => $lastMonth
+        ]);
     });
     Route::get('/products/categories/checkSlug', [CategoryController::class, 'checkSlug']);
     Route::resource('/products/categories', CategoryController::class)->except('show');
