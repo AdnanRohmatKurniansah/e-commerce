@@ -21,6 +21,8 @@ return new class extends Migration
             $table->date('birth')->nullable();
             $table->string('gender')->nullable();
             $table->string('role')->default('buyer');
+            $table->string('provider')->nullable();
+            $table->string('provider_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

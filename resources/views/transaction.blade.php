@@ -62,7 +62,6 @@
                                                 <th scope="col">Total</th>
                                                 <th scope="col">Due date</th>
                                                 <th scope="col">Status</th>
-                                                <th scope="col">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -72,7 +71,7 @@
                                                     {{ $loop->iteration }}
                                                 </td>
                                                 <td>
-                                                    INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}
+                                                    <a href="/invoice/{{ Crypt::encryptString($order->id) }}">INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</a>
                                                 </td>
                                                 <td>
                                                     {{ $order->resi == null ? 'No receipt' : $order->resi }}
@@ -101,9 +100,6 @@
                                                         $class = $order->status == 'unpaid' ? 'text-danger' : 'text-secondary   '
                                                     @endphp
                                                     <h5 class="{{ $class }}">{{ $order->status }}</h5>
-                                                </td>
-                                                <td>
-                                                    <a class="bg-info text-light p-2" href="/invoice/{{ Crypt::encryptString($order->id) }}">Detail</a>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -158,7 +154,6 @@
                                                     <th scope="col">Total</th>
                                                     <th scope="col">Due date</th>
                                                     <th scope="col">Status</th>
-                                                    <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -168,7 +163,7 @@
                                                         {{ $loop->iteration }}
                                                     </td>
                                                     <td>
-                                                        INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}
+                                                        <a href="/invoice/{{ Crypt::encryptString($order->id) }}">INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</a>
                                                     </td>
                                                     <td>
                                                         {{ $order->resi == null ? 'No receipt' : $order->resi }}
@@ -194,9 +189,6 @@
                                                     </td>
                                                     <td>
                                                         <h5 class="text-success">{{ $order->status }}</h5>
-                                                    </td>
-                                                    <td>
-                                                        <a class="bg-info text-light p-2" href="/invoice/{{ Crypt::encryptString($order->id) }}">Detail</a>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -251,7 +243,6 @@
                                                     <th scope="col">Total</th>
                                                     <th scope="col">Due date</th>
                                                     <th scope="col">Status</th>
-                                                    <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -261,7 +252,7 @@
                                                         {{ $loop->iteration }}
                                                     </td>
                                                     <td>
-                                                        INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}
+                                                        <a href="/invoice/{{ Crypt::encryptString($order->id) }}">INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</a>
                                                     </td>
                                                     <td>
                                                         {{ $order->resi == null ? 'No receipt' : $order->resi }}
@@ -287,9 +278,6 @@
                                                     </td>
                                                     <td>
                                                         <h5 class="text-warning">{{ $order->status }}</h5>
-                                                    </td>
-                                                    <td>
-                                                        <a class="bg-info text-light p-2" href="/invoice/{{ Crypt::encryptString($order->id) }}">Detail</a>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -336,9 +324,9 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">No</th>
-                                                    <th scope="col">Product</th>
                                                     <th scope="col">No Invoice</th>
                                                     <th scope="col">No Resi</th>
+                                                    <th scope="col">Product</th>
                                                     <th scope="col">Quantity</th>
                                                     <th scope="col">Order date</th>
                                                     <th scope="col">Total</th>
@@ -354,7 +342,7 @@
                                                         {{ $loop->iteration }}
                                                     </td>
                                                     <td>
-                                                        INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}
+                                                        <a href="/invoice/{{ Crypt::encryptString($order->id) }}">INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</a>
                                                     </td>
                                                     <td>
                                                         {{ $order->resi == null ? 'No receipt' : $order->resi }}
@@ -382,7 +370,7 @@
                                                         <h5 class="text-info">{{ $order->status }}</h5>
                                                     </td>
                                                     <td>
-                                                        <a class="bg-info text-light p-2" href="/invoice/{{ Crypt::encryptString($order->id) }}">Detail</a>
+                                                        <button class=" bg-info border-0 text-light p-2" data-toggle="modal" data-target="#exampleModal" href="/invoice/{{ Crypt::encryptString($order->id) }}">Review</button>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -417,5 +405,71 @@
             </div>
         </div>
     </section>
-    
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add a review</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+            <form class="row contact_form" action="/addReview" method="post" id="contactForm">
+            @csrf
+                <div class="form-row">
+                    <div class="form-group pl-4 pb-3 col-12">
+                        <div class="form-check">
+                            @php
+                                $products = $order->carts;
+                            @endphp
+                            @foreach ($products as $product)
+                                <input type="checkbox" name="product_id" required value="{{ $product->product_id }}" class="form-check-input @error('product_id') is-invalid @enderror" id="checkbox">
+                                <label class="form-check-label" for="checkbox">{{ $product->product_name }}</label>
+                                @error('product_id')
+                                    <div class="invalid-feedback">  
+                                    {{ $message }}
+                                    </div>
+                                @enderror
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <h6>Your review :</h6>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="rating">
+                            <input type="radio" id="star5" name="rating" value="5" />
+                            <label class="star" for="star5" title="Awesome" aria-hidden="true"></label>
+                            <input type="radio" id="star4" name="rating" value="4" />
+                            <label class="star" for="star4" title="Great" aria-hidden="true"></label>
+                            <input type="radio" id="star3" name="rating" value="3" />
+                            <label class="star" for="star3" title="Very good" aria-hidden="true"></label>
+                            <input type="radio" id="star2" name="rating" value="2" />
+                            <label class="star" for="star2" title="Good" aria-hidden="true"></label>
+                            <input type="radio" id="star1" name="rating" value="1" checked />
+                            <label class="star" for="star1" title="Bad" aria-hidden="true"></label>
+                          </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea type="text" class="form-control @error('message') is-invalid @enderror" name="message" id="message" rows="1" placeholder="Review" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Review'"></textarea></textarea>
+                        @error('message')
+                            <div class="invalid-feedback">  
+                            {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
 @endsection 

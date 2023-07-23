@@ -5842,3 +5842,12 @@ label {
 }
 
 
+.google-btn {
+    position: relative;
+    text-decoration: none;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.google-btn:hover {
+    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2); 
+}

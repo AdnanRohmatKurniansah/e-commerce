@@ -36,7 +36,7 @@
                   <td>{{ $message->name }}</td>
                   <td>{{ $message->email }}</td>
                   <td>
-                    <span class="{{ $class }}">{{ $message->status }}</span>
+                    <span class="badge {{ $class }}">{{ $message->status }}</span>
                   </td>
                   <td class="d-flex">
                     <a href="/dashboard/messages/{{ $message->id }}/show"><i class="badge-circle badge-circle-light-secondary" data-feather="eye"></i></a>

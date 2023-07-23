@@ -139,22 +139,22 @@
                     $array = explode(' | ', $order->service);
                     $value = $array[1];
                     $etd = explode('-', $value)[0];
-                    $date = date('d M Y', strtotime('+' . $etd . ' days'));
+                    $date = date('d M Y', strtotime($order->updated_at . '+' . $etd . ' days'));
                 @endphp
-                @if ($order->updated_at <= $date) 
-                <div class="d-flex justify-content-end mt-3" >
-                    <small>Estimation of up to {{ $value }} days please wait, if the item has arrived please confirm by clicking this button</small>
-                    <form action="/itemsArrived" method="post">
-                        @method('put')
-                        @csrf
-                        <input type="hidden" value="{{ $order->id }}" name="id">
-                        <button type="submit" onclick="return confirm('Sure the order actually arrived')" class="genric-btn info e-large rounded-0 border-1" style="font-size: 16px">Items arrived</button>
-                    </form>
-                </div>
+                @if (\Carbon\Carbon::now() >= \Carbon\Carbon::parse($date)) 
+                    <div class="justify-content-end mt-3" >
+                        <small>The possibility of items arriving on {{ $date }} please wait, if the item has arrived please confirm by clicking this button</small>
+                        <form action="/itemsArrived" method="post">
+                            @method('put')
+                            @csrf
+                            <input type="hidden" value="{{ $order->id }}" name="id">
+                            <button type="submit" onclick="return confirm('Are you sure the order actually arrived?')" class="genric-btn info e-large rounded-0 border-1" style="font-size: 16px">Items arrived</button>
+                        </form>
+                    </div>
                 @else
-                <div class="d-flex justify-content-end mt-3 text-danger" >
-                    <small>The possibility of items arriving on {{ $date }}, if the item has arrived please confirmation</small>
-                </div>
+                    <div class="d-flex justify-content-end mt-3 text-danger" >
+                        <small>The possibility of items arriving on {{ $date }}, if the item has arrived please confirmation</small>
+                    </div>
                 @endif
             @endif
         </div>

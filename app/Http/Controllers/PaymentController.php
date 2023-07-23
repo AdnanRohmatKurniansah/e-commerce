@@ -23,10 +23,11 @@ class PaymentController extends Controller
     }
     public function transaction() 
     {
-        $id = Auth::user()->id;
+        $id = Auth::user()->id;                         
         Order::where('user_id', '=', $id)
             ->whereNotIn('status', ['paid', 'process', 'finished'])
-            ->where('created_at', '>=', DB::raw('due_date'))
+            ->where('created_at', '<=', DB::raw('orders.due_date'))
+            ->where('due_date', '<=', now())
             ->update(['status' => 'expired']);
 
         return view('transaction', [

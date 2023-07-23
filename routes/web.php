@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InterfaceController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\OauthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
@@ -104,6 +105,8 @@ Route::middleware(['guest'])->group(function() {
     Route::post('/login', [AuthController::class, 'auth']);
     Route::get('/register', [AuthController::class, 'register']);
     Route::post('/register', [AuthController::class, 'store']);
+    Route::get('/auth/{provider}', [OauthController::class, 'redirectToProvider']);
+    Route::get('/auth/{provider}/callback', [OauthController::class, 'handleProvideCallback']);
 });
 
 Route::middleware('auth')->group(function() {
@@ -176,6 +179,12 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
     Route::delete('/messages/{message:id}', [MessageController::class, 'removeMessage']);
     Route::put('/orderProcess', [PaymentController::class, 'orderProcess']);
     Route::get('/orders', function() {
+
+        Order::whereNotIn('status', ['paid', 'process', 'finished'])
+            ->where('created_at', '<=', DB::raw('orders.due_date'))
+            ->where('due_date', '<=', now())
+            ->update(['status' => 'expired']);
+
         return view('dashboard.orders.index', [
             'orders' => Order::latest()->paginate(20)
         ]);

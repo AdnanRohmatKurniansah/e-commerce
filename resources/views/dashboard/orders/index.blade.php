@@ -40,7 +40,7 @@
                       $class = 'bg-danger text-white';
                   } elseif ($order->status == 'process') {
                       $class = 'bg-warning text-white';
-                  } elseif ($order->status == 'fimished') {
+                  } elseif ($order->status == 'finished') {
                       $class = 'bg-info text-white';
                   } else {
                       $class = 'bg-dark text-white';

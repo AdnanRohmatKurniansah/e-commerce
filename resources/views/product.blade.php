@@ -189,6 +189,8 @@
 									</div>
 								</div>
 							</div>
+						</div>
+						<div class="col-lg-6 mt-3">
 							@if ($reviews->count())
 								<div class="review_list">
 									@foreach ($reviews as $review)
@@ -216,43 +218,6 @@
 							@else
 								<h4 class="d-flex justify-content-center my-5">There are no reviews for now</h4>
 							@endif
-						</div>
-						<div class="col-lg-6 mt-3">
-							<div class="review_box">
-								<h4>Add a Review</h4>
-								<p>Your Rating:</p>
-								<form class="row contact_form" action="/addReview" method="post" id="contactForm">
-									@csrf
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="hidden" name="product_id" value="{{ $product->id}}">
-											<div class="rating">
-												<input type="radio" id="star5" name="rating" value="5" />
-												<label class="star" for="star5" title="Awesome" aria-hidden="true"></label>
-												<input type="radio" id="star4" name="rating" value="4" />
-												<label class="star" for="star4" title="Great" aria-hidden="true"></label>
-												<input type="radio" id="star3" name="rating" value="3" />
-												<label class="star" for="star3" title="Very good" aria-hidden="true"></label>
-												<input type="radio" id="star2" name="rating" value="2" />
-												<label class="star" for="star2" title="Good" aria-hidden="true"></label>
-												<input type="radio" id="star1" name="rating" value="1" checked />
-												<label class="star" for="star1" title="Bad" aria-hidden="true"></label>
-											  </div>
-										</div>
-										<div class="form-group">
-											<textarea type="text" class="form-control @error('message') is-invalid @enderror" name="message" id="message" rows="1" placeholder="Review" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Review'"></textarea></textarea>
-											@error('message')
-												<div class="invalid-feedback">  
-												{{ $message }}
-												</div>
-											@enderror
-										</div>
-									</div>
-									<div class="col-md-12 text-right">
-										<button type="submit" value="submit" class="primary-btn">Submit Now</button>
-									</div>
-								</form>
-							</div>
 						</div>
 					</div>
 				</div>

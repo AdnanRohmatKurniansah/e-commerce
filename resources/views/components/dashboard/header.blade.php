@@ -10,15 +10,15 @@
                 <a href="#" data-bs-toggle="dropdown" class="nav-link  dropdown-toggle nav-link-lg nav-link-user">
                     <div class="d-lg-inline-block">
                         <i data-feather="bell"></i>
+                        @php
+                            $orders = \App\Models\Order::orderBy('id', 'desc')->paginate(3);
+                        @endphp
                         <sup class="mb-3 fs-6 text-info">{{ $orders->count() }}</sup>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-large">
                     <h6 class='py-2 px-4'>Notifications</h6>
                     <ul class="list-group rounded-none">
-                        @php
-                            $orders = \App\Models\Order::orderBy('id', 'desc')->paginate(3);
-                        @endphp
                         @foreach ($orders as $order) 
                             <li class="list-group-item border-0 align-items-start">
                                 <div class="avatar bg-success me-3">
@@ -85,7 +85,6 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
                     <a class="dropdown-item" href="/dashboard/profile"><i data-feather="user"></i> Account</a>
-                    <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a>
                     <div class="dropdown-divider"></div>
                     <form action="/logout" method="post">
                         @csrf

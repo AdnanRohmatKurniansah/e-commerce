@@ -23,6 +23,14 @@ class ReviewController extends Controller
                 ->exists();
 
             if ($hasOrdered) {
+                $hasReviewed = Review::where('user_id', $userId)
+                ->where('product_id', $productId)
+                ->exists();
+
+                if ($hasReviewed) {
+                    return redirect()->back()->with('error', 'You have already reviewed this product');
+                }
+
                 $data = $request->validate([
                     'rating' => 'required',
                     'product_id' => 'required',

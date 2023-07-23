@@ -22,7 +22,11 @@
                 @if (auth()->user()->profile == null)
                   <img src="/assets/admin/images/user.png" style="border-radius: 50%" width="25" alt="">
                 @else
-                  <img src="{{ asset('storage/' . auth()->user()->profile) }}" style="border-radius: 50%" width="25" alt="">
+                  @if (auth()->user()->provider == null)
+                    <img src="{{ asset('storage/' . auth()->user()->profile) }}" style="border-radius: 50%" width="25" alt="">
+                  @else
+                    <img src="{{ auth()->user()->profile }}" style="border-radius: 50%" width="25" alt="">
+                  @endif
                 @endif
               </a>
                 <ul class="dropdown-menu">
