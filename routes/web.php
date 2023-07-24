@@ -113,8 +113,14 @@ Route::middleware('auth')->group(function() {
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::put('/update_profile', [AuthController::class, 'update_profile']);
+    Route::get('/change_password', [AuthController::class, 'change_password']);
     Route::post('/update_password', [AuthController::class, 'update_password']);
 });
+
+Route::get('/forget_password', [AuthController::class, 'forgetPassword']);
+Route::post('/forget_password/submit', [AuthController::class, 'submitForgetPassword']); 
+Route::get('/reset_password/{token}', [AuthController::class, 'showResetPasswordForm']);
+Route::post('/reset_password', [AuthController::class, 'submitResetPasswordForm']);
 
 Route::post('/addReview', [ReviewController::class, 'addReview']);
 Route::post('/addProductComment', [ProductController::class, 'addComment']);

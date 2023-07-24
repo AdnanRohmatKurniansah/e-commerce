@@ -68,6 +68,7 @@
 								<i style="font-size: 25px;" class="fa fa-facebook"></i>
 							</a> --}}
 						</div>
+						<a href="/forget_password" class="text-decoration-none d-flex justify-content-center mx-auto mt-3">Forget Password?</a>
 					</div>
 				</div>
 			</div>
