@@ -6,13 +6,25 @@ use App\Models\SocialAccount;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 
 class OauthController extends Controller
 {
     public function redirectToProvider($provider)
-    {
-        return Socialite::driver($provider)->redirect();
+    {   
+        Session::forget('socialite:driver');
+        Session::forget('socialite:state');
+        
+        $url = Socialite::driver($provider)->redirect()->getTargetUrl();
+        // supaya popup google dapat tampil terus meskipun pengguna telah melakukan login sebelumnya
+        if ($provider == 'facebook') {
+            $url .= '&auth_type=reauthenticate';
+        } elseif ($provider == 'google') {
+            $url .= '&prompt=select_account';
+        }
+
+        return redirect($url);
     }
 
     public function handleProvideCallback($provider)
@@ -54,7 +66,8 @@ class OauthController extends Controller
                 'password' => ''
             ]);
             
-            $data->profile = $user->getAvatar();
+            $data->profile = $user->getAvatar() . "&access_token={$user->token}";
+            // tambahkan access token supaya tampil avatar yg dipakai
             $data->provider = $provider;
             $data->provider_id = $user->getId();
             $data->save();
