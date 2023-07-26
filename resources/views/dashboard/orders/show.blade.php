@@ -1,11 +1,5 @@
 @extends('layout.dashboard')
-<style>
-    @media print {
-        .no-print {
-            display: none;
-        }
-    }
-</style>
+
 @section('content')   
 <div class="main-content container-fluid">
     <div class="page-title">
@@ -25,7 +19,7 @@
         <div class="card-body">
             <h3 class="ml-3 mb-5"><span>No Invoice</span> : #INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</h3>
                 @if ($order->status != 'expired' && $order->status != 'process')
-                    <form class="no-print d-flex justify-content-end" action="/dashboard/orderProcess" method="post">
+                    <form id="no-print" class="d-flex justify-content-end" action="/dashboard/orderProcess" method="post">
                         @method('PUT')
                         @csrf
                         @php

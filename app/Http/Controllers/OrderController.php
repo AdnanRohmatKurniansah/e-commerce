@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Courier;
 use App\Models\District;
@@ -24,20 +25,57 @@ class OrderController extends Controller
             $id = Auth::user()->id;
             $carts = Cart::where('user_id', $id)
                     ->whereDoesntHave('orders')->get();
-            if ($carts === isEmpty()) {
+            if ($carts->isEmpty()) {
                 return redirect('/cart')->with('logFirst', 'Your Cart is Empty');
             }
-            return view('checkout', [
-                'title' => 'Checkout',
-                'carts' => $carts,
-                'couriers' => Courier::pluck('title', 'code'),
-                'provinces' => Province::all(),
-                'subTotal' => $carts->sum('total'),
-                'subWeight' => $carts->sum('allWeight')
-            ]);
-        } 
-        else 
-        {
+
+            $address = Address::where('user_id', $id)
+                ->where('primary', true)->first();
+
+            if ($address == null) {
+                $script = 
+                '<script>
+                    setTimeout(function() {
+                        Swal.fire({
+                            title: "You have not included your address",
+                            text: "Complete your address so that your transaction can proceed easily",
+                            icon: "warning",
+                            showCancelButton: true,
+                            cancelButtonText: "Later",
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Add address"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "/address";
+                            }
+                        });
+                    }, 2000); 
+                </script>';  
+
+                return view('checkout', [
+                    'title' => 'Checkout',
+                    'carts' => $carts,
+                    'couriers' => Courier::pluck('title', 'code'),
+                    'provinces' => Province::all(),
+                    'subTotal' => $carts->sum('total'),
+                    'subWeight' => $carts->sum('allWeight'),
+                    'address' => $address,
+                    'script' => $script
+                 ]);
+            } else {
+                return view('checkout', [
+                    'title' => 'Checkout',
+                    'carts' => $carts,
+                    'couriers' => Courier::pluck('title', 'code'),
+                    'provinces' => Province::all(),
+                    'subTotal' => $carts->sum('total'),
+                    'subWeight' => $carts->sum('allWeight'),
+                    'address' => $address,
+                    'script' => ''
+                ]);
+            }
+        } else {
             return redirect('/login')->with('logFirst', 'You Must Login First');
         }
     }
@@ -169,6 +207,23 @@ class OrderController extends Controller
 
         $order->snaptoken = $snapToken;
         $order->save();
+
+        $addr = Address::where('user_id', $id)
+            ->where('primary', true)->first();
+        if ($addr == null) {
+            $var = [
+                'name' => $order->fname . ' ' .  $order->lname,
+                'province_id' => $order->province,
+                'regency_id' => $order->regency, 
+                'district_id' => $order->district,
+                'street' => $order->street,
+                'zip' => $order->zip,
+                'primary' => true,
+                'user_id' => auth()->user()->id
+            ];
+    
+            Address::create($var);
+        }
 
         return redirect('/invoice/' . Crypt::encryptString($order->id))->with('success', 'Your order has been received');
     }

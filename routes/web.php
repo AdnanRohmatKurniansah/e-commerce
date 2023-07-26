@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InterfaceController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\MyAddressController;
 use App\Http\Controllers\OauthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
@@ -115,6 +116,11 @@ Route::middleware('auth')->group(function() {
     Route::put('/update_profile', [AuthController::class, 'update_profile']);
     Route::get('/change_password', [AuthController::class, 'change_password']);
     Route::post('/update_password', [AuthController::class, 'update_password']);
+    Route::get('/address', [MyAddressController::class, 'address']);
+    Route::post('/addAddress', [MyAddressController::class, 'addAddress']);
+    Route::put('/updateAddress', [MyAddressController::class, 'updateAddress']);
+    Route::delete('/removeAddress', [MyAddressController::class, 'removeAddress']);
+    Route::put('/changePrimary', [MyAddressController::class, 'changePrimary']);
 });
 
 Route::get('/forget_password', [AuthController::class, 'forgetPassword']);

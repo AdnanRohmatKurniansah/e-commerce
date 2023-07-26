@@ -2201,7 +2201,7 @@ textarea.form-control {
     box-shadow: 0 0 0 1px #fff, 0 0 0 .2rem rgba(40, 167, 69, .25)
 }
 
-.custom-file-input.is-valid~.custom-file-label,
+.z-input.is-valid~.custom-file-label,
 .was-validated .custom-file-input:valid~.custom-file-label {
     border-color: #28a745
 }

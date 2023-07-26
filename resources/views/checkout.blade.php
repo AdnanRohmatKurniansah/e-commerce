@@ -1,6 +1,9 @@
 @extends('layout.main')
 
 @section('content')
+    @if ($script)
+        {!! $script !!}
+    @endif
     <section class="banner-area organic-breadcrumb">
         <div class="container">
             <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
@@ -54,24 +57,71 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="col-md-12 form-group p_star">
-                                <select class="country_select" id="province" name="province" required>
-                                    <label for="">-- Province -- </label>
-                                    @foreach ($provinces as $province)
-                                       <option value="{{ $province->id }}">{{ $province->name }}</option>
-                                  @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <select class="country_select" name="regency" id="regency" required>
-                                    <option>-- Regency --</option>
-                                </select>
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <select class="country_select" name="district" id="district" required>
-                                    <option>-- District --</option>
-                                </select>
-                            </div>
+                            
+                            @if ($address == null)
+                                <div class="col-md-12 form-group p_star">
+                                    <select class="country_select" id="province" name="province" required>
+                                        <label for="">-- Province -- </label>
+                                        @foreach ($provinces as $province)
+                                        <option value="{{ $province->id }}">{{ $province->name }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-12 form-group p_star">
+                                    <select class="country_select" name="regency" id="regency" required>
+                                        <option>-- Regency --</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 form-group p_star">
+                                    <select class="country_select" name="district" id="district" required>
+                                        <option>-- District --</option>
+                                    </select>
+                                </div>
+                            @else
+                                <div class="col-md-12 form-group p_star">
+                                    <select class="country_select" id="province" name="province" required>
+                                        <label for="">-- Province -- </label>
+                                        @foreach ($provinces as $province)
+                                            @if(old('province', $address->province_id) == $province->id)
+                                                <option value="{{ $province->id }}" selected>{{ $province->name }}</option>
+                                            @else
+                                                <option value="{{ $province->id }}">{{ $province->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-12 form-group p_star">
+                                    <select class="country_select" name="regency" id="regency" required>
+                                        <option>-- Regency --</option>
+                                        @php
+                                            $regencies = \App\Models\Regency::where('province_id', $address->province_id)->get();
+                                        @endphp
+                                        @foreach ($regencies as $regency)
+                                            @if(old('regency', $address->regency_id) == $regency->id)
+                                                <option value="{{ $regency->id }}" selected>{{ $regency->name }}</option>
+                                            @else
+                                                <option value="{{ $regency->id }}">{{ $regency->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-12 form-group p_star">
+                                    <select class="country_select" name="district" id="district" required>
+                                        <option>-- District --</option>
+                                        @php
+                                            $districts = \App\Models\District::where('regency_id', $address->regency_id)->get();
+                                        @endphp
+                                        @foreach ($districts as $district)
+                                            @if(old('district', $address->district_id) == $district->id)
+                                                <option value="{{ $district->id }}" selected>{{ $district->name }}</option>
+                                            @else
+                                                <option value="{{ $district->id }}">{{ $district->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endif
+
                             <div class="col-md-12 form-group p_star">
                                 <input type="text" class="form-control @error('street') is-invalid @enderror" value="{{ old('street') }}" placeholder="Street Address" id="add2" name="street" required>
                                 @error('street')
@@ -359,7 +409,7 @@
                 shippingForm.style.display = "none";
             }
         }
-
+        
     </script>
 
 @endsection
