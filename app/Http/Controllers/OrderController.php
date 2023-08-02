@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+
 use function PHPUnit\Framework\isEmpty;
 
 class OrderController extends Controller
@@ -208,6 +210,14 @@ class OrderController extends Controller
         $order->snaptoken = $snapToken;
         $order->save();
 
+        Mail::send('auth.email.invoiceNotif', [
+            'order' => $order->id,
+            'ord' => $order
+        ], function($message) use($order) {
+            $message->to($order->email);
+            $message->subject('Invoice Payment Reminder');
+        });
+
         $addr = Address::where('user_id', $id)
             ->where('primary', true)->first();
         if ($addr == null) {
@@ -226,5 +236,13 @@ class OrderController extends Controller
         }
 
         return redirect('/invoice/' . Crypt::encryptString($order->id))->with('success', 'Your order has been received');
+    }
+    public function removeOrder(Order $order) 
+    {
+        $cartIds = $order->carts->pluck('id')->toArray();
+        $order->carts()->detach($cartIds);
+        Order::destroy($order->id);
+
+        return back()->with('success', 'Order has been removed');
     }
 }

@@ -16,9 +16,9 @@
 </section>
 
 <section class="order_details section_gap">
-        <div class="container">
-            <h3 class="ml-3 mb-5"><span>No Invoice</span> : #INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</h3>
-            <div class="row order_d_inner">
+    <div class="container">
+        <h3 class="ml-3 mb-5"><span>No Invoice</span> : #INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</h3>
+            <div class="row order_d_inner"> 
                 <div class="col-lg-4">
                     <div class="details_item">
                         <h4>Customer Details</h4>
@@ -139,9 +139,9 @@
                     $array = explode(' | ', $order->service);
                     $value = $array[1];
                     $etd = explode('-', $value)[0];
-                    $date = date('d M Y', strtotime($order->updated_at . '+' . $etd . ' days'));
+                    $date = \Carbon\Carbon::parse($order->updated_at)->addDays($etd)->format('d M Y');
                 @endphp
-                @if (\Carbon\Carbon::now() >= \Carbon\Carbon::parse($date)) 
+                @if (\Carbon\Carbon::today() >= \Carbon\Carbon::parse($date))
                     <div class="justify-content-end mt-3" >
                         <small>The possibility of items arriving on {{ $date }} please wait, if the item has arrived please confirm by clicking this button</small>
                         <form action="/itemsArrived" method="post">

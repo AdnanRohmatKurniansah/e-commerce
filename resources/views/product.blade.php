@@ -30,9 +30,9 @@
 							<li><a class="active"><span>Category</span> : {{ $product->category->name }}</a></li>
 							<li><a ><span>Availibility</span> : 
                                 @if ($product->qty > 0)
-                                {{ $product->qty }} In Stock
+                                	{{ $product->qty }} In Stock
                                 @else
-                                {{ $product->qty }} Out of stock 
+                                	{{ $product->qty }} Out of stock 
                                 @endif</a>
                             </li>
 						</ul>	
@@ -82,7 +82,11 @@
 								 class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
 							</div>
 							<div class="card_area d-flex align-items-center">
-								<button type="submit" class="primary-btn border-0">Add to Cart</button>
+								@if ($product->qty > 0)
+									<button type="submit" class="primary-btn border-0">Add to Cart</button>
+								@else
+									<button type="button" disabled class="genric-btn disable e-large border-0">Not Available</button>
+								@endif
 							</div>
 						</form>
 					</div>
@@ -124,7 +128,6 @@
 										</div>
 										<p>{{ $productComment->message }}</p>
 									</div>
-									
 								</div>
 								@endforeach
 

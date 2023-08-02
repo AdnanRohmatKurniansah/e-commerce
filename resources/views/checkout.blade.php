@@ -158,7 +158,7 @@
                                                 <input type="email" class="form-control" id="email" name="difEmail" placeholder="Email Address">
                                             </div>
                                             <div class="col-md-12 form-group p_star">
-                                                <select class="country_select" id="difProvince" name="difProvince" required>
+                                                <select class="country_select" id="difProvince" name="difProvince">
                                                     <label for="">-- Province -- </label>
                                                     @foreach ($provinces as $province)
                                                     <option value="{{ $province->id }}">{{ $province->name }}</option>

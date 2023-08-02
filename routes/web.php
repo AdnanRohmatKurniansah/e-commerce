@@ -209,6 +209,9 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
             'order' => $order
         ]);
     });
+
+    Route::delete('/order/{order:id}', [OrderController::class, 'removeOrder']);
+    
     Route::get('profile', function() {
         return view('dashboard.profile', [
             'users' => Auth::user()

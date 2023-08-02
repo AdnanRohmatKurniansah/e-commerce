@@ -64,7 +64,7 @@ class ProductController extends Controller
         Product::create($validatedData);
         
         return redirect('/dashboard/products')->with('success', 'New Product has been added!');
-    }
+    }                                                                              
 
     /**
      * Display the specified resource.

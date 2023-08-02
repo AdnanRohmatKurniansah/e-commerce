@@ -12,7 +12,7 @@
     </div>
 
 <div class="row" id="table-striped">
-  <div class="col-9">
+  <div class="col-12">
     <div class="card">
       <div class="card-content">
         <div class="card-body">

@@ -16,6 +16,17 @@ class PaymentController extends Controller
         $url = Crypt::decryptString($id);
         $order = Order::findOrFail($url);
 
+        $array = explode(' | ', $order->service);
+        $value = $array[1];
+        $etd = explode('-', $value)[0] + 1;
+        $date = \Carbon\Carbon::parse($order->updated_at)->addDays($etd)->format('d M Y');
+
+        if (\Carbon\Carbon::today() >= \Carbon\Carbon::parse($date)) {
+            if ($order->status == 'process') {
+                $order->update(['status' => 'finished']);                         
+            }
+        }
+
         return view('invoice', [
             'order' => $order,
             'title' => 'INV' . str_pad($order->id, 5, '0', STR_PAD_LEFT)
@@ -29,7 +40,7 @@ class PaymentController extends Controller
             ->where('created_at', '<=', DB::raw('orders.due_date'))
             ->where('due_date', '<=', now())
             ->update(['status' => 'expired']);
-
+        
         return view('transaction', [
             'title' => 'Transaction',
         ]);

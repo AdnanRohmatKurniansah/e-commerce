@@ -98,7 +98,7 @@ class AuthController extends Controller
         User::where('id', $users->id)
             ->update($data);
         
-        return back()->with('success', 'Your Profile has been updated!');
+        return back()->with('update', 'Your Profile has been updated!');
     }
     public function change_password() {
         return view('auth.account.changePassword', [
@@ -118,7 +118,7 @@ class AuthController extends Controller
                 'password' => Hash::make($data['new_password'])
             ]);
 
-            return back()->with('success', 'Password Changed Successfuly!');
+            return back()->with('update', 'Password Changed Successfuly!');
         }
     }
     public function forgetPassword() 
@@ -192,6 +192,6 @@ class AuthController extends Controller
             'email' => $request->email
         ])->delete();
 
-        return redirect('/login')->with('success', 'Your password has been changed!');
+        return redirect('/login')->with('update', 'Your password has been changed!');
     }
 }

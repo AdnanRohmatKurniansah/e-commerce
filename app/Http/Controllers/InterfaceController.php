@@ -64,7 +64,7 @@ class InterfaceController extends Controller
         Slide::where('id', $slide->id)
             ->update($data);
         
-        return redirect('/dashboard/slides')->with('success', 'Slide has been updated!');
+        return redirect('/dashboard/slides')->with('update', 'Slide has been updated!');
     }
     public function destroySlide(Slide $slide)
     {
@@ -125,7 +125,7 @@ class InterfaceController extends Controller
         Feature::where('id', $feature->id)
             ->update($data);
         
-        return redirect('/dashboard/features')->with('success', 'Feature has been updated!');
+        return redirect('/dashboard/features')->with('update', 'Feature has been updated!');
     }
     public function destroyFeature(Feature $feature)
     {
@@ -184,7 +184,7 @@ class InterfaceController extends Controller
         Gallery::where('id', $gallery->id)
             ->update($data);
         
-        return redirect('/dashboard/galleries')->with('success', 'Gallery has been updated!');
+        return redirect('/dashboard/galleries')->with('update', 'Gallery has been updated!');
     }
     public function destroyGallery(Gallery $gallery)
     {
@@ -241,7 +241,7 @@ class InterfaceController extends Controller
         Brand::where('id', $brand->id)
             ->update($data);
         
-        return redirect('/dashboard/brands')->with('success', 'Brand has been updated!');
+        return redirect('/dashboard/brands')->with('update', 'Brand has been updated!');
     }
     public function destroyBrand(Brand $brand)
     {
@@ -276,7 +276,7 @@ class InterfaceController extends Controller
         Contact::where('id', $contact->id)
             ->update($data);
         
-        return redirect('/dashboard/contacts')->with('success', 'Contact has been updated!');
+        return redirect('/dashboard/contacts')->with('update', 'Contact has been updated!');
     }
     public function sosmed() 
     {
@@ -315,7 +315,7 @@ class InterfaceController extends Controller
         Sosmed::where('id', $sosmed->id)
             ->update($data);
         
-        return redirect('/dashboard/sosmeds')->with('success', 'Sosmed has been updated!');
+        return redirect('/dashboard/sosmeds')->with('update', 'Sosmed has been updated!');
     }
     public function destroySosmed(Sosmed $sosmed)
     {
@@ -349,6 +349,6 @@ class InterfaceController extends Controller
         Footer::where('id', $footer->id)
             ->update($data);
         
-        return redirect('/dashboard/footer')->with('success', 'Footer has been updated!');
+        return redirect('/dashboard/footer')->with('update', 'Footer has been updated!');
     }
 }

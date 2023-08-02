@@ -34,7 +34,6 @@
                     <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
                   @else
                     <li class="nav-item"><a class="nav-link" href="/profile">Account</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/transaction">Transaction</a></li>
                   @endif
                   <li class="nav-item">
                     <form action="/logout" method="post">
@@ -51,21 +50,23 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             @auth
-            @php
-              $user = Auth::user();
-              $id = $user->id;
-              $count = \App\Models\Cart::where('user_id', $id)
-                      ->whereDoesntHave('orders')
-                      ->count();
-            @endphp
-            <li class="nav-item"><a href="/show_cart" class="cart"><span class="ti-bag"></span><sup class="pl-1 text-info">{{ $count }}</sup></a></li>
+              @if (auth()->user()->role != 'admin')
+                @php
+                  $user = Auth::user();
+                  $id = $user->id;
+                  $count = \App\Models\Cart::where('user_id', $id)
+                          ->whereDoesntHave('orders')
+                          ->count();
+                @endphp
+                <li class="nav-item"><a href="/show_cart" class="cart"><span class="ti-bag"></span><sup class="pl-1 text-info">{{ $count }}</sup></a></li>
+              @endif
             @endauth
             @guest
-            <li class="nav-item"><a href="/show_cart" class="cart"><span class="ti-bag"></span></a></li>
+              <li class="nav-item"><a href="/show_cart" class="cart"><span class="ti-bag"></span></a></li>
             @endguest
-            <li class="nav-item">
-              <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
-            </li>
+              <li class="nav-item">
+                <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+              </li>
           </ul>
         </div>
       </div>

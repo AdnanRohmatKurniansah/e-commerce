@@ -66,7 +66,7 @@
                             @endforeach
                         @else
                             <li class="list-group-item border-0 align-items-start">
-                                <h6 class='font-bold'>There are no messages for now</h6>
+                                <small class='font-bold'>There are no messages for now</small>
                             </li>
                         @endif
                     </ul>

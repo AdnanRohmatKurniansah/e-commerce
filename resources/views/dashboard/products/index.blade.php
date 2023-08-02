@@ -22,11 +22,10 @@
             <thead>
               <tr>
                 <th>No</th>
+                <th>Image</th>
                 <th>Name</th>
                 <th>Price</th>
                 <th>Weight</th>
-                <th>Colors</th>
-                <th>Size</th>
                 <th>Quantity</th>
                 <th>Action</th>
               </tr>
@@ -35,11 +34,10 @@
               @foreach ($products as $product)  
               <tr>
                   <td>{{ $loop->iteration }}</td>
+                  <td><img src="{{ asset('storage/' . $product->image) }}" width="50" alt=""></td>
                   <td>{{ Str::limit($product->name, 20) }}</td>
                   <td>Rp. {{ number_format($product->price, 0, ',', '.') }}</td>
                   <td>{{ $product->weight }} gram</td>
-                  <td>{{ implode(', ', json_decode($product->color)) }}</td>
-                  <td>{{ implode(', ', json_decode($product->size)) }}</td>
                   <td>{{ $product->qty }}</td>
                   <td style="vertical-align: middle; text-align: center;">
                     <a  href="/dashboard/products/{{ $product->slug }}/edit">

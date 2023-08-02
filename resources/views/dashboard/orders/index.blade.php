@@ -5,7 +5,7 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Orders</h3>
+                <h3>Orders</h3> 
             </div>
         </div>
     </div>
@@ -54,8 +54,18 @@
                   <td>{{ $order->created_at->format('d M Y h:i') }}</td>
                   <td>{{ \Carbon\Carbon::parse($order->due_date)->format('d M Y h:i') }}</td>
                   <td><span class="badge {{ $class }}">{{ $order->status }}</span></td>
-                  <td>
+                  <td style="vertical-align: middle; text-align: center;">
                     <a href="/dashboard/order/{{ Crypt::encryptString($order->id) }}"><i class="badge-circle badge-circle-light-secondary" data-feather="eye"></i></a>
+                    @if ($order->status == 'expired')
+                      <form action="/dashboard/orders/{{ $order->id }}" method="post">
+                        @method('delete')
+                        @csrf
+                        <div class="my-1" style="border-bottom: 1px solid gray"></div>
+                        <button class="badge-circle badge-circle-light-secondary text-red border-0" style="background-color: transparent" onclick="return confirm('Remove this order?')" type="submit">
+                          <i data-feather="trash"></i>
+                        </button>
+                      </form>
+                    @endif
                 </td>
               </tr>
               @endforeach
@@ -64,7 +74,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
