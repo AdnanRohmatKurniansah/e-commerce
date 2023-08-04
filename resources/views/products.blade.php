@@ -128,7 +128,7 @@
 							@endif
 						</div>
 					</section>
-					@if ($products->perPage() > 12)
+					@if ($products->lastPage() > 1)
 						<div class="filter-bar d-flex flex-wrap align-items-center justify-content-center">
 							<ul class="pagination">
 								<li class="page-item {{ ($products->currentPage() == 1) ? 'disabled' : '' }}">

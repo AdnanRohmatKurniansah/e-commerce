@@ -5365,7 +5365,7 @@ label {
 .blog-pagination .page-link:hover {
   color: #fff;
   text-decoration: none;
-  background-color: #c5322d;
+  background-color: #FF8900;
   border-color: #eee; }
 
 /*============ Start Blog Single Styles  =============*/
@@ -5684,6 +5684,7 @@ label {
       .footer-area h6 {
         margin-bottom: 15px; } }
 
+
 .copy-right-text i,
 .copy-right-text a {
   color: #ffba00; }
@@ -5851,3 +5852,14 @@ label {
 .google-btn:hover, .fb-btn:hover {
     box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2); 
 }
+
+.oauth {
+  padding: 0 50px;
+}
+
+@media (max-width: 991px) {
+  .oauth {
+    padding: 0;
+  }
+} 
+  

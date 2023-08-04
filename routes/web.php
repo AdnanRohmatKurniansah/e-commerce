@@ -80,7 +80,7 @@ Route::get('/blog', function () {
     return view('blog', [
         'title' => 'Blog',
         'blogCategories' => BlogCategory::all(),
-        'blogs' => Blog::filter(request(['search', 'blogCategory']))->paginate(3),
+        'blogs' => Blog::filter(request(['search', 'blogCategory']))->paginate(2),
         'lblogs' => Blog::orderBy('id', 'desc')->get()
     ]);
 });

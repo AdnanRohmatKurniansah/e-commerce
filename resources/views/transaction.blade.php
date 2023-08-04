@@ -67,7 +67,7 @@
                                                     ->orWhere('status', 'expired');
                                                 })
                                                 ->orderBy('id', 'desc')
-                                                ->paginate(10);
+                                                ->paginate(5);
                                         @endphp
                                         @if ($unpaid->count())
                                             @foreach ($unpaid as $order)
@@ -135,7 +135,7 @@
                                             $paid = \App\Models\Order::where('user_id', '=', $id)
                                                 ->where('status', 'paid')
                                                 ->orderBy('id', 'desc')
-                                                ->paginate(10);
+                                                ->paginate(5);
                                         @endphp
                                     @if ($paid->count())
                                     @foreach ($paid as $order)
@@ -203,7 +203,7 @@
                                             $process = \App\Models\Order::where('user_id', '=', $id)
                                                 ->where('status', 'process')
                                                 ->orderBy('id', 'desc')
-                                                ->paginate(10);
+                                                ->paginate(5);
                                         @endphp
                                     @if ($process->count())
                                     @foreach ($process as $order)
@@ -271,7 +271,7 @@
                                             $finished = \App\Models\Order::where('user_id', '=', $id)
                                                 ->where('status', 'finished')
                                                 ->orderBy('id', 'desc')
-                                                ->paginate(10);
+                                                ->paginate(5);
                                         @endphp
                                     @if ($finished->count())
                                         @foreach ($finished as $order)

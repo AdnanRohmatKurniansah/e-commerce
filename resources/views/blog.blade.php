@@ -68,7 +68,7 @@
                         @else
                             <h1 style="margin: 120px 0" class="mx-auto d-flex justify-content-center">Blog Not Found</h1>
                         @endif
-                        @if ($blogs->perPage() > 3)
+                        @if ($blogs->lastPage() > 1)
                             <nav class="blog-pagination justify-content-center d-flex">
                                 <ul class="pagination">
                                     <li class="page-item {{ ($blogs->currentPage() == 1) ? 'disabled' : '' }}">

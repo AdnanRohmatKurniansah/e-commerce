@@ -1,7 +1,7 @@
 <footer class="footer-area section_gap">
   <div class="container">
     <div class="row">
-      <div class="col-lg-4 d-flex justify-content-start col-md-6 col-sm-6">
+      <div class="col-lg-4 d-flex justify-content-center col-md-6 col-sm-6">
         <div class="single-footer-widget">
           <h6>About Us</h6>
           @php
@@ -12,7 +12,7 @@
           </p>
         </div>
       </div>
-      <div class="col-lg-4 d-flex justify-content-center col-md-6 col-sm-6">
+      <div class="col-lg-4 d-flex justify-content-left col-md-6 col-sm-6">
         <div class="single-footer-widget">
           <h6>Contact me</h6>
           @php
@@ -30,7 +30,7 @@
 					</div>
         </div>
       </div>
-      <div class="col-lg-4 d-flex justify-content-end col-md-6 col-sm-6">
+      <div class="col-lg-4 d-flex justify-content-left col-md-6 col-sm-6">
         <div class="single-footer-widget">
           <h6>Follow Us</h6>
           <p>Let us be social</p>

@@ -21,7 +21,7 @@
                     <div class="single-post row">
                         <div class="col-lg-12">
                             <div class="feature-img">
-                                <img class="img-fluid" src="{{ asset('storage/' . $blog->image) }}" alt="">
+                                <img class="img-fluid" width="100%" src="{{ asset('storage/' . $blog->image) }}" alt="">
                             </div>
                         </div>
                         <div class="col-lg-12  col-md-3">

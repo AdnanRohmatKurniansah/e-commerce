@@ -11,7 +11,7 @@
                     <div class="d-lg-inline-block">
                         <i data-feather="bell"></i>
                         @php
-                            $orders = \App\Models\Order::orderBy('id', 'desc')->paginate(3);
+                            $orders = \App\Models\Order::where('status', '!=', 'finished')->orderBy('id', 'desc')->paginate(3);
                         @endphp
                         <sup class="mb-3 fs-6 text-info">{{ $orders->count() }}</sup>
                     </div>
@@ -26,9 +26,10 @@
                                 </div>
                                 <div>
                                     <h6 class='text-bold'>New Order</h6>
-                                    <p class='text-xs'>
+                                    <div class='text-xs'>
                                         An order from <a href="/dashboard/order/{{ Crypt::encryptString($order->id) }}">{{ $order->fname }}</a>
-                                    </p>
+                                    </div>
+                                    <small style="font-size: 11px">{{ $order->created_at->format('d M Y h:i') }}</small>
                                 </div>
                             </li>
                         @endforeach

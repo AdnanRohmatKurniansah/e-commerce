@@ -47,6 +47,18 @@
                   }
               @endphp
               <tr>
+                  @php
+                      $array = explode(' | ', $order->service);
+                      $value = $array[1];
+                      $etd = explode('-', $value)[0] + 1;
+                      $date = \Carbon\Carbon::parse($order->updated_at)->addDays($etd)->format('d M Y');
+
+                      if (\Carbon\Carbon::today() >= \Carbon\Carbon::parse($date)) {
+                          if ($order->status == 'process') {
+                              $order->update(['status' => 'finished']);                         
+                          }
+                      }
+                  @endphp 
                   <td>{{ $loop->iteration }}</td>
                   <td>INV{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</td>
                   <td>{{ $order->resi == null ? 'No receipt' : $order->resi }}</td>

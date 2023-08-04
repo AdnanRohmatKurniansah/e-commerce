@@ -50,6 +50,11 @@
 							</div>
 							<div class="col-md-12 form-group">
 								<input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" required>
+								<div class="password-toggle-btn position-absolute" onclick="togglePasswordVisibility()" style="right: 10px; top: 50%; transform: translate(0, -50%);">
+									<span class="password-toggle-icon mr-3" id="password-toggle-icon">
+										<i class="fa fa-eye-slash"></i>
+									</span>
+								</div>
 								@error('password')
 								<div class="invalid-feedback text-left">
 									{{ $message }}
@@ -82,5 +87,20 @@
 			</div>
 		</div>
 	</section>
+
+<script>
+	function togglePasswordVisibility() {
+		const passwordInput = document.getElementById('password');
+		const passwordToggleIcon = document.getElementById('password-toggle-icon');
+	
+		if (passwordInput.type === 'password') {
+			passwordInput.type = 'text';
+			passwordToggleIcon.innerHTML = '<i class="fa fa-eye"></i>';
+		} else {
+			passwordInput.type = 'password';
+			passwordToggleIcon.innerHTML = '<i class="fa fa-eye-slash"></i>';
+		}
+	}
+</script>
 
 @endsection

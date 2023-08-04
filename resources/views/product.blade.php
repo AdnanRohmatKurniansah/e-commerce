@@ -109,7 +109,7 @@
 					 aria-selected="false">Reviews</a>
 				</li>
 			</ul>
-			<div class="tab-content" id="myTabContent">
+			<div class="tab-content mt-5 mx-3" id="myTabContent">
 				<div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
 					<p>{{ $product->desc }}</p>
 				</div>
@@ -275,8 +275,6 @@
 			});
 		});
 	</script>
-	
-	
 	
 @endsection
 

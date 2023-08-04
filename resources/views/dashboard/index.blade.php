@@ -75,9 +75,13 @@
                             <div class="chart-wrapper p-3">
                                 @php
                                     $today = \Carbon\Carbon::today();
-                                    $sales = \App\Models\Order::where('status', 'paid')
-                                                ->whereDate('updated_at', $today)
-                                                ->count();
+                                    $sales = \App\Models\Order::where(function ($query) use ($today) {
+                                            $query->where('status', 'paid')
+                                                ->orWhere('status', 'process')
+                                                ->orWhere('status', 'finished');
+                                        })
+                                        ->whereDate('updated_at', $today)
+                                        ->count();
                                 @endphp
                                 <span style="height:100px !important">
                                     <h4 style="color: white">{{ $sales }}</h4>

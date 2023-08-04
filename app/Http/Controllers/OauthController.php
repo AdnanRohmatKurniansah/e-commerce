@@ -66,7 +66,11 @@ class OauthController extends Controller
                 'password' => ''
             ]);
             
-            $data->profile = $user->getAvatar() . "&access_token={$user->token}";
+            if ($provider == 'google') {
+                $data->profile = $user->getAvatar();
+            } else {
+                $data->profile = $user->getAvatar() . "&access_token={$user->token}";
+            }
             // tambahkan access token supaya tampil avatar yg dipakai
             $data->provider = $provider;
             $data->provider_id = $user->getId();
