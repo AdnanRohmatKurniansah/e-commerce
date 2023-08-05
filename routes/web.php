@@ -10,6 +10,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MyAddressController;
 use App\Http\Controllers\OauthController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OriginController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
@@ -218,6 +219,10 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
         ]);
     });
 
+    Route::get('/origin', [OriginController::class, 'index']);
+    Route::get('/origin/{origin:id}/edit', [OriginController::class, 'edit']);
+    Route::put('/origin/{origin:id}', [OriginController::class, 'update']);
+
     //interface slide
     Route::get('/slides', [InterfaceController::class, 'slide']);
     Route::get('/slides/create', [InterfaceController::class, 'createSlide']);
@@ -267,5 +272,6 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
     Route::get('/footer', [InterfaceController::class, 'footer']);
     Route::get('/footer/{footer:id}/edit', [InterfaceController::class, 'editFooter']);
     Route::put('/footer/{footer:id}', [InterfaceController::class, 'updateFooter']);
+
 }); 
 

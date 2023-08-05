@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Courier;
 use App\Models\District;
 use App\Models\Order;
+use App\Models\Origin;
 use App\Models\Province;
 use App\Models\Regency;
 use Carbon\Carbon;
@@ -106,16 +107,16 @@ class OrderController extends Controller
         $id = Auth::user()->id;
         $carts = Cart::where('user_id', $id)
                 ->whereDoesntHave('orders')->get();
-        
-        $origin = env('RAJAONGKIR_ORIGIN'); 
+        // $origin = env('RAJAONGKIR_ORIGIN'); 
         $destination = $request->regencyId;
         $weight = $carts->sum('allWeight');
         $courier = $request->courier;
+        $org = Origin::first();
 
         $response = Http::asForm()->withHeaders([
             'key' => env('RAJAONGKIR_API_KEY'),
         ])->post(env('RAJAONGKIR_BASE_URL'), [
-            'origin' => $origin,
+            'origin' => $org->regency_id,
             'destination' => $destination,
             'weight' => $weight,
             'courier' => $courier,

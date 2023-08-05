@@ -42,6 +42,12 @@
                     <span>Messages</span>
                 </a>
             </li>
+            <li class="sidebar-item {{ Request::is('dashboard/origin*') ? 'active' : '' }}">
+                <a href="/dashboard/origin" class='sidebar-link'>
+                    <i data-feather="map" width="20"></i> 
+                    <span>Store Location</span>
+                </a>
+            </li>
             <li class='sidebar-title'>Interface</li>
             <li class="sidebar-item {{ Request::is('dashboard/slides*') ? 'active' : '' }}">
                 <a href="/dashboard/slides" class='sidebar-link'>
