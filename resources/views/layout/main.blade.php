@@ -9,6 +9,9 @@
 	<link rel="shortcut icon" href="/assets/img/fav.png">
 	<meta charset="UTF-8">
 	<title>{{ $title }}</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Lato:wght@400&family=Montserrat:wght@400&family=Noto+Sans:wght@400&family=Open+Sans:ital,wght@1,400&family=Poppins:wght@400&family=Raleway:wght@400&family=Roboto+Mono:wght@400&family=Roboto:ital,wght@0,400;1,500&family=Ubuntu:wght@400&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="/assets/css/linearicons.css?v=1">
 	<link rel="stylesheet" href="/assets/css/font-awesome.min.css?v=1">
 	<link rel="stylesheet" href="/assets/css/themify-icons.css">
@@ -19,7 +22,7 @@
 	<link rel="stylesheet" href="/assets/css/ion.rangeSlider.css" />
 	<link rel="stylesheet" href="/assets/css/ion.rangeSlider.skinFlat.css" />
 	<link rel="stylesheet" href="/assets/css/magnific-popup.css">
-	<link rel="stylesheet" href="/assets/css/main.css?v=15">
+	<link rel="stylesheet" href="/assets/css/main.css?v=16">
 	<script src="/assets/js/vendor/jquery-2.2.4.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
 	 crossorigin="anonymous"></script>
@@ -28,7 +31,7 @@
 </head>
 
 <body>
-
+	@include('theme.style')
 	@include('components.navbar')
 
   	@yield('content')

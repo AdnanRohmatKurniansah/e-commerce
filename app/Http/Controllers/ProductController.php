@@ -123,7 +123,7 @@ class ProductController extends Controller
         Product::where('id', $product->id)
             ->update($validatedData);
         
-        return redirect('/dashboard/products')->with('success', 'Product has been updated!');
+        return redirect('/dashboard/products')->with('update', 'Product has been updated!');
     }
 
     /**

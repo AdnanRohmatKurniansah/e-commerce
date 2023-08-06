@@ -20,15 +20,15 @@
                 @php
                     $province = \App\Models\Province::where('id', $origin[0]->province_id)->first();
                 @endphp
-                <li class="mb-3">Province : {{ $province->name }}</li>
+                <li class="mb-3"><span class="fw-bold">Province :</span> {{ $province->name }}</li>
                 @php
                     $regency = \App\Models\Regency::where('id', $origin[0]->regency_id)->first();
                 @endphp
-                <li class="mb-3">Regency : {{ $regency->name }}</li>
+                <li class="mb-3"><span class="fw-bold">Regency :</span> {{ $regency->name }}</li>
                 @php
                     $district = \App\Models\District::where('id', $origin[0]->district_id)->first();
                 @endphp
-                <li class="mb-3">District : {{ $district->name }}</li>
+                <li class="mb-3"><span class="fw-bold">District :</span> {{ $district->name }}</li>
             </ul>
         </div>
       </div>

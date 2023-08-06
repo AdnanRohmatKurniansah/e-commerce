@@ -13,7 +13,7 @@
 			</div>
 		</div>
 	</section>
-	<div class="container">
+	<div class="container" style="margin-top: 100px">
 		<div class="row">
 				<div class="col-xl-3 col-lg-4 col-md-5 mb-5">
 					<div class="sidebar-categories">

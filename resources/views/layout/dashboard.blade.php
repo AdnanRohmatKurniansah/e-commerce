@@ -10,7 +10,10 @@
     
     <script src="/assets/admin/vendors/chartjs/Chart.min.js?v=1"></script>
     <link rel="stylesheet" href="/assets/admin/vendors/chartjs/Chart.min.css?v=1">
-
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Lato:wght@400&family=Montserrat:wght@400&family=Noto+Sans:wght@400&family=Open+Sans:ital,wght@1,400&family=Poppins:wght@400&family=Raleway:wght@400&family=Roboto+Mono:wght@400&family=Roboto:ital,wght@0,400;1,500&family=Ubuntu:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/admin/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="/assets/admin/css/app.css?v=3">
     <link rel="shortcut icon" href="/assets/admin/images/favicon.ico" type="image/x-icon">

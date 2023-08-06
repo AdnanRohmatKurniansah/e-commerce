@@ -14,6 +14,7 @@ use App\Http\Controllers\OriginController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ThemeController;
 use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\BlogComment;
@@ -222,6 +223,10 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
     Route::get('/origin', [OriginController::class, 'index']);
     Route::get('/origin/{origin:id}/edit', [OriginController::class, 'edit']);
     Route::put('/origin/{origin:id}', [OriginController::class, 'update']);
+
+    Route::get('/theme', [ThemeController::class, 'index']);
+    Route::get('/theme/{theme:id}/edit', [ThemeController::class, 'edit']);
+    Route::put('/theme/{theme:id}', [ThemeController::class, 'update']);
 
     //interface slide
     Route::get('/slides', [InterfaceController::class, 'slide']);

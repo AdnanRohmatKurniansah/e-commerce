@@ -2,7 +2,10 @@
   <div class="main_menu">
     <nav class="navbar navbar-expand-lg navbar-light main_box">
       <div class="container">
-        <a class="navbar-brand logo_h" href="/"><img src="/assets/img/logo.png" alt=""></a>
+        @php
+            $theme = \App\Models\Theme::first();
+        @endphp
+        <a class="navbar-brand logo_h" href="/"><img src="{{ asset('storage/' . $theme->logo) }}" alt=""></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="icon-bar"></span>

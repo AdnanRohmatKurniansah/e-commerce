@@ -49,6 +49,12 @@
                 </a>
             </li>
             <li class='sidebar-title'>Interface</li>
+            <li class="sidebar-item {{ Request::is('dashboard/theme*') ? 'active' : '' }}">
+                <a href="/dashboard/theme" class='sidebar-link'>
+                    <i data-feather="layout" width="20"></i> 
+                    <span>Theme</span>
+                </a>
+            </li>
             <li class="sidebar-item {{ Request::is('dashboard/slides*') ? 'active' : '' }}">
                 <a href="/dashboard/slides" class='sidebar-link'>
                     <i data-feather="image" width="20"></i> 
