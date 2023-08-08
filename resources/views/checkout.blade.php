@@ -344,14 +344,18 @@
                             console.log(response)
                             $('#shipping').empty();
                             $('#shipping').append('<option value="cost">-- Select Service --</option>');
-                            $.each(response.services, function(index, service) {
-                                let serviceName = service['service'];
-                                let serviceCost = service['cost'][0]['value'];
-                                let serviceEtd = service['cost'][0]['etd'];
-                                let formattedServiceCost = formatRupiah(serviceCost);
-                                let optionText = serviceName + ' | Rp. ' + formattedServiceCost + ' |  ' + serviceEtd;
-                                $('#shipping').append('<option value="' + optionText + '">' + optionText + '</option>');
-                            });
+                            if (response.services.length === 0) {
+                                $('#shipping').html('<option value="cost">- No Services Available -</option>');
+                            } else {
+                                $.each(response.services, function(index, service) {
+                                    let serviceName = service['service'];
+                                    let serviceCost = service['cost'][0]['value'];
+                                    let serviceEtd = service['cost'][0]['etd'];
+                                    let formattedServiceCost = formatRupiah(serviceCost);
+                                    let optionText = serviceName + ' | Rp. ' + formattedServiceCost + ' |  ' + serviceEtd;
+                                    $('#shipping').append('<option value="' + optionText + '">' + optionText + '</option>');
+                                });
+                            }
                             $('#shipping').niceSelect('update');
 
                             $('#f-option3').on('change', function() {

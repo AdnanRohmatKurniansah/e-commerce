@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
             Schema::create('orders', function (Blueprint $table) {
-                $table->id()->startingValue(51);
+                $table->id()->startingValue(61);
                 $table->string('resi')->nullable();
                 $table->string('fname');
                 $table->string('lname');
@@ -24,7 +24,7 @@ return new class extends Migration
                 $table->string('district');
                 $table->text('street');
                 $table->string('zip');
-                $table->string('note');
+                $table->string('note')->nullable();
                 $table->string('courier');
                 $table->string('service');
                 $table->integer('shipping_cost');

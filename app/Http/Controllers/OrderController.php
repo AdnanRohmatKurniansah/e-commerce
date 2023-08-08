@@ -126,7 +126,7 @@ class OrderController extends Controller
         $services = $results['costs'];
 
         if (empty($services)) {
-            return response()->json(['services' => 'Tidak Ada Service']);
+            return response()->json(['services' => []]);
         } else {
             return response()->json(['services' => $services]);  
         }
@@ -149,7 +149,7 @@ class OrderController extends Controller
             'district' => 'required',
             'street' => 'required',
             'zip' => 'required',
-            'note' => 'required',
+            'note' => 'nullable|max:255',
             'courier' => 'required',
             'cart_ids' => 'required|array'
         ]);
